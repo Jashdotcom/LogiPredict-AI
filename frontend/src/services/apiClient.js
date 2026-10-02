@@ -1,40 +1,227 @@
 /**
- * LogiPredict AI — API Client Service Stub
- * Designed for future REST / WebSocket backend connectivity.
+ * LogiPredict AI — Centralized Frontend API Client
+ * ==================================================
+ * Robust REST client with standard envelope handling, timeout management,
+ * custom typed error wrapping, and domain service methods.
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+const DEFAULT_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT_MS) || 15000;
 
 /**
- * Generic API request wrapper
+ * Custom application error class representing backend API errors
+ */
+export class ApiError extends Error {
+  constructor(message, status, code = 'API_ERROR', details = {}) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.code = code;
+    this.details = details;
+  }
+}
+
+/**
+ * Primary low-level HTTP client with timeout & envelope unpacking
  */
 export async function apiRequest(endpoint, options = {}) {
-  const url = `${BASE_URL}${endpoint}`;
+  const {
+    timeout = DEFAULT_TIMEOUT_MS,
+    headers = {},
+    params = {},
+    ...customConfig
+  } = options;
+
+  // Build query string if params provided
+  let url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const queryParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      queryParams.append(key, String(value));
+    }
+  });
+  const queryString = queryParams.toString();
+  if (queryString) {
+    url += (url.includes('?') ? '&' : '?') + queryString;
+  }
+
+  // Setup abort controller for request timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  // Default headers
   const defaultHeaders = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
   };
 
+  // Optional: Attach Bearer token if present in session storage
+  const authToken = sessionStorage.getItem('lp_auth_token');
+  if (authToken) {
+    defaultHeaders['Authorization'] = `Bearer ${authToken}`;
+  }
+
   try {
     const response = await fetch(url, {
-      ...options,
+      ...customConfig,
       headers: {
         ...defaultHeaders,
-        ...options.headers,
+        ...headers,
       },
+      signal: controller.signal,
     });
 
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    clearTimeout(timeoutId);
+
+    // Parse JSON payload
+    let data;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = { message: await response.text() };
     }
 
-    return await response.json();
+    // Handle non-2xx HTTP responses
+    if (!response.ok) {
+      const errorCode = data?.error?.code || `HTTP_${response.status}`;
+      const errorMessage = data?.error?.message || data?.message || response.statusText;
+      const errorDetails = data?.error?.details || {};
+      throw new ApiError(errorMessage, response.status, errorCode, errorDetails);
+    }
+
+    // Unpack standard envelope: return `data` if present, else root
+    return data && data.success !== undefined && data.data !== undefined ? data.data : data;
   } catch (error) {
-    console.warn(`[LogiPredict API] Fallback to mock data for ${endpoint}:`, error.message);
-    throw error;
+    clearTimeout(timeoutId);
+
+    if (error.name === 'AbortError') {
+      throw new ApiError(
+        `Request to ${endpoint} timed out after ${timeout}ms`,
+        408,
+        'REQUEST_TIMEOUT',
+        { endpoint, timeout }
+      );
+    }
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    // Network error or fetch failure
+    throw new ApiError(
+      error.message || 'Network connection error or server unreachable',
+      0,
+      'NETWORK_ERROR',
+      { originalError: error.message }
+    );
   }
 }
 
+// ==============================================================================
+// Domain-Specific API Service Modules
+// ==============================================================================
+
+/**
+ * 1. Inventory API Service
+ */
+export const inventoryApi = {
+  getAll: (params) => apiRequest('/inventory', { method: 'GET', params }),
+  getById: (itemId) => apiRequest(`/inventory/${itemId}`, { method: 'GET' }),
+  getHealthSummary: () => apiRequest('/inventory/health-summary', { method: 'GET' }),
+  getTransactions: (params) => apiRequest('/inventory/transactions', { method: 'GET', params }),
+  createItem: (data) => apiRequest('/inventory', { method: 'POST', body: JSON.stringify(data) }),
+  updateItem: (itemId, data) => apiRequest(`/inventory/${itemId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+};
+
+/**
+ * 2. Demand Forecasting API Service
+ */
+export const forecastingApi = {
+  getForecastByItem: (itemId, params) => apiRequest(`/forecasting/item/${itemId}`, { method: 'GET', params }),
+  generateForecast: (requestData) =>
+    apiRequest('/forecasting/predict', {
+      method: 'POST',
+      body: JSON.stringify(requestData),
+      timeout: 30000, // Extended timeout for ML inference
+    }),
+  getModelMetrics: () => apiRequest('/forecasting/metrics', { method: 'GET' }),
+};
+
+/**
+ * 3. Route Planning & GIS Telematics API Service
+ */
+export const routesApi = {
+  getAll: (params) => apiRequest('/routes', { method: 'GET', params }),
+  getById: (routeId) => apiRequest(`/routes/${routeId}`, { method: 'GET' }),
+  getLocations: () => apiRequest('/routes/locations', { method: 'GET' }),
+  optimizeRoute: (requestData) =>
+    apiRequest('/routes/optimize', {
+      method: 'POST',
+      body: JSON.stringify(requestData),
+      timeout: 20000,
+    }),
+};
+
+/**
+ * 4. Supply Requisitions API Service
+ */
+export const suppliesApi = {
+  getAll: (params) => apiRequest('/supplies', { method: 'GET', params }),
+  getById: (reqId) => apiRequest(`/supplies/${reqId}`, { method: 'GET' }),
+  createRequisition: (data) => apiRequest('/supplies', { method: 'POST', body: JSON.stringify(data) }),
+  updateStatus: (reqId, data) => apiRequest(`/supplies/${reqId}/status`, { method: 'PATCH', body: JSON.stringify(data) }),
+};
+
+/**
+ * 5. Anomaly Alerts API Service
+ */
+export const alertsApi = {
+  getAll: (params) => apiRequest('/alerts', { method: 'GET', params }),
+  getSummary: () => apiRequest('/alerts/summary', { method: 'GET' }),
+  acknowledge: (alertId, callsign) =>
+    apiRequest(`/alerts/${alertId}/acknowledge`, {
+      method: 'POST',
+      body: JSON.stringify({ acknowledged_by: callsign }),
+    }),
+  resolve: (alertId, resolutionNotes) =>
+    apiRequest(`/alerts/${alertId}/resolve`, {
+      method: 'POST',
+      body: JSON.stringify({ resolution_notes: resolutionNotes }),
+    }),
+};
+
+/**
+ * 6. Logistics Simulation API Service
+ */
+export const simulationApi = {
+  runSimulation: (config) =>
+    apiRequest('/simulation/run', {
+      method: 'POST',
+      body: JSON.stringify(config),
+      timeout: 60000, // Extended timeout for Monte Carlo runs
+    }),
+  getById: (simId) => apiRequest(`/simulation/${simId}`, { method: 'GET' }),
+  listScenarios: () => apiRequest('/simulation/scenarios', { method: 'GET' }),
+};
+
+/**
+ * 7. Analytics & Reports API Service
+ */
+export const analyticsApi = {
+  getKpis: () => apiRequest('/analytics/kpis', { method: 'GET' }),
+  getDashboardSummary: () => apiRequest('/analytics/dashboard', { method: 'GET' }),
+  getAuditReport: (params) => apiRequest('/analytics/audit-report', { method: 'GET', params }),
+};
+
 export default {
   apiRequest,
+  ApiError,
+  inventory: inventoryApi,
+  forecasting: forecastingApi,
+  routes: routesApi,
+  supplies: suppliesApi,
+  alerts: alertsApi,
+  simulation: simulationApi,
+  analytics: analyticsApi,
 };
