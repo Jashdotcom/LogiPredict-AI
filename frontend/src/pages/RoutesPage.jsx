@@ -11,11 +11,12 @@ import {
   Layers,
   Sparkles,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
-import { KpiCard } from '../components/common/KpiCard';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { Card, CardHeader } from '../components/ui/Card';
+import { KPICard } from '../components/dashboard/KpiCard';
 
 const MOCK_ROUTES = [
   {
@@ -25,7 +26,7 @@ const MOCK_ROUTES = [
     destination: 'Bengaluru DC',
     eta: '4h 15m',
     progress: 72,
-    status: 'Rerouted (Saved 46m)',
+    status: 'Rerouted',
     variant: 'warning',
     driver: 'Rajesh Kumar',
   },
@@ -47,7 +48,7 @@ const MOCK_ROUTES = [
     destination: 'Hyderabad Central Hub',
     eta: '6h 40m',
     progress: 35,
-    status: 'Congestion Alert',
+    status: 'Corridor Cutoff',
     variant: 'danger',
     driver: 'V. Murugan',
   },
@@ -58,7 +59,7 @@ const MOCK_ROUTES = [
     destination: 'Pune West Hub',
     eta: '3h 10m',
     progress: 60,
-    status: 'On Time (Cold Chain OK)',
+    status: 'In Transit',
     variant: 'success',
     driver: 'Pravin Patel',
   },
@@ -87,7 +88,7 @@ export function RoutesPage() {
 
       {/* Fleet KPI Telemetry */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
+        <KPICard
           title="Active Transit Routes"
           value="142"
           change="+18 routes"
@@ -96,7 +97,7 @@ export function RoutesPage() {
           iconName="Truck"
           colorScheme="blue"
         />
-        <KpiCard
+        <KPICard
           title="Fleet On-Time Rate"
           value="98.6%"
           change="+1.4%"
@@ -107,7 +108,7 @@ export function RoutesPage() {
           status="Optimal"
           statusVariant="success"
         />
-        <KpiCard
+        <KPICard
           title="Active Congestion Anomalies"
           value="3 Routes"
           change="-2 resolved"
@@ -116,7 +117,7 @@ export function RoutesPage() {
           iconName="AlertOctagon"
           colorScheme="amber"
         />
-        <KpiCard
+        <KPICard
           title="Fuel Cost Optimized"
           value="₹14.8L"
           change="-8.4%"
@@ -214,9 +215,7 @@ export function RoutesPage() {
                   <span className="font-mono text-xs font-bold text-slate-800">
                     {route.id} • {route.truck}
                   </span>
-                  <Badge variant={route.variant} size="xs">
-                    {route.status}
-                  </Badge>
+                  <StatusBadge status={route.status} size="xs" />
                 </div>
 
                 <div className="text-xs text-slate-600 space-y-0.5">

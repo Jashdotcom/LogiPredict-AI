@@ -17,9 +17,9 @@ import { Badge } from '../ui/Badge';
 import { CURRENT_USER } from '../../data/navigationConfig';
 import { cn } from '../../utils/cn';
 
-// Route title dictionary
+// Route title dictionary matching centralized routes
 const ROUTE_TITLES = {
-  '/': { title: 'Dashboard', category: 'Command Center' },
+  '/': { title: 'Overview', category: 'Command Center' },
   '/inventory': { title: 'Inventory Management', category: 'Stock & Storage' },
   '/forecasting': { title: 'Demand Forecasting', category: 'Predictive Intelligence' },
   '/routes': { title: 'Route Planning', category: 'Fleet & Transit' },
@@ -27,8 +27,8 @@ const ROUTE_TITLES = {
   '/alerts': { title: 'Predictive Alerts', category: 'Anomaly Detection' },
   '/simulations': { title: 'Disruption Simulations', category: 'Stress Testing' },
   '/reports': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
-  '/analytics': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
-  '/settings': { title: 'Settings', category: 'System Configuration' },
+  '/analytics': { title: 'Analytics & Strategic Intelligence', category: 'Intelligence & Audits' },
+  '/settings': { title: 'System Settings', category: 'System Configuration' },
 };
 
 /**

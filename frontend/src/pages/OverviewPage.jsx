@@ -9,9 +9,9 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
 import { KpiGrid } from '../components/dashboard/KpiGrid';
 import { InventoryHealthChart } from '../components/dashboard/InventoryHealthChart';
 import { DemandTrendChart } from '../components/dashboard/DemandTrendChart';
@@ -58,6 +58,7 @@ export function OverviewPage() {
       <PageHeader
         title="Logistics Command Center"
         subtitle="Autonomous predictive telemetry, multi-echelon inventory health, and neural demand forecasting across all regional distribution nodes."
+        breadcrumbs={[{ label: 'Overview' }]}
         badge={
           <Badge variant="brand" size="sm" dot dotPulse icon={Sparkles}>
             AI Forecasting Active

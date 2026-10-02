@@ -10,6 +10,7 @@ import {
   BarChart3,
   Settings,
 } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
 import {
   OverviewPage,
   InventoryPage,
@@ -31,16 +32,16 @@ import {
 export const ROUTES_CONFIG = [
   {
     path: '/',
-    name: 'Dashboard',
+    name: 'Overview',
     category: 'Command Center',
     element: <OverviewPage />,
     icon: LayoutDashboard,
-    description: 'Real-time telemetry and executive summary',
+    description: 'Real-time logistics telemetry and command dashboard',
     inSidebar: true,
   },
   {
     path: '/inventory',
-    name: 'Inventory Management',
+    name: 'Inventory',
     category: 'Stock & Storage',
     element: <InventoryPage />,
     icon: Boxes,
@@ -56,15 +57,6 @@ export const ROUTES_CONFIG = [
     badge: 'AI Powered',
     badgeVariant: 'brand',
     description: 'Predictive time-series demand models & trends',
-    inSidebar: true,
-  },
-  {
-    path: '/supplies',
-    name: 'Supply Management',
-    category: 'Forward Logistics',
-    element: <SuppliesPage />,
-    icon: Package,
-    description: 'Forward unit requisitions, convoy manifests, and POL fuel',
     inSidebar: true,
   },
   {
@@ -88,6 +80,22 @@ export const ROUTES_CONFIG = [
     inSidebar: true,
   },
   {
+    path: '/analytics',
+    name: 'Analytics',
+    category: 'Intelligence & Audits',
+    element: <AnalyticsPage />,
+    icon: BarChart3,
+    description: 'Supply chain KPIs, exportable audit reports, and performance metrics',
+    inSidebar: true,
+  },
+  {
+    path: '/reports',
+    name: 'Reports (Redirect)',
+    category: 'Intelligence & Audits',
+    element: <Navigate to="/analytics" replace />,
+    inSidebar: false,
+  },
+  {
     path: '/simulations',
     name: 'Simulations',
     category: 'Stress Testing',
@@ -99,21 +107,12 @@ export const ROUTES_CONFIG = [
     inSidebar: true,
   },
   {
-    path: '/reports',
-    name: 'Analytics & Reports',
-    category: 'Intelligence & Audits',
-    element: <ReportsPage />,
-    icon: BarChart3,
-    description: 'Supply chain KPIs, exportable audit reports',
-    inSidebar: true,
-  },
-  {
-    path: '/analytics',
-    name: 'Analytics',
-    category: 'Intelligence & Audits',
-    element: <AnalyticsPage />,
-    icon: BarChart3,
-    description: 'Direct alias to analytics & audit engine',
+    path: '/supplies',
+    name: 'Supply Management',
+    category: 'Forward Logistics',
+    element: <SuppliesPage />,
+    icon: Package,
+    description: 'Forward unit requisitions, convoy manifests, and POL fuel',
     inSidebar: false,
   },
   {
@@ -122,7 +121,7 @@ export const ROUTES_CONFIG = [
     category: 'System Configuration',
     element: <SettingsPage />,
     icon: Settings,
-    description: 'Model parameters, API webhooks, and preferences',
+    description: 'Application configuration, model hyperparameters, and regional nodes',
     inSidebar: false,
     inSecondaryNav: true,
   },

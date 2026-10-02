@@ -13,19 +13,17 @@ import {
   Sliders,
   BarChart3,
   Settings,
-  Shield,
-  Activity,
 } from 'lucide-react';
 
 export const NAVIGATION_ITEMS = [
   {
-    name: 'Dashboard',
+    name: 'Overview',
     path: '/',
     icon: LayoutDashboard,
     description: 'Real-time telemetry and executive summary',
   },
   {
-    name: 'Inventory Management',
+    name: 'Inventory',
     path: '/inventory',
     icon: Boxes,
     description: 'Stock levels, safety stocks, and replenishment',
@@ -37,12 +35,6 @@ export const NAVIGATION_ITEMS = [
     badge: 'AI Powered',
     badgeVariant: 'brand',
     description: 'Predictive time-series demand models & trends',
-  },
-  {
-    name: 'Supply Management',
-    path: '/supplies',
-    icon: Package,
-    description: 'Unit requisitions, convoy manifests, and POL reserves',
   },
   {
     name: 'Route Planning',
@@ -67,8 +59,8 @@ export const NAVIGATION_ITEMS = [
     description: 'Monsoon, roadblock, and surge stress simulations',
   },
   {
-    name: 'Analytics & Reports',
-    path: '/reports',
+    name: 'Analytics',
+    path: '/analytics',
     icon: BarChart3,
     description: 'Supply chain KPIs, exportable audit reports',
   },

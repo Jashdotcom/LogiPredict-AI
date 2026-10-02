@@ -10,16 +10,18 @@ import {
   AlertTriangle,
   RefreshCw,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
-import { TableContainer } from '../components/common/TableContainer';
-import { SearchInput } from '../components/common/SearchInput';
-import { KpiCard } from '../components/common/KpiCard';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { Card, CardHeader } from '../components/ui/Card';
+import { DataTable } from '../components/tables/DataTable';
+import { FilterBar } from '../components/filters/FilterBar';
+import { KPICard } from '../components/dashboard/KpiCard';
 
 const MOCK_INVENTORY = [
   {
+    id: 'SKU-8849',
     sku: 'SKU-8849',
     name: 'Microcontroller Units (32-bit Cortex)',
     category: 'Electronics',
@@ -28,9 +30,9 @@ const MOCK_INVENTORY = [
     safety: 600,
     reorderLevel: 800,
     status: 'Stockout Risk',
-    variant: 'danger',
   },
   {
+    id: 'SKU-4102',
     sku: 'SKU-4102',
     name: 'Lithium Iron Phosphate Cells (3.2V)',
     category: 'Energy/Battery',
@@ -39,9 +41,9 @@ const MOCK_INVENTORY = [
     safety: 1200,
     reorderLevel: 1800,
     status: 'Healthy',
-    variant: 'success',
   },
   {
+    id: 'SKU-2910',
     sku: 'SKU-2910',
     name: 'Cold-Chain Insulin & Vaccine Vials',
     category: 'Pharmaceuticals',
@@ -49,10 +51,10 @@ const MOCK_INVENTORY = [
     stock: 890,
     safety: 500,
     reorderLevel: 1000,
-    status: 'Reorder Needed',
-    variant: 'warning',
+    status: 'Low Stock',
   },
   {
+    id: 'SKU-7301',
     sku: 'SKU-7301',
     name: 'Heavy Duty 4-Ply Corrugated Cartons',
     category: 'Packaging',
@@ -61,9 +63,9 @@ const MOCK_INVENTORY = [
     safety: 5000,
     reorderLevel: 8000,
     status: 'Surplus',
-    variant: 'info',
   },
   {
+    id: 'SKU-5520',
     sku: 'SKU-5520',
     name: 'Automotive Precision Brake Calipers',
     category: 'Automotive',
@@ -72,26 +74,87 @@ const MOCK_INVENTORY = [
     safety: 800,
     reorderLevel: 1100,
     status: 'Healthy',
-    variant: 'success',
   },
 ];
 
 export function InventoryPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedHub, setSelectedHub] = useState('all');
 
-  const filteredItems = MOCK_INVENTORY.filter(
-    (item) =>
+  const filteredItems = MOCK_INVENTORY.filter((item) => {
+    const matchesSearch =
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.hub.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      item.hub.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesHub =
+      selectedHub === 'all' || item.hub.toLowerCase().includes(selectedHub.toLowerCase());
+
+    return matchesSearch && matchesHub;
+  });
+
+  const columns = [
+    {
+      key: 'sku',
+      title: 'SKU / Item',
+      sortable: true,
+      render: (row) => (
+        <div>
+          <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+            {row.sku}
+          </span>
+          <p className="text-xs sm:text-sm font-semibold text-slate-900 mt-1">
+            {row.name}
+          </p>
+        </div>
+      ),
+    },
+    {
+      key: 'category',
+      title: 'Category',
+      sortable: true,
+      render: (row) => <span className="text-slate-600 font-medium">{row.category}</span>,
+    },
+    {
+      key: 'hub',
+      title: 'Warehouse Hub',
+      sortable: true,
+      render: (row) => <span className="text-slate-600">{row.hub}</span>,
+    },
+    {
+      key: 'stock',
+      title: 'Current Stock',
+      sortable: true,
+      render: (row) => (
+        <span className="font-bold text-slate-900">
+          {row.stock.toLocaleString()} units
+        </span>
+      ),
+    },
+    {
+      key: 'reorderLevel',
+      title: 'Reorder Point',
+      sortable: true,
+      render: (row) => (
+        <span className="text-slate-500 font-mono text-xs">
+          {row.reorderLevel.toLocaleString()} units
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      title: 'Health Status',
+      sortable: true,
+      render: (row) => <StatusBadge status={row.status} size="xs" />,
+    },
+  ];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       <PageHeader
         title="Inventory Management"
-        subtitle="Multi-echelon stock levels, dynamic safety stock calculations, and automated replenishment triggers."
-        breadcrumbs={[{ label: 'Inventory Management' }]}
+        subtitle="Multi-echelon stock levels, dynamic safety stock calculations, and automated replenishment triggers across forward logistics nodes."
+        breadcrumbs={[{ label: 'Inventory' }]}
         badge={
           <Badge variant="brand" size="sm">
             8 Regional Hubs
@@ -111,7 +174,7 @@ export function InventoryPage() {
 
       {/* KPI Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
+        <KPICard
           title="Total Monitored SKUs"
           value="12,480"
           change="+340"
@@ -120,7 +183,7 @@ export function InventoryPage() {
           iconName="Boxes"
           colorScheme="indigo"
         />
-        <KpiCard
+        <KPICard
           title="Safety Buffer Deficits"
           value="14 SKUs"
           change="-3 this week"
@@ -131,7 +194,7 @@ export function InventoryPage() {
           status="Attention"
           statusVariant="warning"
         />
-        <KpiCard
+        <KPICard
           title="Avg Inventory Turnover"
           value="8.4x"
           change="+0.6x"
@@ -142,7 +205,7 @@ export function InventoryPage() {
           status="Optimal"
           statusVariant="success"
         />
-        <KpiCard
+        <KPICard
           title="Total Stock Value"
           value="₹48.2 Cr"
           change="+₹1.2 Cr"
@@ -153,70 +216,39 @@ export function InventoryPage() {
         />
       </div>
 
-      {/* Table Container */}
-      <TableContainer
-        title="Inventory Stock Ledger"
-        subtitle="Live tracking of warehouse batches, safety margins, and automated reorder points"
-        action={
-          <div className="flex items-center gap-3">
-            <SearchInput
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by SKU, item name or hub..."
-              size="sm"
-            />
-            <Button variant="outline" size="sm" leftIcon={Filter}>
-              Filter
-            </Button>
-          </div>
-        }
-      >
-        <thead>
-          <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-wider">
-            <th className="py-3 px-4">SKU / Item</th>
-            <th className="py-3 px-4">Category</th>
-            <th className="py-3 px-4">Warehouse Hub</th>
-            <th className="py-3 px-4">Current Stock</th>
-            <th className="py-3 px-4">Reorder Point</th>
-            <th className="py-3 px-4">Health Status</th>
-            <th className="py-3 px-4 text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-slate-100">
-          {filteredItems.map((item) => (
-            <tr key={item.sku} className="hover:bg-slate-50/70 transition-colors">
-              <td className="py-3.5 px-4">
-                <div>
-                  <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
-                    {item.sku}
-                  </span>
-                  <p className="text-xs sm:text-sm font-semibold text-slate-900 mt-1">
-                    {item.name}
-                  </p>
-                </div>
-              </td>
-              <td className="py-3.5 px-4 text-slate-600 font-medium">{item.category}</td>
-              <td className="py-3.5 px-4 text-slate-600">{item.hub}</td>
-              <td className="py-3.5 px-4 font-bold text-slate-900">
-                {item.stock.toLocaleString()} units
-              </td>
-              <td className="py-3.5 px-4 text-slate-500 font-mono text-xs">
-                {item.reorderLevel.toLocaleString()} units
-              </td>
-              <td className="py-3.5 px-4">
-                <Badge variant={item.variant} size="xs" dot>
-                  {item.status}
-                </Badge>
-              </td>
-              <td className="py-3.5 px-4 text-right">
-                <Button variant="ghost" size="xs">
-                  Details
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </TableContainer>
+      {/* Filter Bar */}
+      <FilterBar
+        searchValue={searchTerm}
+        onSearchChange={setSearchTerm}
+        searchPlaceholder="Search by SKU, item name, or hub..."
+        selects={[
+          {
+            key: 'hub',
+            value: selectedHub,
+            onChange: setSelectedHub,
+            options: [
+              { value: 'all', label: 'All Warehouses' },
+              { value: 'pune', label: 'Pune West Hub' },
+              { value: 'bengaluru', label: 'Bengaluru DC' },
+              { value: 'delhi', label: 'Delhi Central' },
+              { value: 'ahmedabad', label: 'Ahmedabad Cold Hub' },
+              { value: 'chennai', label: 'Chennai Auto Hub' },
+            ],
+          },
+        ]}
+        onReset={() => {
+          setSearchTerm('');
+          setSelectedHub('all');
+        }}
+      />
+
+      {/* Data Table */}
+      <DataTable
+        columns={columns}
+        data={filteredItems}
+        emptyTitle="No inventory records found"
+        emptyDescription="Try adjusting your search criteria or resetting active filters."
+      />
     </div>
   );
 }

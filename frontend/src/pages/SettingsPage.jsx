@@ -10,10 +10,10 @@ import {
   Save,
   CheckCircle2,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { Card, CardHeader } from '../components/ui/Card';
 
 export function SettingsPage() {
   const [isSaved, setIsSaved] = useState(false);
@@ -199,11 +199,11 @@ export function SettingsPage() {
               </div>
               <div className="flex justify-between py-1 border-b border-slate-100">
                 <span>Version:</span>
-                <span className="font-mono text-indigo-600">v1.0.0-rc</span>
+                <span className="font-mono text-indigo-600">v1.4.0-rc</span>
               </div>
               <div className="flex justify-between py-1 border-b border-slate-100">
                 <span>Environment:</span>
-                <span className="font-medium text-slate-700">Client-Side Prototype</span>
+                <span className="font-medium text-slate-700">SIH 2026 Prototype</span>
               </div>
               <div className="flex justify-between py-1">
                 <span>UI Framework:</span>

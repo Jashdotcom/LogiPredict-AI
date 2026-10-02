@@ -1,14 +1,7 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   Boxes,
-  Cpu,
-  Activity,
-  ChevronRight,
-  ShieldCheck,
-  Zap,
-  Sparkles,
-  Sliders,
 } from 'lucide-react';
 import { NAVIGATION_ITEMS, SECONDARY_NAVIGATION } from '../../data/navigationConfig';
 import { cn } from '../../utils/cn';
@@ -18,8 +11,6 @@ import { cn } from '../../utils/cn';
  * Aligned with Google Stitch military enterprise dashboard theme.
  */
 export function Sidebar({ isOpen, onClose, isMobile = false }) {
-  const location = useLocation();
-
   return (
     <aside
       aria-label="Application Command Sidebar"
@@ -69,7 +60,6 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
           <nav className="space-y-1" aria-label="Main Navigation">
             {NAVIGATION_ITEMS.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
 
               return (
                 <NavLink
@@ -77,44 +67,47 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
                   to={item.path}
                   end={item.path === '/'}
                   onClick={isMobile ? onClose : undefined}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={({ isActive: active }) =>
+                  className={({ isActive }) =>
                     cn(
                       'group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150',
                       'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400',
-                      active
+                      isActive
                         ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/70'
                     )
                   }
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Icon
-                      className={cn(
-                        'w-4 h-4 shrink-0 transition-colors',
-                        isActive
-                          ? 'text-white'
-                          : 'text-slate-400 group-hover:text-white'
-                      )}
-                    />
-                    <span className="truncate">{item.name}</span>
-                  </div>
+                  {({ isActive }) => (
+                    <>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Icon
+                          className={cn(
+                            'w-4 h-4 shrink-0 transition-colors',
+                            isActive
+                              ? 'text-white'
+                              : 'text-slate-400 group-hover:text-white'
+                          )}
+                        />
+                        <span className="truncate">{item.name}</span>
+                      </div>
 
-                  {item.badge && (
-                    <span
-                      className={cn(
-                        'text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0',
-                        item.badgeVariant === 'danger'
-                          ? 'bg-rose-500 text-white animate-pulse'
-                          : item.badgeVariant === 'purple'
-                          ? 'bg-purple-900/80 text-purple-200 border border-purple-700/60'
-                          : isActive
-                          ? 'bg-indigo-800 text-indigo-200'
-                          : 'bg-indigo-950 text-indigo-300 border border-indigo-800/60'
+                      {item.badge && (
+                        <span
+                          className={cn(
+                            'text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0',
+                            item.badgeVariant === 'danger'
+                              ? 'bg-rose-500 text-white animate-pulse'
+                              : item.badgeVariant === 'purple'
+                              ? 'bg-purple-900/80 text-purple-200 border border-purple-700/60'
+                              : isActive
+                              ? 'bg-indigo-800 text-indigo-200'
+                              : 'bg-indigo-950 text-indigo-300 border border-indigo-800/60'
+                          )}
+                        >
+                          {item.badge}
+                        </span>
                       )}
-                    >
-                      {item.badge}
-                    </span>
+                    </>
                   )}
                 </NavLink>
               );
@@ -130,35 +123,35 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
           <nav className="space-y-1" aria-label="System Settings Navigation">
             {SECONDARY_NAVIGATION.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
 
               return (
                 <NavLink
                   key={item.path}
                   to={item.path}
                   onClick={isMobile ? onClose : undefined}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={({ isActive: active }) =>
+                  className={({ isActive }) =>
                     cn(
                       'group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150',
                       'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400',
-                      active
+                      isActive
                         ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/70'
                     )
                   }
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Icon
-                      className={cn(
-                        'w-4 h-4 shrink-0 transition-colors',
-                        isActive
-                          ? 'text-white'
-                          : 'text-slate-400 group-hover:text-white'
-                      )}
-                    />
-                    <span className="truncate">{item.name}</span>
-                  </div>
+                  {({ isActive }) => (
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Icon
+                        className={cn(
+                          'w-4 h-4 shrink-0 transition-colors',
+                          isActive
+                            ? 'text-white'
+                            : 'text-slate-400 group-hover:text-white'
+                        )}
+                      />
+                      <span className="truncate">{item.name}</span>
+                    </div>
+                  )}
                 </NavLink>
               );
             })}

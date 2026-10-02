@@ -9,13 +9,13 @@ import {
   Sparkles,
   ShieldAlert,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { Card, CardHeader } from '../components/ui/Card';
 import { PRIORITY_ALERTS } from '../../data/mockDashboardData';
 import { getSeverityConfig } from '../../utils/statusHelpers';
-import { KpiCard } from '../components/common/KpiCard';
+import { KPICard } from '../components/dashboard/KpiCard';
 
 export function AlertsPage() {
   const [filterSeverity, setFilterSeverity] = useState('all');
@@ -57,7 +57,7 @@ export function AlertsPage() {
 
       {/* KPI Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
+        <KPICard
           title="Critical Alerts"
           value={`${Math.max(0, 2 - resolvedIds.filter((id) => id === 'ALT-1049' || id === 'ALT-1047').length)}`}
           change="Immediate action"
@@ -68,7 +68,7 @@ export function AlertsPage() {
           status="Urgent"
           statusVariant="danger"
         />
-        <KpiCard
+        <KPICard
           title="High Transit Risks"
           value="1"
           change="Expressway bypass"
@@ -77,7 +77,7 @@ export function AlertsPage() {
           iconName="Truck"
           colorScheme="amber"
         />
-        <KpiCard
+        <KPICard
           title="Automated Mitigations"
           value="18"
           change="+6 today"
@@ -88,7 +88,7 @@ export function AlertsPage() {
           status="Autonomous"
           statusVariant="brand"
         />
-        <KpiCard
+        <KPICard
           title="Mean Time to Resolve (MTTR)"
           value="14.2 min"
           change="-3.5 min"

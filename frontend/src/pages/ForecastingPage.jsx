@@ -9,12 +9,12 @@ import {
   Calendar,
   Download,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { Card, CardHeader } from '../components/ui/Card';
 import { DemandTrendChart } from '../components/dashboard/DemandTrendChart';
-import { KpiCard } from '../components/common/KpiCard';
+import { KPICard } from '../components/dashboard/KpiCard';
 
 export function ForecastingPage() {
   const [isTraining, setIsTraining] = useState(false);
@@ -58,7 +58,7 @@ export function ForecastingPage() {
 
       {/* Model Performance KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
+        <KPICard
           title="Overall Model Accuracy"
           value="96.8%"
           change="+1.2%"
@@ -69,7 +69,7 @@ export function ForecastingPage() {
           status="High Confidence"
           statusVariant="brand"
         />
-        <KpiCard
+        <KPICard
           title="Projected Peak Demand"
           value="6,950 units"
           change="+14.2%"
@@ -78,7 +78,7 @@ export function ForecastingPage() {
           iconName="TrendingUp"
           colorScheme="purple"
         />
-        <KpiCard
+        <KPICard
           title="Active Model Pipeline"
           value="Hybrid v1.4"
           timeframe="LSTM + Prophet + XGBoost"
@@ -87,7 +87,7 @@ export function ForecastingPage() {
           status="Operational"
           statusVariant="success"
         />
-        <KpiCard
+        <KPICard
           title="Lead Time Variance"
           value="± 4.2 hrs"
           change="-1.1h"

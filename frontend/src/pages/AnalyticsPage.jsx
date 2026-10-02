@@ -10,11 +10,11 @@ import {
   ArrowUpRight,
   ShieldCheck,
 } from 'lucide-react';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
-import { Card, CardHeader } from '../components/common/Card';
-import { KpiCard } from '../components/common/KpiCard';
+import { PageHeader } from '../components/layout/PageHeader';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { Card, CardHeader } from '../components/ui/Card';
+import { KPICard } from '../components/dashboard/KpiCard';
 
 const REPORT_TEMPLATES = [
   {
@@ -61,7 +61,7 @@ export function AnalyticsPage() {
       <PageHeader
         title="Analytics & Strategic Intelligence"
         subtitle="Forward supply chain cost audits, model accuracy diagnostics, and executive compliance reports."
-        breadcrumbs={[{ label: 'Analytics & Reports' }]}
+        breadcrumbs={[{ label: 'Analytics' }]}
         badge={
           <Badge variant="brand" size="sm">
             Auditing Engine Active
@@ -76,7 +76,7 @@ export function AnalyticsPage() {
 
       {/* KPI Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
+        <KPICard
           title="Overall Supply Chain Health"
           value="94.8%"
           change="+2.1%"
@@ -85,7 +85,7 @@ export function AnalyticsPage() {
           iconName="PackageCheck"
           colorScheme="emerald"
         />
-        <KpiCard
+        <KPICard
           title="Forecast Error Rate (MAPE)"
           value="3.2%"
           change="-0.8%"
@@ -96,7 +96,7 @@ export function AnalyticsPage() {
           status="Optimal"
           statusVariant="success"
         />
-        <KpiCard
+        <KPICard
           title="Total Cost Savings (YTD)"
           value="₹1.42 Cr"
           change="+18.5%"
@@ -105,7 +105,7 @@ export function AnalyticsPage() {
           iconName="Zap"
           colorScheme="purple"
         />
-        <KpiCard
+        <KPICard
           title="Order Fulfillment SLA"
           value="99.1%"
           change="+0.4%"

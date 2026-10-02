@@ -9,3 +9,4 @@ export { AnalyticsPage } from './AnalyticsPage';
 export { AnalyticsPage as ReportsPage } from './AnalyticsPage';
 export { SettingsPage } from './SettingsPage';
 export { NotFoundPage } from './NotFoundPage';
+export { PlaceholderPage } from './PlaceholderPage';
