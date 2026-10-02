@@ -1,79 +1,83 @@
-# LogiPredict AI — Backend API
+# LogiPredict AI — Backend Architecture
 
-FastAPI backend service for **LogiPredict AI**, an autonomous predictive logistics and forward supply chain management platform.
+FastAPI backend service for **LogiPredict AI**, an AI-powered predictive logistics and forward supply chain management system for the Indian Army (SIH 2026).
 
 ---
 
-## Directory Structure
+## 1. Directory Structure
 
 ```
 backend/
 ├── app/
-│   ├── __init__.py        # Package initializer
-│   └── main.py            # FastAPI application with root & health endpoints
-├── .gitignore             # Python-specific git ignore rules
-├── README.md              # Backend setup and run instructions
-└── requirements.txt       # Core Python dependencies
+│   ├── __init__.py           # Application package
+│   ├── main.py               # FastAPI entry point, middleware & router mounting
+│   ├── config.py             # Centralized environment & settings configuration
+│   │
+│   ├── api/                  # API endpoints and route definitions
+│   │   ├── __init__.py
+│   │   └── v1/               # Version 1 API
+│   │       ├── __init__.py
+│   │       └── router.py     # Master v1 router (/api/v1)
+│   │
+│   ├── models/               # Database ORM models and domain entities
+│   │   └── __init__.py
+│   │
+│   ├── schemas/              # Pydantic request/response validation schemas
+│   │   └── __init__.py
+│   │
+│   ├── services/             # Core business logic decoupled from API routes
+│   │   └── __init__.py
+│   │
+│   ├── database/             # DB engine connection & session management
+│   │   └── __init__.py
+│   │
+│   ├── ml/                   # ML inference pipelines & demand forecasting models
+│   │   └── __init__.py
+│   │
+│   └── utils/                # Shared utilities & helper functions
+│       └── __init__.py
+│
+├── .env.example              # Environment variable template
+├── .gitignore                # Python & virtual environment ignore rules
+├── README.md                 # Backend documentation
+└── requirements.txt          # Python dependencies
 ```
 
 ---
 
-## 1. Virtual Environment Setup
+## 2. Environment Setup & Activation
 
-From the project root:
-
+### Step 2.1: Navigate to the `backend` directory
 ```bash
 cd backend
 ```
 
-Create a virtual environment named `venv`:
+### Step 2.2: Create and Activate the Virtual Environment
+- **Windows (PowerShell)**:
+  ```powershell
+  python -m venv venv
+  .\venv\Scripts\Activate.ps1
+  ```
+- **Windows (Command Prompt)**:
+  ```cmd
+  venv\Scripts\activate.bat
+  ```
+- **macOS / Linux**:
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
 
+### Step 2.3: Install Dependencies
 ```bash
-python -m venv venv
-```
-*(On systems with multiple Python versions, you can also use `python3 -m venv venv` or `py -m venv venv`)*
-
----
-
-## 2. Activation Instructions
-
-### Windows (PowerShell)
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-*Note: If script execution is restricted in PowerShell, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned` first.*
-
-### Windows (Command Prompt `cmd.exe`)
-```cmd
-venv\Scripts\activate.bat
-```
-
-### Windows (Git Bash)
-```bash
-source venv/Scripts/activate
-```
-
-### macOS / Linux
-```bash
-source venv/bin/activate
-```
-
----
-
-## 3. Install Dependencies
-
-Once the virtual environment is activated:
-
-```bash
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 ---
 
-## 4. Run the Backend API
+## 3. Starting the Server
 
-Start the FastAPI application with Uvicorn and hot-reload enabled:
+Run Uvicorn with hot-reloading from the `backend/` directory:
 
 ```bash
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
@@ -81,46 +85,62 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 ---
 
-## 5. Verify API Endpoints
+## 4. API Endpoints & Verification
 
-Once the server is running:
-
-| Endpoint | Method | URL | Description |
+| Endpoint | Method | Response Model | Description |
 |---|---|---|---|
-| **Root** | `GET` | `http://127.0.0.1:8000/` | Welcome message & API metadata |
-| **Health Check** | `GET` | `http://127.0.0.1:8000/health` | Service status (`{"status": "healthy"}`) |
-| **Interactive Docs (Swagger)** | `GET` | `http://127.0.0.1:8000/docs` | Interactive OpenAPI Swagger UI |
-| **Alternative Docs (ReDoc)** | `GET` | `http://127.0.0.1:8000/redoc` | ReDoc API documentation |
+| `/` | `GET` | `MessageResponse` | Root welcome message and status |
+| `/health` | `GET` | `HealthCheckResponse` | Service health status and environment |
+| `/api/v1/info` | `GET` | `JSON` | API v1 system metadata and module listing |
+| `/docs` | `GET` | HTML (Swagger) | Interactive OpenAPI documentation |
+| `/redoc` | `GET` | HTML (ReDoc) | Alternative ReDoc documentation |
 
 ---
 
-## 6. Testing Endpoints via cURL or Browser
+## 5. Testing via cURL
 
-### Test Root Endpoint:
+### Root Endpoint
 ```bash
 curl http://127.0.0.1:8000/
 ```
-Expected Response:
 ```json
 {
   "message": "Welcome to LogiPredict AI API",
   "status": "online",
-  "version": "0.1.0",
-  "docs_url": "/docs",
-  "health_url": "/health"
+  "version": "0.1.0"
 }
 ```
 
-### Test Health Endpoint:
+### Health Check Endpoint
 ```bash
 curl http://127.0.0.1:8000/health
 ```
-Expected Response:
 ```json
 {
   "status": "healthy",
-  "service": "LogiPredict AI Backend",
+  "service": "LogiPredict AI API",
   "version": "0.1.0",
   "environment": "development"
+}
+```
+
+### API v1 System Info Endpoint
+```bash
+curl http://127.0.0.1:8000/api/v1/info
+```
+```json
+{
+  "api_version": "v1",
+  "system": "LogiPredict AI — Indian Army Forward Supply Chain Engine",
+  "edition": "SIH 2026",
+  "engine_status": "standby",
+  "modules": [
+    "inventory_management",
+    "demand_forecasting",
+    "route_planning",
+    "supply_requisitions",
+    "predictive_alerts",
+    "analytics_reports"
+  ]
 }
 ```
