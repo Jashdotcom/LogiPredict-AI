@@ -1,0 +1,145 @@
+/**
+ * LogiPredict AI — Design Tokens (tokens.css)
+ * ===========================================
+ * Centralized CSS custom properties establishing color palette, surfaces,
+ * typography, spacing, border radii, elevation shadows, and transitions.
+ * Inspired by Google Stitch enterprise dashboard standards.
+ */
+
+:root {
+  /* -------------------------------------------------------------------------- */
+  /* 1. Brand Palette                                                           */
+  /* -------------------------------------------------------------------------- */
+  --color-primary: #4f46e5;          /* Indigo 600 */
+  --color-primary-hover: #4338ca;    /* Indigo 700 */
+  --color-primary-active: #3730a3;   /* Indigo 800 */
+  --color-primary-subtle: #eef2ff;   /* Indigo 50 */
+  --color-primary-border: #c7d2fe;   /* Indigo 200 */
+
+  --color-secondary: #64748b;        /* Slate 500 */
+  --color-secondary-hover: #475569;  /* Slate 600 */
+  --color-secondary-subtle: #f1f5f9; /* Slate 100 */
+
+  --color-accent: #8b5cf6;           /* Violet 500 */
+  --color-accent-subtle: #f5f3ff;    /* Violet 50 */
+
+  /* -------------------------------------------------------------------------- */
+  /* 2. Surfaces & Backgrounds                                                  */
+  /* -------------------------------------------------------------------------- */
+  --color-bg-app: #f8fafc;           /* Slate 50 - Canvas background */
+  --color-bg-sidebar: #0f172a;       /* Slate 900 - Command Center Dark Sidebar */
+  --color-bg-sidebar-nav: #1e293b;   /* Slate 800 - Active nav highlight */
+  --color-bg-card: #ffffff;          /* Pure white card surface */
+  --color-bg-elevated: #ffffff;      /* Modal / Dropdown surface */
+  --color-bg-muted: #f1f5f9;         /* Slate 100 - Secondary containers */
+  --color-bg-subtle: #f8fafc;        /* Slate 50 - Table headers & sub-panels */
+
+  --color-bg-input: #ffffff;
+  --color-bg-input-hover: #f8fafc;
+  --color-bg-table-header: #f8fafc;
+  --color-bg-table-stripe: #fafbfd;
+  --color-bg-table-hover: #f1f5f9;
+
+  /* -------------------------------------------------------------------------- */
+  /* 3. Typography & Text Colors                                                */
+  /* -------------------------------------------------------------------------- */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --color-text-primary: #0f172a;     /* Slate 900 - High contrast text */
+  --color-text-secondary: #334155;   /* Slate 700 - Standard body text */
+  --color-text-muted: #64748b;       /* Slate 500 - Captions, placeholders */
+  --color-text-subtle: #94a3b8;      /* Slate 400 - Timestamps, borders */
+  --color-text-inverse: #ffffff;     /* White - Text on dark backgrounds */
+  --color-text-brand: #4f46e5;       /* Brand blue/indigo text */
+
+  /* -------------------------------------------------------------------------- */
+  /* 4. Semantic Status Colors                                                  */
+  /* -------------------------------------------------------------------------- */
+  /* Success / Optimal */
+  --color-success: #059669;          /* Emerald 600 */
+  --color-success-hover: #047857;    /* Emerald 700 */
+  --color-success-bg: #ecfdf5;       /* Emerald 50 */
+  --color-success-border: #a7f3d0;   /* Emerald 200 */
+  --color-success-text: #065f46;     /* Emerald 800 */
+
+  /* Warning / Action Needed */
+  --color-warning: #d97706;          /* Amber 600 */
+  --color-warning-hover: #b45309;    /* Amber 700 */
+  --color-warning-bg: #fffbeb;       /* Amber 50 */
+  --color-warning-border: #fde68a;   /* Amber 200 */
+  --color-warning-text: #92400e;     /* Amber 800 */
+
+  /* Error / Critical Stockout */
+  --color-danger: #e11d48;           /* Rose 600 */
+  --color-danger-hover: #be123c;     /* Rose 700 */
+  --color-danger-bg: #fff1f2;        /* Rose 50 */
+  --color-danger-border: #fecdd3;    /* Rose 200 */
+  --color-danger-text: #9f1239;      /* Rose 800 */
+
+  /* Info / In Transit */
+  --color-info: #2563eb;             /* Blue 600 */
+  --color-info-hover: #1d4ed8;       /* Blue 700 */
+  --color-info-bg: #eff6ff;          /* Blue 50 */
+  --color-info-border: #bfdbfe;      /* Blue 200 */
+  --color-info-text: #1e40af;        /* Blue 800 */
+
+  /* AI Predictive / Neural Model */
+  --color-purple: #7c3aed;           /* Violet 600 */
+  --color-purple-hover: #6d28d9;     /* Violet 700 */
+  --color-purple-bg: #f5f3ff;        /* Violet 50 */
+  --color-purple-border: #ddd6fe;    /* Violet 200 */
+  --color-purple-text: #5b21b6;      /* Violet 800 */
+
+  /* -------------------------------------------------------------------------- */
+  /* 5. Borders & Dividers                                                      */
+  /* -------------------------------------------------------------------------- */
+  --color-border-default: #e2e8f0;   /* Slate 200 - Standard container borders */
+  --color-border-subtle: #f1f5f9;    /* Slate 100 - Table row dividers */
+  --color-border-strong: #cbd5e1;    /* Slate 300 - Input borders */
+  --color-border-focus: #4f46e5;     /* Indigo 600 - Focus ring */
+
+  /* -------------------------------------------------------------------------- */
+  /* 6. Spacing Scale                                                           */
+  /* -------------------------------------------------------------------------- */
+  --space-2xs: 0.125rem;  /* 2px */
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 0.75rem;    /* 12px */
+  --space-base: 1rem;     /* 16px */
+  --space-lg: 1.25rem;    /* 20px */
+  --space-xl: 1.5rem;     /* 24px */
+  --space-2xl: 2rem;      /* 32px */
+  --space-3xl: 2.5rem;    /* 40px */
+  --space-4xl: 3rem;      /* 48px */
+
+  /* -------------------------------------------------------------------------- */
+  /* 7. Border Radii                                                            */
+  /* -------------------------------------------------------------------------- */
+  --radius-xs: 0.25rem;   /* 4px */
+  --radius-sm: 0.375rem;  /* 6px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.25rem;  /* 20px */
+  --radius-full: 9999px;  /* Pill shape */
+
+  /* -------------------------------------------------------------------------- */
+  /* 8. Elevation & Shadows                                                     */
+  /* -------------------------------------------------------------------------- */
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glow-brand: 0 0 15px rgba(79, 70, 229, 0.25);
+  --shadow-glow-danger: 0 0 15px rgba(225, 29, 72, 0.25);
+
+  /* -------------------------------------------------------------------------- */
+  /* 9. Transitions & Animations                                                */
+  /* -------------------------------------------------------------------------- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,133 @@
+/**
+ * LogiPredict AI — Component Classes & Interaction States (components.css)
+ * =========================================================================
+ * Reusable utility and component styling classes for buttons, badges,
+ * cards, tables, inputs, and interactive states.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. Global Focus Rings & Accessibility                                      */
+/* -------------------------------------------------------------------------- */
+.lp-focus-ring {
+  outline: none;
+}
+.lp-focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Interactive States & Micro-interactions                                 */
+/* -------------------------------------------------------------------------- */
+.lp-interactive {
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+.lp-interactive:hover {
+  filter: brightness(0.96);
+}
+.lp-interactive:active {
+  filter: brightness(0.92);
+  transform: translateY(1px);
+}
+.lp-interactive:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: none;
+  transform: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Surface & Card Styles                                                   */
+/* -------------------------------------------------------------------------- */
+.lp-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+.lp-card-hover:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+}
+
+.lp-card-elevated {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.lp-card-subtle {
+  background-color: var(--color-primary-subtle);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-xl);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Table Styles & High-Density Layouts                                     */
+/* -------------------------------------------------------------------------- */
+.lp-table-container {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.lp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.lp-table th {
+  background-color: var(--color-bg-table-header);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.lp-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}
+
+.lp-table-row {
+  transition: background-color var(--transition-fast);
+}
+.lp-table-row:hover {
+  background-color: var(--color-bg-table-hover);
+}
+.lp-table-row:last-child td {
+  border-bottom: none;
+}
+.lp-table-row-selected {
+  background-color: var(--color-primary-subtle) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Pulsing Status Dots for Live Telemetry & Alerts                         */
+/* -------------------------------------------------------------------------- */
+.lp-dot-pulse {
+  animation: lp-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes lp-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.15);
+  }
+}

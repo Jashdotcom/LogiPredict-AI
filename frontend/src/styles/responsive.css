@@ -1,0 +1,70 @@
+/**
+ * LogiPredict AI — Responsive Breakpoints & Container Layouts (responsive.css)
+ * =============================================================================
+ * Breakpoints aligned with enterprise display dashboards and rugged field tablets:
+ * - Mobile: < 640px (sm)
+ * - Tablet: 640px - 1023px (md / lg)
+ * - Desktop: 1024px - 1535px (xl)
+ * - Operations Wall Display / Large Desktop: >= 1536px (2xl)
+ */
+
+/* Max-width container clamps for large monitors */
+.lp-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .lp-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lp-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .lp-container {
+    max-width: 1720px;
+  }
+}
+
+/* Horizontal scroll wrapper for mobile data tables */
+.lp-table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive grid layouts */
+.lp-grid-kpi {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .lp-grid-kpi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lp-grid-kpi {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1536px) {
+  .lp-grid-kpi {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
