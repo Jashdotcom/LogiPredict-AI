@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Sparkles,
   Download,
@@ -12,12 +13,16 @@ import {
   Radio,
   Sliders,
   ShieldAlert,
+  X,
+  Play,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Card } from '../components/ui/Card';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { Dialog } from '../components/ui/Dialog';
 import { KpiGrid } from '../components/dashboard/KpiGrid';
 import { InventoryHealthChart } from '../components/dashboard/InventoryHealthChart';
 import { DemandTrendChart } from '../components/dashboard/DemandTrendChart';
@@ -33,6 +38,7 @@ import { formatDate } from '../utils/formatters';
  * Calibrated for Smart India Hackathon (SIH 2026) Indian Army Logistics Scenario
  */
 export function OverviewPage() {
+  const navigate = useNavigate();
   const toast = useToast();
 
   // State Management
@@ -54,9 +60,18 @@ export function OverviewPage() {
     isLive: false,
   });
 
-  // Mitigation Dialog State
+  // Mitigation & Action Dialog States
   const [activeMitigationAlert, setActiveMitigationAlert] = useState(null);
+  const [selectedAlertDetail, setSelectedAlertDetail] = useState(null);
   const [isMitigating, setIsMitigating] = useState(false);
+
+  // Simulation Modal State
+  const [isSimModalOpen, setIsSimModalOpen] = useState(false);
+  const [selectedScenario, setSelectedScenario] = useState('blizzard');
+  const [simLeadTime, setSimLeadTime] = useState(2.0);
+  const [simDemandSurge, setSimDemandSurge] = useState(35);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simResult, setSimResult] = useState(null);
 
   // Load Dashboard Data
   const loadDashboardData = async (showRefreshIndicator = false) => {
@@ -79,6 +94,31 @@ export function OverviewPage() {
     loadDashboardData();
   }, [selectedTimeframe]);
 
+  // 1. KPI Card Navigation Handler
+  const handleKpiClick = (kpi) => {
+    switch (kpi.id) {
+      case 'total-inventory-items':
+      case 'inventory-health':
+        navigate('/inventory');
+        break;
+      case 'below-minimum-stock':
+        navigate('/inventory?filter=critical');
+        break;
+      case 'predicted-stockouts':
+        navigate('/forecasting');
+        break;
+      case 'pending-replenishments':
+        navigate('/inventory?filter=replenishment');
+        break;
+      case 'active-priority-alerts':
+        navigate('/alerts');
+        break;
+      default:
+        navigate('/inventory');
+        break;
+    }
+  };
+
   // Handler: Run Neural AI Forecast Inference
   const handleRunForecast = async () => {
     setIsForecastRunning(true);
@@ -88,7 +128,6 @@ export function OverviewPage() {
     });
 
     try {
-      // Simulate inference run through service
       await new Promise((resolve) => setTimeout(resolve, 1400));
       const updatedForecast = await dashboardService.getDemandForecast('14d');
       setDashboardData((prev) => ({
@@ -112,11 +151,74 @@ export function OverviewPage() {
     }
   };
 
-  // Handler: Export Logistics Manifest & Audit Report
-  const handleExport = () => {
-    toast.success('Logistics audit manifest (SIH 2026 Defense Format) compiled. Ready for download.', {
-      title: 'Report Generated',
-    });
+  // 5. Export Report Action (Functional CSV Export)
+  const handleExportReport = () => {
+    try {
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filename = `logipredict-dashboard-report-${timestamp}.csv`;
+
+      let csvContent = 'data:text/csv;charset=utf-8,';
+      csvContent += 'LogiPredict AI — Military Logistics & Supply Chain Command Center Report\r\n';
+      csvContent += `Generated Date,${new Date().toISOString()}\r\n`;
+      csvContent += 'Disclaimer,SYNTHETIC DEMONSTRATION DATA FOR SIH 2026\r\n\r\n';
+
+      // KPI Summary Section
+      csvContent += '=== KEY PERFORMANCE INDICATORS ===\r\n';
+      csvContent += 'Metric,Value,Status\r\n';
+      dashboardData.kpis.forEach((k) => {
+        csvContent += `"${k.title}","${k.value}","${k.status || 'Active'}"\r\n`;
+      });
+
+      // Priority Alerts Section
+      csvContent += '\r\n=== PRIORITY ALERTS ===\r\n';
+      csvContent += 'Alert ID,Severity,Title,Warehouse,Recommended Action\r\n';
+      dashboardData.priorityAlerts.forEach((a) => {
+        csvContent += `"${a.id || a.alert_id}","${a.severity}","${a.title.replace(/"/g, '""')}","${a.warehouse}","${a.recommendedAction.replace(/"/g, '""')}"\r\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast.success(`Logistics audit report successfully exported as ${filename}.`, {
+        title: 'Report Downloaded',
+      });
+    } catch (err) {
+      toast.error('Failed to generate export report.', { title: 'Export Error' });
+    }
+  };
+
+  // 4. Run Simulation Handler
+  const handleExecuteSimulation = async () => {
+    setIsSimulating(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setSimResult({
+        scenarioName:
+          selectedScenario === 'blizzard'
+            ? 'Severe Winter Blizzard (Zojila Pass Closure)'
+            : selectedScenario === 'surge'
+            ? 'High-Altitude Troop Reinforcement Surge'
+            : 'NH-1D Highway Corridor Cutoff',
+        impactedHubs: 3,
+        projectedStockouts: 4,
+        resilienceScore: '78.4%',
+        suggestedReroutes: 6,
+        preemptivePOs: 2,
+        estimatedBufferRunwayDays: 5.2,
+      });
+      toast.success('Simulation executed successfully against forward supply nodes.', {
+        title: 'Simulation Complete',
+      });
+    } catch (err) {
+      toast.error('Simulation execution failed.', { title: 'Simulation Error' });
+    } finally {
+      setIsSimulating(false);
+    }
   };
 
   // Handler: Prompt Mitigation Action
@@ -131,14 +233,15 @@ export function OverviewPage() {
     setIsMitigating(true);
     try {
       await dashboardService.triggerMitigationAction(
-        activeMitigationAlert.id,
+        activeMitigationAlert.id || activeMitigationAlert.alert_id,
         activeMitigationAlert.recommendedAction
       );
 
-      // Remove or mark alert as mitigated in state
       setDashboardData((prev) => ({
         ...prev,
-        priorityAlerts: prev.priorityAlerts.filter((a) => a.id !== activeMitigationAlert.id),
+        priorityAlerts: prev.priorityAlerts.filter(
+          (a) => (a.id || a.alert_id) !== (activeMitigationAlert.id || activeMitigationAlert.alert_id)
+        ),
       }));
 
       toast.success(
@@ -149,6 +252,7 @@ export function OverviewPage() {
         }
       );
       setActiveMitigationAlert(null);
+      setSelectedAlertDetail(null);
     } catch (err) {
       toast.error('Failed to trigger mitigation protocol.', {
         title: 'Action Error',
@@ -158,7 +262,7 @@ export function OverviewPage() {
     }
   };
 
-  // Format today's date context string (e.g. "Friday, October 2, 2026")
+  // Format today's date context string
   const formattedToday = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'short',
@@ -224,7 +328,7 @@ export function OverviewPage() {
               variant="outline"
               size="sm"
               leftIcon={Download}
-              onClick={handleExport}
+              onClick={handleExportReport}
             >
               Export Report
             </Button>
@@ -253,7 +357,7 @@ export function OverviewPage() {
           <span className="text-slate-300 hidden sm:inline">|</span>
           <div className="flex items-center gap-1.5 text-slate-600">
             <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span>Last Telemetry Sync: <strong>{formatDate(lastSynced, 'HH:mm:ss')} IST</strong></span>
+            <span>Last Telemetry Sync: <strong>{formatDate(lastSynced, true)}</strong></span>
           </div>
         </div>
 
@@ -264,12 +368,16 @@ export function OverviewPage() {
         </div>
       </div>
 
-      {/* Section 1: KPI Telemetry Cards (6 Metrics) */}
+      {/* Section 1: KPI Telemetry Cards (6 Metrics with Navigation) */}
       <section aria-label="Key Performance Indicators">
-        <KpiGrid kpis={dashboardData.kpis} isLoading={isLoading} />
+        <KpiGrid
+          kpis={dashboardData.kpis}
+          isLoading={isLoading}
+          onKpiClick={handleKpiClick}
+        />
       </section>
 
-      {/* Section 2: Core Visualizations (2 Column Grid) */}
+      {/* Section 2: Core Visualizations (2 Column Grid with Tooltips) */}
       <section
         aria-label="Core Analytics and Forecasting Charts"
         className="grid grid-cols-1 lg:grid-cols-2 gap-6"
@@ -285,7 +393,7 @@ export function OverviewPage() {
         />
       </section>
 
-      {/* Section 3: Predictive Alerts & Activity Telemetry (2 Column Grid) */}
+      {/* Section 3: Predictive Alerts & Activity Telemetry (2 Column Grid with Interactive Alert Details) */}
       <section
         aria-label="Predictive Alerts and Recent Activity"
         className="grid grid-cols-1 lg:grid-cols-2 gap-6"
@@ -294,6 +402,7 @@ export function OverviewPage() {
           alerts={dashboardData.priorityAlerts}
           isLoading={isLoading}
           onResolve={handlePromptMitigation}
+          onSelectAlert={(alert) => setSelectedAlertDetail(alert)}
         />
         <RecentActivityTable
           activities={dashboardData.recentActivities}
@@ -308,10 +417,196 @@ export function OverviewPage() {
           onActionClick={(action) => {
             if (action.id === 'action-forecast') {
               handleRunForecast();
+            } else if (action.id === 'action-simulations') {
+              setIsSimModalOpen(true);
+            } else if (action.path) {
+              navigate(action.path);
             }
           }}
         />
       </section>
+
+      {/* 2. Alert Detail Dialog Modal */}
+      {selectedAlertDetail && (
+        <Dialog
+          isOpen={Boolean(selectedAlertDetail)}
+          onClose={() => setSelectedAlertDetail(null)}
+          title={selectedAlertDetail.title}
+          subtitle={`Alert ID: ${selectedAlertDetail.id || selectedAlertDetail.alert_id} • Category: ${selectedAlertDetail.category || 'Logistics Anomaly'}`}
+          maxWidth="max-w-xl"
+        >
+          <div className="space-y-4 py-2">
+            <div className="flex items-center gap-2">
+              <Badge variant={selectedAlertDetail.severity === 'critical' ? 'danger' : 'warning'} size="sm" dot>
+                Severity: {selectedAlertDetail.severity.toUpperCase()}
+              </Badge>
+              <Badge variant="neutral" size="sm">
+                Status: {selectedAlertDetail.status}
+              </Badge>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+              <div>
+                <strong className="text-slate-700">Warehouse / Depot:</strong>
+                <p className="text-slate-900 font-medium mt-0.5">{selectedAlertDetail.warehouse}</p>
+              </div>
+              <div>
+                <strong className="text-slate-700">Trigger Condition / Description:</strong>
+                <p className="text-slate-900 mt-0.5">{selectedAlertDetail.description}</p>
+              </div>
+              <div>
+                <strong className="text-rose-700">Predicted Impact:</strong>
+                <p className="text-rose-900 font-medium mt-0.5">{selectedAlertDetail.predictedImpact}</p>
+              </div>
+              <div>
+                <strong className="text-indigo-700">Recommended Mitigation Action:</strong>
+                <p className="text-indigo-900 font-semibold mt-0.5">{selectedAlertDetail.recommendedAction}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+              <span>Timestamp: {selectedAlertDetail.timestamp || selectedAlertDetail.created_at}</span>
+              <span className="italic text-slate-400">SIH 2026 Synthetic Demonstration Data</span>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-3">
+              <Button variant="outline" size="sm" onClick={() => setSelectedAlertDetail(null)}>
+                Close
+              </Button>
+              <Button
+                variant={selectedAlertDetail.severity === 'critical' ? 'danger' : 'primary'}
+                size="sm"
+                leftIcon={ShieldAlert}
+                onClick={() => {
+                  const alertToFix = selectedAlertDetail;
+                  setSelectedAlertDetail(null);
+                  handlePromptMitigation(alertToFix);
+                }}
+              >
+                Execute Mitigation Protocol
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+      )}
+
+      {/* 4. Run Simulation Configuration & Result Modal */}
+      {isSimModalOpen && (
+        <Dialog
+          isOpen={isSimModalOpen}
+          onClose={() => setIsSimModalOpen(false)}
+          title="Forward Supply Chain Stress Simulation"
+          subtitle="Simulate extreme weather events, supply route blockades, and demand surges against forward bases."
+          maxWidth="max-w-2xl"
+        >
+          <div className="space-y-4 py-2">
+            <div className="space-y-3">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Select Stress Scenario
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                {[
+                  { id: 'blizzard', name: 'Severe Winter Blizzard', desc: 'Zojila Pass closure (+120h lead time)' },
+                  { id: 'surge', name: 'Troop Reinforcement', desc: '+80% rations & medical demand' },
+                  { id: 'landslide', name: 'NH-1D Landslide', desc: 'Highway corridor cutoff at Leh' },
+                ].map((scen) => (
+                  <button
+                    key={scen.id}
+                    type="button"
+                    onClick={() => setSelectedScenario(scen.id)}
+                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                      selectedScenario === scen.id
+                        ? 'bg-indigo-50/80 border-indigo-300 ring-2 ring-indigo-500/20 shadow-2xs'
+                        : 'bg-white border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    <span className="font-bold text-xs text-slate-900 block">{scen.name}</span>
+                    <span className="text-[11px] text-slate-500 mt-1 block leading-tight">{scen.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Lead Time Multiplier: <strong>{simLeadTime}x</strong>
+                </label>
+                <input
+                  type="range"
+                  min="1.0"
+                  max="4.0"
+                  step="0.2"
+                  value={simLeadTime}
+                  onChange={(e) => setSimLeadTime(parseFloat(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[11px] text-slate-400">Delays transit across mountain corridors</span>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Emergency Demand Surge: <strong>+{simDemandSurge}%</strong>
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={simDemandSurge}
+                  onChange={(e) => setSimDemandSurge(parseInt(e.target.value))}
+                  className="w-full accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[11px] text-slate-400">Spike in combat rations, POL & medical</span>
+              </div>
+            </div>
+
+            {simResult && (
+              <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-2 animate-in fade-in">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-emerald-900 text-xs uppercase tracking-wide">
+                    Simulation Output: {simResult.scenarioName}
+                  </span>
+                  <Badge variant="success" size="xs">Resilience Score: {simResult.resilienceScore}</Badge>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                    <span className="text-slate-500 block text-[10px]">Impacted Hubs</span>
+                    <strong className="text-slate-900 text-sm">{simResult.impactedHubs} Hubs</strong>
+                  </div>
+                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                    <span className="text-slate-500 block text-[10px]">Stockout Risk SKUs</span>
+                    <strong className="text-rose-700 text-sm">{simResult.projectedStockouts} SKUs</strong>
+                  </div>
+                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                    <span className="text-slate-500 block text-[10px]">Suggested Reroutes</span>
+                    <strong className="text-indigo-700 text-sm">{simResult.suggestedReroutes} Routes</strong>
+                  </div>
+                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                    <span className="text-slate-500 block text-[10px]">Buffer Runway</span>
+                    <strong className="text-emerald-700 text-sm">{simResult.estimatedBufferRunwayDays} Days</strong>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+              <Button variant="outline" size="sm" onClick={() => setIsSimModalOpen(false)}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                leftIcon={Play}
+                isLoading={isSimulating}
+                onClick={handleExecuteSimulation}
+              >
+                {isSimulating ? 'Processing Simulation...' : 'Execute Simulation'}
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+      )}
 
       {/* Modal: Confirm Emergency Mitigation Protocol */}
       {activeMitigationAlert && (
@@ -319,7 +614,7 @@ export function OverviewPage() {
           isOpen={Boolean(activeMitigationAlert)}
           onClose={() => setActiveMitigationAlert(null)}
           onConfirm={handleConfirmMitigation}
-          title={`Execute Protocol: ${activeMitigationAlert.sku}`}
+          title={`Execute Protocol: ${activeMitigationAlert.sku || activeMitigationAlert.title}`}
           description={`You are about to trigger the recommended emergency operational mitigation: "${activeMitigationAlert.recommendedAction}". Forward depots and telematics routes will immediately receive this instruction.`}
           confirmText="Confirm & Dispatch Protocol"
           cancelText="Dismiss"

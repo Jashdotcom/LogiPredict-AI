@@ -23,6 +23,7 @@ export function PriorityAlertsList({
   alerts = PRIORITY_ALERTS,
   isLoading = false,
   onResolve,
+  onSelectAlert,
 }) {
   if (isLoading) {
     return <SkeletonCard />;
@@ -48,9 +49,10 @@ export function PriorityAlertsList({
 
           return (
             <div
-              key={alert.id}
+              key={alert.id || alert.alert_id}
+              onClick={() => onSelectAlert && onSelectAlert(alert)}
               className={cn(
-                'p-3.5 rounded-xl border transition-all duration-150',
+                'p-3.5 rounded-xl border transition-all duration-150 cursor-pointer',
                 'hover:shadow-xs bg-slate-50/60 hover:bg-white',
                 alert.severity === 'critical' ? 'border-rose-200 bg-rose-50/30' : 'border-slate-200'
               )}
@@ -59,7 +61,7 @@ export function PriorityAlertsList({
               <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs font-bold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                    {alert.sku}
+                    {alert.sku || alert.item_id}
                   </span>
                   <Badge
                     variant={config.variant}
@@ -69,16 +71,16 @@ export function PriorityAlertsList({
                   >
                     {config.label}
                   </Badge>
-                  <span className="text-[11px] text-slate-400">• {alert.category}</span>
+                  <span className="text-[11px] text-slate-400">• {alert.category || 'Anomaly'}</span>
                 </div>
                 <div className="flex items-center gap-1 text-[11px] text-slate-400">
                   <Clock className="w-3 h-3" />
-                  <span>{alert.timestamp}</span>
+                  <span>{alert.timestamp || 'Recent'}</span>
                 </div>
               </div>
 
               {/* Alert Title */}
-              <h4 className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
+              <h4 className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug hover:text-indigo-600 transition-colors">
                 {alert.title}
               </h4>
 
@@ -99,7 +101,10 @@ export function PriorityAlertsList({
                   <strong className="text-indigo-600 font-medium">Mitigation: </strong>
                   {alert.recommendedAction}
                 </p>
-                <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
+                <div
+                  className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Button
                     variant={alert.severity === 'critical' ? 'danger' : 'primary'}
                     size="xs"

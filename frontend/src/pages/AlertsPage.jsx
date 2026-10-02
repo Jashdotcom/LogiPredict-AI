@@ -13,8 +13,8 @@ import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Card, CardHeader } from '../components/ui/Card';
-import { PRIORITY_ALERTS } from '../../data/mockDashboardData';
-import { getSeverityConfig } from '../../utils/statusHelpers';
+import { PRIORITY_ALERTS } from '../data/dashboard/dashboardMockData';
+import { getSeverityConfig } from '../utils/statusHelpers';
 import { KPICard } from '../components/dashboard/KpiCard';
 
 export function AlertsPage() {
@@ -22,14 +22,14 @@ export function AlertsPage() {
   const [resolvedIds, setResolvedIds] = useState([]);
 
   const filteredAlerts = PRIORITY_ALERTS.filter((alert) => {
-    if (resolvedIds.includes(alert.id)) return false;
+    const aid = alert.id || alert.alert_id;
+    if (resolvedIds.includes(aid)) return false;
     if (filterSeverity === 'all') return true;
     return alert.severity === filterSeverity;
   });
 
   const handleResolve = (id) => {
     setResolvedIds((prev) => [...prev, id]);
-    alert(`Alert ${id} marked as resolved: Automated mitigation workflow dispatched.`);
   };
 
   return (
@@ -40,7 +40,7 @@ export function AlertsPage() {
         breadcrumbs={[{ label: 'Predictive Alerts' }]}
         badge={
           <Badge variant="danger" size="sm" dot dotPulse>
-            {4 - resolvedIds.length} Active Anomalies
+            {PRIORITY_ALERTS.length - resolvedIds.length} Active Anomalies
           </Badge>
         }
         actions={
@@ -59,7 +59,7 @@ export function AlertsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
           title="Critical Alerts"
-          value={`${Math.max(0, 2 - resolvedIds.filter((id) => id === 'ALT-1049' || id === 'ALT-1047').length)}`}
+          value={`${PRIORITY_ALERTS.filter((a) => a.severity === 'critical' && !resolvedIds.includes(a.id || a.alert_id)).length}`}
           change="Immediate action"
           isPositive={false}
           timeframe="stockout & cold chain"
@@ -70,7 +70,7 @@ export function AlertsPage() {
         />
         <KPICard
           title="High Transit Risks"
-          value="1"
+          value={`${PRIORITY_ALERTS.filter((a) => a.severity === 'high' && !resolvedIds.includes(a.id || a.alert_id)).length}`}
           change="Expressway bypass"
           isPositive={true}
           timeframe="reroute active"
@@ -78,125 +78,116 @@ export function AlertsPage() {
           colorScheme="amber"
         />
         <KPICard
-          title="Automated Mitigations"
-          value="18"
-          change="+6 today"
+          title="Active Mitigations"
+          value={`${resolvedIds.length} resolved`}
+          change="Automated dispatch"
           isPositive={true}
-          timeframe="auto-POs & transfers"
-          iconName="Zap"
-          colorScheme="indigo"
-          status="Autonomous"
-          statusVariant="brand"
+          timeframe="autonomous protocols"
+          iconName="CheckCircle2"
+          colorScheme="emerald"
+          status="Secure"
+          statusVariant="success"
         />
         <KPICard
-          title="Mean Time to Resolve (MTTR)"
-          value="14.2 min"
-          change="-3.5 min"
+          title="Total Telemetry Alerts"
+          value={PRIORITY_ALERTS.length.toString()}
+          change="Monitored 24/7"
           isPositive={true}
-          timeframe="faster resolution"
-          iconName="PackageCheck"
-          colorScheme="emerald"
+          timeframe="all sectors"
+          iconName="BellRing"
+          colorScheme="indigo"
         />
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200/80 shadow-2xs">
+      {/* Filter Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider pl-1">
-            Filter:
-          </span>
-          {[
-            { id: 'all', label: 'All Alerts' },
-            { id: 'critical', label: 'Critical' },
-            { id: 'high', label: 'High Risk' },
-            { id: 'medium', label: 'Medium' },
-          ].map((tab) => (
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Severity Filter:</span>
+          {['all', 'critical', 'high', 'warning'].map((sev) => (
             <button
-              key={tab.id}
+              key={sev}
               type="button"
-              onClick={() => setFilterSeverity(tab.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                filterSeverity === tab.id
+              onClick={() => setFilterSeverity(sev)}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-colors cursor-pointer ${
+                filterSeverity === sev
                   ? 'bg-indigo-600 text-white shadow-2xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {tab.label}
+              {sev}
             </button>
           ))}
         </div>
-
-        <span className="text-xs text-slate-500 pr-2 font-medium">
-          Showing {filteredAlerts.length} actionable anomalies
-        </span>
+        <span className="text-xs text-slate-500">Showing {filteredAlerts.length} active alerts</span>
       </div>
 
-      {/* Alerts Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredAlerts.length === 0 ? (
-          <div className="col-span-2 p-12 text-center bg-white rounded-xl border border-slate-200">
-            <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-800">All Anomalies Resolved</h3>
-            <p className="text-xs text-slate-500 mt-1">
-              No active stockout or transit risks require attention at this time.
-            </p>
-          </div>
-        ) : (
-          filteredAlerts.map((alert) => {
-            const config = getSeverityConfig(alert.severity);
+      {/* Alerts List */}
+      <div className="space-y-4">
+        {filteredAlerts.map((alert) => {
+          const config = getSeverityConfig(alert.severity);
+          const alertId = alert.id || alert.alert_id;
 
-            return (
-              <Card key={alert.id} className="flex flex-col justify-between">
+          return (
+            <div
+              key={alertId}
+              className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-2xs space-y-3 hover:border-slate-300 transition-all"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                    {alertId}
+                  </span>
+                  <Badge variant={config.variant} size="xs" dot>
+                    {config.label}
+                  </Badge>
+                  <span className="text-xs text-slate-400">• {alert.category || 'Supply Chain'}</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-slate-400">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{alert.timestamp || alert.created_at}</span>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-base font-bold text-slate-900">{alert.title}</h3>
+                <p className="text-xs text-slate-600 mt-1">{alert.description}</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-lg border border-slate-100">
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                        {alert.sku}
-                      </span>
-                      <Badge variant={config.variant} size="xs" dot dotPulse={alert.severity === 'critical'}>
-                        {config.label}
-                      </Badge>
-                      <span className="text-xs text-slate-400">• {alert.category}</span>
-                    </div>
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> {alert.timestamp}
-                    </span>
-                  </div>
-
-                  <h3 className="text-sm font-bold text-slate-900 leading-snug mb-1">
-                    {alert.title}
-                  </h3>
-
-                  <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-2">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{alert.warehouse}</span>
-                  </div>
-
-                  <div className="mt-3 p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-xs text-rose-800">
-                    <strong>Predicted Impact: </strong>{alert.predictedImpact}
-                  </div>
-
-                  <div className="mt-2 text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                    <strong className="text-indigo-600">Recommended Action: </strong>
-                    {alert.recommendedAction}
-                  </div>
+                  <span className="text-slate-500 font-semibold block">Warehouse / Depot:</span>
+                  <span className="text-slate-900 font-medium">{alert.warehouse}</span>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
-                  <span className="text-[11px] text-slate-400">ID: {alert.id}</span>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => handleResolve(alert.id)}
-                    >
-                      Execute Mitigation
-                    </Button>
-                  </div>
+                <div>
+                  <span className="text-rose-700 font-semibold block">Predicted Impact:</span>
+                  <span className="text-rose-900 font-medium">{alert.predictedImpact}</span>
                 </div>
-              </Card>
-            );
-          })
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
+                <div className="text-xs text-slate-600">
+                  <strong className="text-indigo-600">Mitigation Protocol: </strong>
+                  {alert.recommendedAction}
+                </div>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  leftIcon={CheckCircle2}
+                  onClick={() => handleResolve(alertId)}
+                >
+                  Execute Mitigation Protocol
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+
+        {filteredAlerts.length === 0 && (
+          <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
+            <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
+            <h3 className="text-base font-bold text-slate-900">No Active Alerts Found</h3>
+            <p className="text-xs text-slate-500">All anomalies in this severity bracket have been successfully resolved.</p>
+          </div>
         )}
       </div>
     </div>
