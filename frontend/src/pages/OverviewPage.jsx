@@ -26,7 +26,7 @@ import { RecentActivityTable } from '../components/dashboard/RecentActivityTable
 import { QuickActionsBar } from '../components/dashboard/QuickActionsBar';
 import { dashboardService } from '../services/dashboardService';
 import { useToast } from '../hooks/useToast';
-import { formatDate } from '../utils/dateHelpers';
+import { formatDate } from '../utils/formatters';
 
 /**
  * Overview Page — Primary Command Center Dashboard for LogiPredict AI

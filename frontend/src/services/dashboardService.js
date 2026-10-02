@@ -15,7 +15,9 @@ import {
   PRIORITY_ALERTS,
   RECENT_ACTIVITIES,
   QUICK_ACTIONS,
+  INVENTORY_ITEMS,
 } from '../data/dashboard/dashboardMockData';
+import { generateDashboardKPIs } from '../utils/dashboardCalculations';
 
 export const dashboardService = {
   /**
@@ -27,7 +29,7 @@ export const dashboardService = {
     try {
       const response = await apiClient.get('/api/v1/dashboard/summary', { params });
       return {
-        kpis: response.kpis || DASHBOARD_KPIS,
+        kpis: response.kpis || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS),
         inventoryHealth: response.inventoryHealth || INVENTORY_HEALTH_DATA,
         inventoryDistribution: response.inventoryDistribution || INVENTORY_DISTRIBUTION_DATA,
         demandForecast: response.demandForecast || DEMAND_FORECAST_DATA,
@@ -38,12 +40,13 @@ export const dashboardService = {
       };
     } catch (error) {
       console.info(
-        '[dashboardService] Backend service offline or endpoint unavailable. Falling back to synthetic military telemetry data.',
+        '[dashboardService] Backend service offline or endpoint unavailable. Falling back to centralized synthetic military telemetry data.',
         error?.message
       );
-      // Fallback to synthetic dataset
+      // Fallback to centralized synthetic dataset with calculated KPIs
+      const calculatedKPIs = generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
       return {
-        kpis: DASHBOARD_KPIS,
+        kpis: calculatedKPIs,
         inventoryHealth: INVENTORY_HEALTH_DATA,
         inventoryDistribution: INVENTORY_DISTRIBUTION_DATA,
         demandForecast: DEMAND_FORECAST_DATA,
@@ -61,9 +64,9 @@ export const dashboardService = {
   async getKPIs() {
     try {
       const response = await apiClient.get('/api/v1/dashboard/kpis');
-      return response.data || DASHBOARD_KPIS;
+      return response.data || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
     } catch {
-      return DASHBOARD_KPIS;
+      return generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
     }
   },
 

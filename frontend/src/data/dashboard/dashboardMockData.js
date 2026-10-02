@@ -1,296 +1,158 @@
 /**
- * LogiPredict AI — Synthetic Dashboard Mock Data
- * =======================================================
- * Baseline synthetic datasets calibrated for Indian Army forward supply chain
- * demonstration under Smart India Hackathon (SIH 2026).
+ * LogiPredict AI — Centralized Dashboard Mock Data Aggregation Layer
+ * ==================================================================
+ * SYNTHETIC DATASET: Exclusively calibrated for SIH 2026 demonstration.
+ * Contains NO actual military inventory, classified logistics data, or real personnel.
  *
- * NOTE: These values are realistic synthetic samples designed for offline prototyping
- * and automatically fall back when the backend FastAPI services are unreachable.
+ * This file acts as the single import point for all dashboard data modules.
+ * It re-exports the dedicated datasets and derives summary metrics dynamically
+ * via dashboardCalculations.js rather than hardcoding summary values.
  */
 
-export const DASHBOARD_KPIS = [
-  {
-    id: 'total-inventory-items',
-    title: 'Total Monitored SKUs',
-    value: '12,480',
-    rawNumber: 12480,
-    unit: 'SKUs',
-    change: '+340',
-    trend: 'up',
-    isPositive: true,
-    timeframe: 'active catalog across all hubs',
-    description: 'Tracked across 6 regional logistics nodes',
-    status: 'Cataloged',
-    statusVariant: 'info',
-    iconName: 'Boxes',
-    colorScheme: 'indigo',
-  },
-  {
-    id: 'inventory-health',
-    title: 'Overall Inventory Health',
-    value: '94.2%',
-    rawNumber: 94.2,
-    unit: '',
-    change: '+2.4%',
-    trend: 'up',
-    isPositive: true,
-    timeframe: 'vs last 7-day cycle',
-    description: 'Weighted multi-echelon stock health score',
-    status: 'Optimal',
-    statusVariant: 'success',
-    iconName: 'PackageCheck',
-    colorScheme: 'emerald',
-  },
-  {
-    id: 'below-minimum-stock',
-    title: 'Items Below Safety Level',
-    value: '14',
-    rawNumber: 14,
-    unit: 'SKUs',
-    change: '-3 this week',
-    trend: 'down',
-    isPositive: true, // Downward trend in deficits is positive
-    timeframe: 'safety buffer deficit',
-    description: 'Requires inter-depot buffer replenishment',
-    status: 'Attention',
-    statusVariant: 'warning',
-    iconName: 'AlertOctagon',
-    colorScheme: 'amber',
-  },
-  {
-    id: 'predicted-stockouts',
-    title: 'Predicted Stockout Risks',
-    value: '3',
-    rawNumber: 3,
-    unit: 'SKUs',
-    change: '-2 mitigated',
-    trend: 'down',
-    isPositive: true, // Reduced stockout risk is positive
-    timeframe: 'within 72-hour window',
-    description: 'Flagged by hybrid neural demand model',
-    status: 'High Risk',
-    statusVariant: 'danger',
-    iconName: 'ShieldAlert',
-    colorScheme: 'rose',
-  },
-  {
-    id: 'pending-replenishments',
-    title: 'Pending Replenishments',
-    value: '18',
-    rawNumber: 18,
-    unit: 'POs',
-    change: '+6 today',
-    trend: 'up',
-    isPositive: true,
-    timeframe: 'auto & manual purchase orders',
-    description: 'Forward requisition orders queued for dispatch',
-    status: 'Dispatched',
-    statusVariant: 'info',
-    iconName: 'FileSpreadsheet',
-    colorScheme: 'blue',
-  },
-  {
-    id: 'active-priority-alerts',
-    title: 'Active Priority Alerts',
-    value: '4',
-    rawNumber: 4,
-    unit: 'Critical',
-    change: '+1 new',
-    trend: 'up',
-    isPositive: false, // New critical alerts is not positive
-    timeframe: 'immediate intervention',
-    description: 'Cold-chain, route blockades, & safety buffers',
-    status: 'Immediate',
-    statusVariant: 'danger',
-    iconName: 'BellRing',
-    colorScheme: 'rose',
-  },
-];
+// == Dedicated Data Modules ==
+import { INVENTORY_ITEMS } from './inventoryData';
+import { OVERVIEW_DEMAND_SERIES, DEMAND_HISTORY } from './demandHistory';
+import { FORECAST_RECORDS } from './forecastData';
+import { ALERT_RECORDS } from './alertData';
+import { ACTIVITY_RECORDS } from './activityData';
 
-export const INVENTORY_HEALTH_DATA = [
-  {
-    category: 'POL (Fuel & High Flash Diesel)',
-    optimal: 95,
-    current: 91,
-    safetyStock: 35,
-    reorderLevel: 45,
-    status: 'Healthy',
-  },
-  {
-    category: 'Combat Pack Rations & MREs',
-    optimal: 90,
-    current: 88,
-    safetyStock: 30,
-    reorderLevel: 40,
-    status: 'Healthy',
-  },
-  {
-    category: 'Ammunition & Artillery Fuzes',
-    optimal: 92,
-    current: 86,
-    safetyStock: 25,
-    reorderLevel: 35,
-    status: 'Healthy',
-  },
-  {
-    category: 'Cold-Chain Medical & Vaccines',
-    optimal: 96,
-    current: 72,
-    safetyStock: 40,
-    reorderLevel: 50,
-    status: 'Low Stock',
-  },
-  {
-    category: 'Extreme Winter Clothing (ECWCS)',
-    optimal: 88,
-    current: 42,
-    safetyStock: 30,
-    reorderLevel: 45,
-    status: 'Critical Stock',
-  },
-  {
-    category: 'Vehicle Spares & Batteries',
-    optimal: 85,
-    current: 82,
-    safetyStock: 20,
-    reorderLevel: 30,
-    status: 'Healthy',
-  },
-];
+// == Calculation Utilities ==
+import {
+  calculateInventoryMetrics,
+  calculateAlertMetrics,
+  generateDashboardKPIs,
+} from '../../utils/dashboardCalculations';
 
-export const INVENTORY_DISTRIBUTION_DATA = [
-  { name: 'Healthy Stock (80–100%)', value: 74, count: '9,235 SKUs', color: '#10b981' },
-  { name: 'Low Stock (40–79%)', value: 18, count: '2,246 SKUs', color: '#f59e0b' },
-  { name: 'Critical Stock (<40%)', value: 6, count: '748 SKUs', color: '#ef4444' },
-  { name: 'Out of Stock (0%)', value: 2, count: '251 SKUs', color: '#64748b' },
-];
+// ──────────────────────────────────────────────────────────────────────
+// 1. KPI Cards — Derived from source datasets, NOT hardcoded
+// ──────────────────────────────────────────────────────────────────────
+export const DASHBOARD_KPIS = generateDashboardKPIs(INVENTORY_ITEMS, ALERT_RECORDS, FORECAST_RECORDS);
 
-export const DEMAND_FORECAST_DATA = [
-  { day: 'Day 1 (Mon)', actual: 4200, forecast: 4150, lowerBound: 3900, upperBound: 4400 },
-  { day: 'Day 2 (Tue)', actual: 4480, forecast: 4400, lowerBound: 4100, upperBound: 4700 },
-  { day: 'Day 3 (Wed)', actual: 4890, forecast: 4750, lowerBound: 4400, upperBound: 5100 },
-  { day: 'Day 4 (Thu)', actual: 5120, forecast: 5100, lowerBound: 4800, upperBound: 5400 },
-  { day: 'Day 5 (Fri)', actual: 5600, forecast: 5550, lowerBound: 5200, upperBound: 5900 },
-  { day: 'Day 6 (Sat)', actual: 6100, forecast: 6250, lowerBound: 5800, upperBound: 6700 },
-  { day: 'Day 7 (Sun)', actual: 5300, forecast: 5400, lowerBound: 5000, upperBound: 5800 },
-  { day: 'Day 8 (Mon)', actual: null, forecast: 4600, lowerBound: 4200, upperBound: 5000 },
-  { day: 'Day 9 (Tue)', actual: null, forecast: 4900, lowerBound: 4500, upperBound: 5300 },
-  { day: 'Day 10 (Wed)', actual: null, forecast: 5350, lowerBound: 4900, upperBound: 5800 },
-  { day: 'Day 11 (Thu)', actual: null, forecast: 5800, lowerBound: 5300, upperBound: 6300 },
-  { day: 'Day 12 (Fri)', actual: null, forecast: 6400, lowerBound: 5900, upperBound: 6900 },
-  { day: 'Day 13 (Sat)', actual: null, forecast: 6950, lowerBound: 6400, upperBound: 7500 },
-  { day: 'Day 14 (Sun)', actual: null, forecast: 5900, lowerBound: 5400, upperBound: 6400 },
-];
+// ──────────────────────────────────────────────────────────────────────
+// 2. Inventory Health Charts — Category aggregation from inventory data
+// ──────────────────────────────────────────────────────────────────────
 
-export const PRIORITY_ALERTS = [
-  {
-    id: 'ALT-1049',
-    sku: 'SKU-8849',
-    title: 'Impending Stockout Risk: High-Flash Winter Diesel (HSD)',
-    warehouse: 'Forward Post Tango-4 (Leh Sector)',
-    severity: 'critical',
-    category: 'Critical Shortage',
-    predictedImpact: 'Depletion in 36 hours (Sub-zero blizzard warning active)',
-    recommendedAction: 'Trigger emergency 24,000L fuel convoy from Base Depot Udhampur',
-    timestamp: '12 minutes ago',
-    status: 'Action Required',
-  },
-  {
-    id: 'ALT-1048',
-    sku: 'SKU-4102',
-    title: 'Transit Bottleneck Delay: Lithium Iron Phosphate Cells',
-    warehouse: 'En-route JNPT Port -> Bengaluru DC',
-    severity: 'high',
-    category: 'Supply Delay',
-    predictedImpact: 'ETA slipped +14h due to Expressway landslide clearance',
-    recommendedAction: 'Switch route via NH-48 Bypass B to save 8.5 hours',
-    timestamp: '38 minutes ago',
-    status: 'Rerouting Active',
-  },
-  {
-    id: 'ALT-1047',
-    sku: 'SKU-2910',
-    title: 'Cold-Chain Ambient Temp Spike: High-Altitude Antivenom & Vaccines',
-    warehouse: 'Ahmedabad Cold Hub — Unit 2',
-    severity: 'critical',
-    category: 'Quality / Excursion',
-    predictedImpact: 'Temp reached +7.8°C (Threshold limit: +8.0°C)',
-    recommendedAction: 'Dispatch technician & reroute to backup refrigeration zone',
-    timestamp: '1 hour ago',
-    status: 'Technician Dispatched',
-  },
-  {
-    id: 'ALT-1046',
-    sku: 'SKU-7301',
-    title: 'Automated Reorder Threshold Reached: Corrugated 4-Ply Cartons',
-    warehouse: 'Delhi Central Logistics Hub',
-    severity: 'medium',
-    category: 'Replenishment Required',
-    predictedImpact: 'Remaining stock at 18% (Safety stock: 20%)',
-    recommendedAction: 'Draft PO #PO-9942 queued for supplier approval',
-    timestamp: '2 hours ago',
-    status: 'PO Drafted',
-  },
-];
+/**
+ * Aggregate inventory health by supply category.
+ * Each entry: { category, optimal, current, safetyStock, reorderLevel, status }
+ */
+function aggregateInventoryHealth(items) {
+  const categoryMap = {};
 
-export const RECENT_ACTIVITIES = [
-  {
-    id: 'ACT-901',
-    type: 'reorder',
-    activity: 'Automated PO Dispatched',
-    category: 'Replenishment',
-    item: 'Combat Rations Pack (3,500 units)',
-    resource: 'PO #PO-9942 -> Gurugram Depot',
-    timestamp: '15 mins ago',
-    user: 'AI Reorder Engine',
-    status: 'Completed',
-  },
-  {
-    id: 'ACT-902',
-    type: 'reroute',
-    activity: 'Dynamic Rerouting Applied',
-    category: 'Transit Optimization',
-    item: 'Convoy CV-09 (Fuel Tankers)',
-    resource: 'Corridor Zojila Pass -> Sonamarg Bypass',
-    timestamp: '42 mins ago',
-    user: 'GIS Telematics',
-    status: 'In Progress',
-  },
-  {
-    id: 'ACT-903',
-    type: 'model_sync',
-    activity: 'Neural Demand Inference Run',
-    category: 'AI Pipeline',
-    item: '14-Day Multi-Horizon Forecast',
-    resource: 'Ensemble LSTM-Prophet-XGBoost v1.4',
-    timestamp: '2 hours ago',
-    user: 'ML Pipeline',
-    status: 'Healthy',
-  },
-  {
-    id: 'ACT-904',
-    type: 'transfer',
-    activity: 'Inter-Hub Stock Rebalancing',
-    category: 'Inventory',
-    item: 'Extreme Cold Weather Suits (500 sets)',
-    resource: 'Nagpur Central -> Leh FOB',
-    timestamp: '3 hours ago',
-    user: 'Col. Rajesh Verma',
-    status: 'Dispatched',
-  },
-  {
-    id: 'ACT-905',
-    type: 'delivery',
-    activity: 'Forward Supply Delivered',
-    category: 'Logistics',
-    item: '155mm Artillery Propellant Fuzes',
-    resource: 'Forward Ammunition Depot 04',
-    timestamp: '5 hours ago',
-    user: 'Northern Command Escort',
-    status: 'Delivered',
-  },
-];
+  items.forEach((item) => {
+    const cat = item.category;
+    if (!categoryMap[cat]) {
+      categoryMap[cat] = { totalCurrent: 0, totalMax: 0, totalSafety: 0, totalReorder: 0, count: 0 };
+    }
+    categoryMap[cat].totalCurrent += item.current_stock;
+    categoryMap[cat].totalMax += item.maximum_capacity;
+    categoryMap[cat].totalSafety += item.minimum_stock;
+    categoryMap[cat].totalReorder += item.reorder_level;
+    categoryMap[cat].count += 1;
+  });
 
+  return Object.entries(categoryMap).map(([category, agg]) => {
+    const currentPct = agg.totalMax > 0 ? Math.round((agg.totalCurrent / agg.totalMax) * 100) : 100;
+    const optimalPct = Math.min(100, currentPct + Math.round(Math.random() * 6 + 2)); // slight optimal buffer
+    const safetyPct = agg.totalMax > 0 ? Math.round((agg.totalSafety / agg.totalMax) * 100) : 30;
+    const reorderPct = agg.totalMax > 0 ? Math.round((agg.totalReorder / agg.totalMax) * 100) : 40;
+
+    let status = 'Healthy';
+    if (currentPct < safetyPct) status = 'Critical Stock';
+    else if (currentPct < reorderPct) status = 'Low Stock';
+
+    return {
+      category,
+      optimal: optimalPct,
+      current: currentPct,
+      safetyStock: safetyPct,
+      reorderLevel: reorderPct,
+      status,
+    };
+  });
+}
+
+/**
+ * Calculate stock distribution buckets for the donut/pie chart.
+ */
+function calculateInventoryDistribution(items) {
+  let healthy = 0;
+  let low = 0;
+  let critical = 0;
+  let outOfStock = 0;
+
+  items.forEach((item) => {
+    const ratio = item.maximum_capacity > 0 ? (item.current_stock / item.maximum_capacity) * 100 : 100;
+    if (item.current_stock === 0) outOfStock++;
+    else if (ratio < 40 || item.current_stock < item.minimum_stock) critical++;
+    else if (ratio < 80 || item.current_stock < item.reorder_level) low++;
+    else healthy++;
+  });
+
+  const total = items.length;
+  return [
+    {
+      name: 'Healthy Stock (80–100%)',
+      value: total > 0 ? Math.round((healthy / total) * 100) : 0,
+      count: `${healthy} SKUs`,
+      color: '#10b981',
+    },
+    {
+      name: 'Low Stock (40–79%)',
+      value: total > 0 ? Math.round((low / total) * 100) : 0,
+      count: `${low} SKUs`,
+      color: '#f59e0b',
+    },
+    {
+      name: 'Critical Stock (<40%)',
+      value: total > 0 ? Math.round((critical / total) * 100) : 0,
+      count: `${critical} SKUs`,
+      color: '#ef4444',
+    },
+    {
+      name: 'Out of Stock (0%)',
+      value: total > 0 ? Math.round((outOfStock / total) * 100) : 0,
+      count: `${outOfStock} SKUs`,
+      color: '#64748b',
+    },
+  ];
+}
+
+export const INVENTORY_HEALTH_DATA = aggregateInventoryHealth(INVENTORY_ITEMS);
+export const INVENTORY_DISTRIBUTION_DATA = calculateInventoryDistribution(INVENTORY_ITEMS);
+
+// ──────────────────────────────────────────────────────────────────────
+// 3. Demand Forecast Chart Data — 14-day window (7 actual + 7 forecast)
+// ──────────────────────────────────────────────────────────────────────
+export const DEMAND_FORECAST_DATA = OVERVIEW_DEMAND_SERIES;
+
+// ──────────────────────────────────────────────────────────────────────
+// 4. Priority Alerts — Sorted by severity (critical first), then recency
+// ──────────────────────────────────────────────────────────────────────
+const SEVERITY_ORDER = { critical: 0, high: 1, warning: 2, medium: 3, info: 4 };
+
+export const PRIORITY_ALERTS = [...ALERT_RECORDS].sort((a, b) => {
+  const sevA = SEVERITY_ORDER[a.severity] ?? 5;
+  const sevB = SEVERITY_ORDER[b.severity] ?? 5;
+  if (sevA !== sevB) return sevA - sevB;
+  // More recent first (descending)
+  const dateA = new Date(a.created_at || 0).getTime();
+  const dateB = new Date(b.created_at || 0).getTime();
+  return dateB - dateA;
+});
+
+// ──────────────────────────────────────────────────────────────────────
+// 5. Recent Activities — Latest first
+// ──────────────────────────────────────────────────────────────────────
+export const RECENT_ACTIVITIES = [...ACTIVITY_RECORDS].sort((a, b) => {
+  const dateA = new Date(a.created_at || 0).getTime();
+  const dateB = new Date(b.created_at || 0).getTime();
+  return dateB - dateA;
+});
+
+// ──────────────────────────────────────────────────────────────────────
+// 6. Quick Actions — Unchanged, UI-only navigation shortcuts
+// ──────────────────────────────────────────────────────────────────────
 export const QUICK_ACTIONS = [
   {
     id: 'action-inventory',
@@ -334,6 +196,21 @@ export const QUICK_ACTIONS = [
   },
 ];
 
+// ──────────────────────────────────────────────────────────────────────
+// Re-export source data for cross-referencing by other modules
+// ──────────────────────────────────────────────────────────────────────
+export {
+  INVENTORY_ITEMS,
+  OVERVIEW_DEMAND_SERIES,
+  DEMAND_HISTORY,
+  FORECAST_RECORDS,
+  ALERT_RECORDS,
+  ACTIVITY_RECORDS,
+};
+
+// ──────────────────────────────────────────────────────────────────────
+// Default export for backward compatibility
+// ──────────────────────────────────────────────────────────────────────
 export default {
   DASHBOARD_KPIS,
   INVENTORY_HEALTH_DATA,
@@ -342,4 +219,8 @@ export default {
   PRIORITY_ALERTS,
   RECENT_ACTIVITIES,
   QUICK_ACTIONS,
+  INVENTORY_ITEMS,
+  FORECAST_RECORDS,
+  ALERT_RECORDS,
+  ACTIVITY_RECORDS,
 };
