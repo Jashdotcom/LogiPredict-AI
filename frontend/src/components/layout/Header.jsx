@@ -22,11 +22,13 @@ import { cn } from '../../utils/cn';
 
 // Route title dictionary
 const ROUTE_TITLES = {
-  '/': { title: 'Overview', category: 'Command Center' },
+  '/': { title: 'Dashboard', category: 'Command Center' },
   '/inventory': { title: 'Inventory Management', category: 'Stock & Storage' },
   '/forecasting': { title: 'Demand Forecasting', category: 'Predictive Intelligence' },
-  '/routes': { title: 'Route Planning', category: 'Fleet & Transit' },
+  '/routes': { title: 'GIS Route Planning', category: 'Fleet & Transit' },
+  '/supplies': { title: 'Supply Management', category: 'Forward Logistics' },
   '/alerts': { title: 'Predictive Alerts', category: 'Anomaly Detection' },
+  '/reports': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
   '/analytics': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
   '/settings': { title: 'Settings', category: 'System Configuration' },
 };

@@ -1,0 +1,126 @@
+import React from 'react';
+import {
+  LayoutDashboard,
+  Boxes,
+  TrendingUp,
+  Route,
+  Package,
+  AlertTriangle,
+  BarChart3,
+  Settings,
+  FileSpreadsheet,
+} from 'lucide-react';
+import {
+  OverviewPage,
+  InventoryPage,
+  ForecastingPage,
+  RoutesPage,
+  SuppliesPage,
+  AlertsPage,
+  AnalyticsPage,
+  ReportsPage,
+  SettingsPage,
+  NotFoundPage,
+} from '../pages';
+
+/**
+ * Centralized Route Table for LogiPredict AI
+ * Decouples route definitions, navigation menus, and page components.
+ */
+export const ROUTES_CONFIG = [
+  {
+    path: '/',
+    name: 'Dashboard',
+    category: 'Command Center',
+    element: <OverviewPage />,
+    icon: LayoutDashboard,
+    description: 'Real-time telemetry and executive summary',
+    inSidebar: true,
+  },
+  {
+    path: '/inventory',
+    name: 'Inventory Management',
+    category: 'Stock & Storage',
+    element: <InventoryPage />,
+    icon: Boxes,
+    description: 'Stock levels, safety stocks, and replenishment',
+    inSidebar: true,
+  },
+  {
+    path: '/forecasting',
+    name: 'Demand Forecasting',
+    category: 'Predictive Intelligence',
+    element: <ForecastingPage />,
+    icon: TrendingUp,
+    badge: 'AI Powered',
+    badgeVariant: 'brand',
+    description: 'Predictive time-series demand models & trends',
+    inSidebar: true,
+  },
+  {
+    path: '/routes',
+    name: 'GIS Route Planning',
+    category: 'Fleet & Transit',
+    element: <RoutesPage />,
+    icon: Route,
+    description: 'GIS tracking, dynamic rerouting & transit ETA',
+    inSidebar: true,
+  },
+  {
+    path: '/supplies',
+    name: 'Supply Management',
+    category: 'Forward Logistics',
+    element: <SuppliesPage />,
+    icon: Package,
+    description: 'Forward unit requisitions, convoy manifests, and POL fuel',
+    inSidebar: true,
+  },
+  {
+    path: '/alerts',
+    name: 'Predictive Alerts',
+    category: 'Anomaly Detection',
+    element: <AlertsPage />,
+    icon: AlertTriangle,
+    badge: '4',
+    badgeVariant: 'danger',
+    description: 'Anomaly detection and stockout risk warnings',
+    inSidebar: true,
+  },
+  {
+    path: '/reports',
+    name: 'Analytics & Reports',
+    category: 'Intelligence & Audits',
+    element: <ReportsPage />,
+    icon: BarChart3,
+    description: 'Supply chain KPIs, exportable audit reports',
+    inSidebar: true,
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    category: 'Intelligence & Audits',
+    element: <AnalyticsPage />,
+    icon: BarChart3,
+    description: 'Direct alias to analytics & audit engine',
+    inSidebar: false,
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    category: 'System Configuration',
+    element: <SettingsPage />,
+    icon: Settings,
+    description: 'Model parameters, API webhooks, and preferences',
+    inSidebar: false,
+    inSecondaryNav: true,
+  },
+  {
+    path: '*',
+    name: 'Not Found',
+    category: 'System',
+    element: <NotFoundPage />,
+    inSidebar: false,
+  },
+];
+
+export default ROUTES_CONFIG;

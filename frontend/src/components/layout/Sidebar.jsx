@@ -44,7 +44,7 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
               </span>
             </div>
             <span className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">
-              SIH 2026 Edition
+              Indian Army • SIH 2026
             </span>
           </div>
         </NavLink>
