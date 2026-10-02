@@ -5,4 +5,5 @@ export { InventoryHealthChart } from './InventoryHealthChart';
 export { DemandTrendChart } from './DemandTrendChart';
 export { PriorityAlertsList } from './PriorityAlertsList';
 export { RecentActivityFeed } from './RecentActivityFeed';
+export { RecentActivityTable } from './RecentActivityTable';
 export { QuickActionsBar } from './QuickActionsBar';

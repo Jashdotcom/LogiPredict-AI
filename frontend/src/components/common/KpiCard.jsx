@@ -1,1 +1,1 @@
-export { KPICard, KPICard as KpiCard, KPICard as default } from '../dashboard/KPICard';
+export { KPICard, KPICard as KpiCard, KPICard as default } from '../dashboard/KpiCard';
