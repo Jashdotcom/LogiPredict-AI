@@ -19,7 +19,7 @@ export function FilterBar({
   return (
     <div
       className={cn(
-        'bg-white p-3 sm:p-4 rounded-xl border border-slate-200/90 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3',
+        'bg-slate-900 p-3 sm:p-4 rounded-xl border border-slate-800 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3',
         className
       )}
     >
@@ -31,7 +31,7 @@ export function FilterBar({
 
       {/* Right side: Active Filters Count and Clear Action */}
       {(activeFilterCount > 0 || onClearFilters) && (
-        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 shrink-0">
+        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800 shrink-0">
           {activeFilterCount > 0 && (
             <Badge variant="brand" size="xs">
               {activeFilterCount} {activeFilterCount === 1 ? 'Filter' : 'Filters'} Active

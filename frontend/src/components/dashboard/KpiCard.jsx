@@ -36,36 +36,36 @@ const ICON_MAP = {
   Activity,
 };
 
-// Color scheme styles
+// Dark command-center color scheme styles
 const COLOR_SCHEMES = {
   indigo: {
-    iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-100',
-    accentBorder: 'hover:border-indigo-300',
+    iconBg: 'bg-indigo-950/80 text-indigo-400 border-indigo-800/60',
+    accentBorder: 'hover:border-indigo-700/60',
     badgeVariant: 'brand',
   },
   emerald: {
-    iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-    accentBorder: 'hover:border-emerald-300',
+    iconBg: 'bg-emerald-950/80 text-emerald-400 border-emerald-800/60',
+    accentBorder: 'hover:border-emerald-700/60',
     badgeVariant: 'success',
   },
   amber: {
-    iconBg: 'bg-amber-50 text-amber-600 border-amber-100',
-    accentBorder: 'hover:border-amber-300',
+    iconBg: 'bg-amber-950/80 text-amber-400 border-amber-800/60',
+    accentBorder: 'hover:border-amber-700/60',
     badgeVariant: 'warning',
   },
   rose: {
-    iconBg: 'bg-rose-50 text-rose-600 border-rose-100',
-    accentBorder: 'hover:border-rose-300',
+    iconBg: 'bg-rose-950/80 text-rose-400 border-rose-800/60',
+    accentBorder: 'hover:border-rose-700/60',
     badgeVariant: 'danger',
   },
   blue: {
-    iconBg: 'bg-blue-50 text-blue-600 border-blue-100',
-    accentBorder: 'hover:border-blue-300',
+    iconBg: 'bg-blue-950/80 text-blue-400 border-blue-800/60',
+    accentBorder: 'hover:border-blue-700/60',
     badgeVariant: 'info',
   },
   purple: {
-    iconBg: 'bg-purple-50 text-purple-600 border-purple-100',
-    accentBorder: 'hover:border-purple-300',
+    iconBg: 'bg-purple-950/80 text-purple-400 border-purple-800/60',
+    accentBorder: 'hover:border-purple-700/60',
     badgeVariant: 'purple',
   },
 };
@@ -94,14 +94,14 @@ export function KPICard({
 
   // Compute trend arrow icon & color
   let TrendIcon = Minus;
-  let trendColor = 'text-slate-500 bg-slate-100';
+  let trendColor = 'text-slate-400 bg-slate-800 border-slate-700';
 
   if (trend === 'up' || (change && change.startsWith('+'))) {
     TrendIcon = ArrowUpRight;
-    trendColor = isPositive ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-rose-700 bg-rose-50 border-rose-200';
+    trendColor = isPositive ? 'text-emerald-400 bg-emerald-950/80 border-emerald-800/60' : 'text-rose-400 bg-rose-950/80 border-rose-800/60';
   } else if (trend === 'down' || (change && change.startsWith('-'))) {
     TrendIcon = ArrowDownRight;
-    trendColor = isPositive ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-rose-700 bg-rose-50 border-rose-200';
+    trendColor = isPositive ? 'text-emerald-400 bg-emerald-950/80 border-emerald-800/60' : 'text-rose-400 bg-rose-950/80 border-rose-800/60';
   }
 
   return (
@@ -142,7 +142,7 @@ export function KPICard({
 
       {/* Main value display */}
       <div className="flex items-baseline gap-1.5 mb-2">
-        <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-numeric">
+        <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-100 font-numeric">
           {value}
         </span>
         {unit && (
@@ -154,7 +154,7 @@ export function KPICard({
 
       {/* Bottom row: Change indicator + timeframe */}
       {(change || description || timeframe) && (
-        <div className="pt-2 border-t border-slate-100/80 flex items-center justify-between text-xs gap-2">
+        <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs gap-2">
           {change && (
             <div
               className={cn(

@@ -15,7 +15,7 @@ export function Skeleton({ className = '', variant = 'rectangular', ...props }) 
     <div
       aria-hidden="true"
       className={cn(
-        'animate-pulse bg-slate-200/80 dark:bg-slate-700/60',
+        'animate-pulse bg-slate-800/60',
         variantStyles[variant] || variantStyles.rectangular,
         className
       )}
@@ -52,7 +52,7 @@ export function SkeletonCard({ className = '' }) {
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between h-36 animate-pulse',
+        'bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-sm flex flex-col justify-between h-36 animate-pulse',
         className
       )}
       aria-hidden="true"
@@ -65,7 +65,7 @@ export function SkeletonCard({ className = '' }) {
         <Skeleton variant="circular" className="w-10 h-10 shrink-0" />
       </div>
 
-      <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
+      <div className="flex items-center gap-2 pt-3 border-t border-slate-800">
         <Skeleton className="h-4 w-16 rounded" />
         <Skeleton className="h-3 w-24 rounded" />
       </div>
@@ -80,20 +80,20 @@ export function SkeletonTable({ rows = 5, cols = 4, className = '' }) {
   return (
     <div
       className={cn(
-        'w-full bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm animate-pulse',
+        'w-full bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-sm animate-pulse',
         className
       )}
       aria-hidden="true"
     >
       {/* Header bar */}
-      <div className="bg-slate-50 border-b border-slate-200 px-6 py-3.5 flex items-center justify-between gap-4">
+      <div className="bg-slate-900/80 border-b border-slate-800 px-6 py-3.5 flex items-center justify-between gap-4">
         {Array.from({ length: cols }).map((_, idx) => (
           <Skeleton key={idx} className="h-3.5 w-24 rounded" />
         ))}
       </div>
 
       {/* Rows */}
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-slate-800/60">
         {Array.from({ length: rows }).map((_, rIdx) => (
           <div key={rIdx} className="px-6 py-4 flex items-center justify-between gap-4">
             {Array.from({ length: cols }).map((_, cIdx) => (
@@ -116,7 +116,7 @@ export function SkeletonChart({ height = 'h-72', className = '' }) {
   return (
     <div
       className={cn(
-        'w-full bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col gap-4 animate-pulse',
+        'w-full bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-sm flex flex-col gap-4 animate-pulse',
         className
       )}
       aria-hidden="true"
@@ -129,7 +129,7 @@ export function SkeletonChart({ height = 'h-72', className = '' }) {
         <Skeleton className="h-8 w-44 rounded-lg" />
       </div>
 
-      <div className={cn('w-full bg-slate-50/70 rounded-lg flex items-end gap-3 p-6', height)}>
+      <div className={cn('w-full bg-slate-800/40 rounded-lg flex items-end gap-3 p-6', height)}>
         <Skeleton className="w-1/12 h-32 rounded-t" />
         <Skeleton className="w-1/12 h-48 rounded-t" />
         <Skeleton className="w-1/12 h-24 rounded-t" />

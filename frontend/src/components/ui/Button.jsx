@@ -25,25 +25,25 @@ export function Button({
 
   const variants = {
     primary:
-      'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-xs focus-visible:ring-indigo-500 focus-visible:ring-offset-white',
+      'bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700 shadow-xs focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
     brand:
-      'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-xs focus-visible:ring-indigo-500 focus-visible:ring-offset-white',
+      'bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700 shadow-xs focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
     secondary:
-      'bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300 border border-slate-200/80 focus-visible:ring-slate-400 focus-visible:ring-offset-white',
+      'bg-slate-800 text-slate-200 hover:bg-slate-700 active:bg-slate-800 border border-slate-700 focus-visible:ring-slate-400 focus-visible:ring-offset-slate-950',
     outline:
-      'bg-white text-slate-700 hover:bg-slate-50 active:bg-slate-100 border border-slate-300 shadow-2xs focus-visible:ring-indigo-500 focus-visible:ring-offset-white',
+      'bg-slate-900 text-slate-200 hover:bg-slate-800 active:bg-slate-900 border border-slate-700 shadow-2xs focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
     ghost:
-      'bg-transparent text-slate-600 hover:bg-slate-100 active:bg-slate-200 hover:text-slate-900 focus-visible:ring-slate-400 focus-visible:ring-offset-white',
+      'bg-transparent text-slate-400 hover:bg-slate-800/80 active:bg-slate-800 hover:text-slate-100 focus-visible:ring-slate-400 focus-visible:ring-offset-slate-950',
     destructive:
-      'bg-rose-600 text-white hover:bg-rose-700 active:bg-rose-800 shadow-xs focus-visible:ring-rose-500 focus-visible:ring-offset-white',
+      'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 shadow-xs focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
     danger:
-      'bg-rose-600 text-white hover:bg-rose-700 active:bg-rose-800 shadow-xs focus-visible:ring-rose-500 focus-visible:ring-offset-white',
+      'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 shadow-xs focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
     destructiveOutline:
-      'bg-white text-rose-600 hover:bg-rose-50 border border-rose-200 focus-visible:ring-rose-400 focus-visible:ring-offset-white',
+      'bg-slate-900 text-rose-400 hover:bg-rose-950/40 border border-rose-800/60 focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
     success:
-      'bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 shadow-xs focus-visible:ring-emerald-500 focus-visible:ring-offset-white',
+      'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700 shadow-xs focus-visible:ring-emerald-400 focus-visible:ring-offset-slate-950',
     subtleBrand:
-      'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-200 border border-indigo-200 focus-visible:ring-indigo-400 focus-visible:ring-offset-white',
+      'bg-indigo-950/80 text-indigo-300 hover:bg-indigo-900 active:bg-indigo-950 border border-indigo-800/70 focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
   };
 
   const sizes = {

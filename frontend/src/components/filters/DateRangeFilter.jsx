@@ -21,11 +21,11 @@ export function DateRangeFilter({
   return (
     <div
       className={cn(
-        'inline-flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600',
+        'inline-flex items-center p-1 bg-slate-900 rounded-lg border border-slate-800 text-xs font-semibold text-slate-400',
         className
       )}
     >
-      <div className="flex items-center gap-1 pl-1.5 pr-2 text-slate-400 border-r border-slate-200/80 mr-1 hidden sm:flex">
+      <div className="flex items-center gap-1 pl-1.5 pr-2 text-slate-500 border-r border-slate-700 mr-1 hidden sm:flex">
         <Calendar className="w-3.5 h-3.5" />
       </div>
       {presets.map((preset) => {
@@ -41,8 +41,8 @@ export function DateRangeFilter({
             className={cn(
               'px-2.5 py-1 rounded-md transition-all cursor-pointer text-xs select-none',
               isActive
-                ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                : 'hover:text-slate-900 text-slate-600'
+                ? 'bg-indigo-600 text-white shadow-2xs font-bold'
+                : 'hover:text-slate-200 text-slate-400'
             )}
           >
             {label}

@@ -14,11 +14,11 @@ export function Card({
   ...props
 }) {
   const variants = {
-    default: 'bg-white border border-slate-200/90 shadow-2xs',
-    flat: 'bg-slate-50/80 border border-slate-200/80',
-    elevated: 'bg-white border border-slate-200/90 shadow-md',
-    subtle: 'bg-indigo-50/40 border border-indigo-100',
-    bordered: 'bg-white border-2 border-slate-200',
+    default: 'bg-slate-900 border border-slate-800 shadow-2xs text-slate-100',
+    flat: 'bg-slate-950/80 border border-slate-800 text-slate-100',
+    elevated: 'bg-[#131b2e] border border-slate-800 shadow-md text-slate-100',
+    subtle: 'bg-indigo-950/30 border border-indigo-900/40 text-slate-100',
+    bordered: 'bg-slate-900 border-2 border-slate-700 text-slate-100',
   };
 
   const paddings = {
@@ -34,7 +34,7 @@ export function Card({
         'rounded-xl transition-all duration-150',
         variants[variant] || variants.default,
         paddings[padding] || paddings.default,
-        hoverable ? 'hover:shadow-md hover:border-slate-300' : '',
+        hoverable ? 'hover:shadow-md hover:border-slate-700' : '',
         className
       )}
       {...props}
@@ -56,18 +56,18 @@ export function CardHeader({
     <div
       className={cn(
         'flex items-start justify-between gap-4',
-        border ? 'pb-4 mb-4 border-b border-slate-100' : 'mb-4',
+        border ? 'pb-4 mb-4 border-b border-slate-800' : 'mb-4',
         className
       )}
     >
       <div className="space-y-0.5 min-w-0 flex-1">
         {title && (
-          <h3 className="text-base font-semibold text-slate-900 tracking-tight flex items-center gap-2 truncate">
+          <h3 className="text-base font-semibold text-slate-100 tracking-tight flex items-center gap-2 truncate">
             {title}
           </h3>
         )}
         {subtitle && (
-          <p className="text-xs text-slate-500 font-normal">{subtitle}</p>
+          <p className="text-xs text-slate-400 font-normal">{subtitle}</p>
         )}
         {children}
       </div>
@@ -78,7 +78,7 @@ export function CardHeader({
 
 export function CardTitle({ children, className = '' }) {
   return (
-    <h3 className={cn('text-base font-semibold text-slate-900 tracking-tight', className)}>
+    <h3 className={cn('text-base font-semibold text-slate-100 tracking-tight', className)}>
       {children}
     </h3>
   );
@@ -86,7 +86,7 @@ export function CardTitle({ children, className = '' }) {
 
 export function CardDescription({ children, className = '' }) {
   return (
-    <p className={cn('text-xs text-slate-500 mt-0.5', className)}>
+    <p className={cn('text-xs text-slate-400 mt-0.5', className)}>
       {children}
     </p>
   );
@@ -100,8 +100,8 @@ export function CardFooter({ children, className = '', border = true }) {
   return (
     <div
       className={cn(
-        'mt-5 pt-4 flex items-center justify-between gap-3 text-xs text-slate-500',
-        border ? 'border-t border-slate-100' : '',
+        'mt-5 pt-4 flex items-center justify-between gap-3 text-xs text-slate-400',
+        border ? 'border-t border-slate-800' : '',
         className
       )}
     >

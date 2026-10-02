@@ -53,14 +53,14 @@ export function PriorityAlertsList({
               onClick={() => onSelectAlert && onSelectAlert(alert)}
               className={cn(
                 'p-3.5 rounded-xl border transition-all duration-150 cursor-pointer',
-                'hover:shadow-xs bg-slate-50/60 hover:bg-white',
-                alert.severity === 'critical' ? 'border-rose-200 bg-rose-50/30' : 'border-slate-200'
+                'hover:shadow-xs bg-slate-800/40 hover:bg-slate-800/70',
+                alert.severity === 'critical' ? 'border-rose-800/60 bg-rose-950/30' : 'border-slate-700/60'
               )}
             >
               {/* Header row: SKU, Warehouse, Severity */}
               <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                  <span className="font-mono text-xs font-bold text-slate-200 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
                     {alert.sku || alert.item_id}
                   </span>
                   <Badge
@@ -71,34 +71,34 @@ export function PriorityAlertsList({
                   >
                     {config.label}
                   </Badge>
-                  <span className="text-[11px] text-slate-400">• {alert.category || 'Anomaly'}</span>
+                  <span className="text-[11px] text-slate-500">• {alert.category || 'Anomaly'}</span>
                 </div>
-                <div className="flex items-center gap-1 text-[11px] text-slate-400">
+                <div className="flex items-center gap-1 text-[11px] text-slate-500">
                   <Clock className="w-3 h-3" />
                   <span>{alert.timestamp || 'Recent'}</span>
                 </div>
               </div>
 
               {/* Alert Title */}
-              <h4 className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug hover:text-indigo-600 transition-colors">
+              <h4 className="text-xs sm:text-sm font-semibold text-slate-100 leading-snug hover:text-indigo-400 transition-colors">
                 {alert.title}
               </h4>
 
               {/* Location & Impact */}
               <div className="mt-2 text-xs space-y-1">
-                <div className="flex items-center gap-1.5 text-slate-600">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <div className="flex items-center gap-1.5 text-slate-400">
+                  <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                   <span className="truncate">{alert.warehouse}</span>
                 </div>
-                <p className="text-rose-800 font-medium bg-rose-100/60 px-2 py-1 rounded border border-rose-200 text-[11px]">
+                <p className="text-rose-400 font-medium bg-rose-950/60 px-2 py-1 rounded border border-rose-800/60 text-[11px]">
                   <strong>Impact: </strong> {alert.predictedImpact}
                 </p>
               </div>
 
               {/* Recommended Action & Action Button */}
-              <div className="mt-3 pt-2.5 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <p className="text-[11px] text-slate-600">
-                  <strong className="text-indigo-600 font-medium">Mitigation: </strong>
+              <div className="mt-3 pt-2.5 border-t border-slate-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <p className="text-[11px] text-slate-400">
+                  <strong className="text-indigo-400 font-medium">Mitigation: </strong>
                   {alert.recommendedAction}
                 </p>
                 <div
@@ -120,12 +120,12 @@ export function PriorityAlertsList({
         })}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span className="flex items-center gap-1 text-emerald-600 font-medium">
+      <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <span className="flex items-center gap-1 text-emerald-400 font-medium">
           <CheckCircle2 className="w-3.5 h-3.5" />
           Autonomous Mitigation: Online
         </span>
-        <Link to="/alerts" className="text-indigo-600 hover:text-indigo-700 font-medium">
+        <Link to="/alerts" className="text-indigo-400 hover:text-indigo-300 font-medium">
           Configure safety parameters &rarr;
         </Link>
       </div>

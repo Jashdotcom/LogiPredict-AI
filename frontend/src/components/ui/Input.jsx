@@ -43,13 +43,13 @@ export const Input = forwardRef(function Input(
           type={type}
           disabled={disabled}
           className={cn(
-            'w-full bg-slate-50/80 hover:bg-slate-100/80 focus:bg-white text-slate-900 placeholder:text-slate-400',
+            'w-full bg-[#0b0f19] hover:bg-[#131b2e] focus:bg-[#0f172a] text-slate-100 placeholder:text-slate-500',
             'border rounded-lg transition-all duration-150',
-            'focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-2xs',
+            'focus:outline-none focus:ring-2 focus:ring-indigo-500/30 shadow-2xs',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             error
-              ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20'
-              : 'border-slate-200/90 focus:border-indigo-500',
+              ? 'border-rose-500 focus:border-rose-400 focus:ring-rose-500/30'
+              : 'border-slate-800 focus:border-indigo-500',
             LeftIcon ? 'pl-9' : '',
             RightIcon ? 'pr-9' : '',
             sizes[size] || sizes.md,
@@ -64,7 +64,7 @@ export const Input = forwardRef(function Input(
         )}
       </div>
       {errorMessage && (
-        <p className="text-[11px] font-medium text-rose-600">{errorMessage}</p>
+        <p className="text-[11px] font-medium text-rose-400">{errorMessage}</p>
       )}
     </div>
   );

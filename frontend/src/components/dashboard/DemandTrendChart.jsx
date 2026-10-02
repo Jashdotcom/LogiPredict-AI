@@ -28,7 +28,7 @@ function CustomDemandTooltip({ active, payload, label }) {
     const upper = payload.find((p) => p.dataKey === 'upperBound')?.value;
 
     return (
-      <div className="bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-52 z-50">
+      <div className="bg-[#131b2e] text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-52 z-50">
         <p className="font-bold text-slate-100 border-b border-slate-800 pb-1.5">
           {label}
         </p>
@@ -79,15 +79,15 @@ export function DemandTrendChart({
         }
       />
 
-      {/* Model accuracy telemetry chips */}
+      {/* Model accuracy telemetry chips — dark tokens */}
       <div className="flex flex-wrap items-center gap-2 mb-3 px-1 text-xs">
-        <span className="bg-indigo-50 border border-indigo-100 text-indigo-700 px-2.5 py-1 rounded-md font-medium">
+        <span className="bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 px-2.5 py-1 rounded-md font-medium">
           Model Accuracy: <strong>96.8%</strong>
         </span>
-        <span className="bg-slate-100 border border-slate-200 text-slate-700 px-2.5 py-1 rounded-md">
+        <span className="bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-md">
           MAPE: <strong>3.2%</strong>
         </span>
-        <span className="bg-slate-100 border border-slate-200 text-slate-700 px-2.5 py-1 rounded-md">
+        <span className="bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-md">
           Horizon: <strong>14 Days</strong>
         </span>
       </div>
@@ -111,17 +111,17 @@ export function DemandTrendChart({
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
             <XAxis
               dataKey="day"
               tick={{ fill: '#64748b', fontSize: 10 }}
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
+              axisLine={{ stroke: '#334155' }}
             />
             <YAxis
               tick={{ fill: '#64748b', fontSize: 11 }}
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
+              axisLine={{ stroke: '#334155' }}
               tickFormatter={(v) => `${(v / 1000).toFixed(1)}k`}
             />
             <Tooltip content={<CustomDemandTooltip />} />
@@ -139,7 +139,7 @@ export function DemandTrendChart({
               strokeDasharray="4 4"
               label={{
                 value: 'Today (Forecast Horizon)',
-                fill: '#475569',
+                fill: '#94a3b8',
                 fontSize: 10,
                 position: 'insideTopLeft',
               }}
@@ -171,9 +171,9 @@ export function DemandTrendChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-auto pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
-        <span className="flex items-center gap-1.5 text-indigo-700 font-medium">
-          <TrendingUp className="w-4 h-4 text-indigo-600" />
+      <div className="mt-auto pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+        <span className="flex items-center gap-1.5 text-indigo-400 font-medium">
+          <TrendingUp className="w-4 h-4 text-indigo-400" />
           +14.2% demand surge projected on Day 13 (Weekend Buffer)
         </span>
         <span className="text-slate-500">Updated: 15 mins ago</span>

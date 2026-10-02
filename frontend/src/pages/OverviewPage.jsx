@@ -288,7 +288,7 @@ export function OverviewPage() {
             <div
               role="group"
               aria-label="Select Telemetry Timeframe"
-              className="inline-flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600"
+              className="inline-flex items-center p-1 bg-slate-900 rounded-lg border border-slate-800 text-xs font-semibold text-slate-400"
             >
               {[
                 { id: '24h', label: '24h' },
@@ -302,8 +302,8 @@ export function OverviewPage() {
                   onClick={() => setSelectedTimeframe(tf.id)}
                   className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                     selectedTimeframe === tf.id
-                      ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                      : 'hover:text-slate-900 text-slate-600'
+                      ? 'bg-slate-800/80 text-indigo-400 shadow-2xs font-bold'
+                      : 'hover:text-slate-200 text-slate-400'
                   }`}
                 >
                   {tf.label}
@@ -348,15 +348,15 @@ export function OverviewPage() {
       />
 
       {/* Military Operational Context & Date Sub-header */}
-      <div className="bg-white rounded-xl p-3.5 sm:p-4 border border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="flex flex-wrap items-center gap-3 text-slate-600">
-          <div className="flex items-center gap-1.5 font-semibold text-slate-900">
-            <Calendar className="w-4 h-4 text-indigo-600 shrink-0" />
+      <div className="bg-slate-900 rounded-xl p-3.5 sm:p-4 border border-slate-800 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex flex-wrap items-center gap-3 text-slate-400">
+          <div className="flex items-center gap-1.5 font-semibold text-slate-200">
+            <Calendar className="w-4 h-4 text-indigo-400 shrink-0" />
             <span>Operational Cycle: <strong>{formattedToday}</strong></span>
           </div>
-          <span className="text-slate-300 hidden sm:inline">|</span>
-          <div className="flex items-center gap-1.5 text-slate-600">
-            <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span className="text-slate-700 hidden sm:inline">|</span>
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span>Last Telemetry Sync: <strong>{formatDate(lastSynced, true)}</strong></span>
           </div>
         </div>
@@ -445,28 +445,28 @@ export function OverviewPage() {
               </Badge>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs">
               <div>
-                <strong className="text-slate-700">Warehouse / Depot:</strong>
-                <p className="text-slate-900 font-medium mt-0.5">{selectedAlertDetail.warehouse}</p>
+                <strong className="text-slate-400">Warehouse / Depot:</strong>
+                <p className="text-slate-100 font-medium mt-0.5">{selectedAlertDetail.warehouse}</p>
               </div>
               <div>
-                <strong className="text-slate-700">Trigger Condition / Description:</strong>
-                <p className="text-slate-900 mt-0.5">{selectedAlertDetail.description}</p>
+                <strong className="text-slate-400">Trigger Condition / Description:</strong>
+                <p className="text-slate-300 mt-0.5">{selectedAlertDetail.description}</p>
               </div>
               <div>
-                <strong className="text-rose-700">Predicted Impact:</strong>
-                <p className="text-rose-900 font-medium mt-0.5">{selectedAlertDetail.predictedImpact}</p>
+                <strong className="text-rose-500">Predicted Impact:</strong>
+                <p className="text-rose-400 font-medium mt-0.5">{selectedAlertDetail.predictedImpact}</p>
               </div>
               <div>
-                <strong className="text-indigo-700">Recommended Mitigation Action:</strong>
-                <p className="text-indigo-900 font-semibold mt-0.5">{selectedAlertDetail.recommendedAction}</p>
+                <strong className="text-indigo-400">Recommended Mitigation Action:</strong>
+                <p className="text-indigo-300 font-semibold mt-0.5">{selectedAlertDetail.recommendedAction}</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+            <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-500">
               <span>Timestamp: {selectedAlertDetail.timestamp || selectedAlertDetail.created_at}</span>
-              <span className="italic text-slate-400">SIH 2026 Synthetic Demonstration Data</span>
+              <span className="italic text-slate-600">SIH 2026 Synthetic Demonstration Data</span>
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-3">
@@ -501,7 +501,7 @@ export function OverviewPage() {
         >
           <div className="space-y-4 py-2">
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
                 Select Stress Scenario
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -516,12 +516,12 @@ export function OverviewPage() {
                     onClick={() => setSelectedScenario(scen.id)}
                     className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                       selectedScenario === scen.id
-                        ? 'bg-indigo-50/80 border-indigo-300 ring-2 ring-indigo-500/20 shadow-2xs'
-                        : 'bg-white border-slate-200 hover:border-slate-300'
+                        ? 'bg-indigo-950/40 border-indigo-500/50 ring-1 ring-indigo-500 shadow-2xs'
+                        : 'bg-slate-900 border-slate-700 hover:border-slate-600'
                     }`}
                   >
-                    <span className="font-bold text-xs text-slate-900 block">{scen.name}</span>
-                    <span className="text-[11px] text-slate-500 mt-1 block leading-tight">{scen.desc}</span>
+                    <span className="font-bold text-xs text-slate-100 block">{scen.name}</span>
+                    <span className="text-[11px] text-slate-400 mt-1 block leading-tight">{scen.desc}</span>
                   </button>
                 ))}
               </div>
@@ -529,7 +529,7 @@ export function OverviewPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
                   Lead Time Multiplier: <strong>{simLeadTime}x</strong>
                 </label>
                 <input
@@ -539,13 +539,13 @@ export function OverviewPage() {
                   step="0.2"
                   value={simLeadTime}
                   onChange={(e) => setSimLeadTime(parseFloat(e.target.value))}
-                  className="w-full accent-indigo-600 cursor-pointer"
+                  className="w-full accent-indigo-500 cursor-pointer"
                 />
-                <span className="text-[11px] text-slate-400">Delays transit across mountain corridors</span>
+                <span className="text-[11px] text-slate-500">Delays transit across mountain corridors</span>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
                   Emergency Demand Surge: <strong>+{simDemandSurge}%</strong>
                 </label>
                 <input
@@ -555,42 +555,42 @@ export function OverviewPage() {
                   step="5"
                   value={simDemandSurge}
                   onChange={(e) => setSimDemandSurge(parseInt(e.target.value))}
-                  className="w-full accent-indigo-600 cursor-pointer"
+                  className="w-full accent-indigo-500 cursor-pointer"
                 />
-                <span className="text-[11px] text-slate-400">Spike in combat rations, POL & medical</span>
+                <span className="text-[11px] text-slate-500">Spike in combat rations, POL & medical</span>
               </div>
             </div>
 
             {simResult && (
-              <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-2 animate-in fade-in">
+              <div className="bg-emerald-950/40 p-4 rounded-xl border border-emerald-900/60 space-y-2 animate-in fade-in">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-emerald-900 text-xs uppercase tracking-wide">
+                  <span className="font-bold text-emerald-400 text-xs uppercase tracking-wide">
                     Simulation Output: {simResult.scenarioName}
                   </span>
                   <Badge variant="success" size="xs">Resilience Score: {simResult.resilienceScore}</Badge>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
-                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-700/60">
                     <span className="text-slate-500 block text-[10px]">Impacted Hubs</span>
-                    <strong className="text-slate-900 text-sm">{simResult.impactedHubs} Hubs</strong>
+                    <strong className="text-slate-200 text-sm">{simResult.impactedHubs} Hubs</strong>
                   </div>
-                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-700/60">
                     <span className="text-slate-500 block text-[10px]">Stockout Risk SKUs</span>
-                    <strong className="text-rose-700 text-sm">{simResult.projectedStockouts} SKUs</strong>
+                    <strong className="text-rose-400 text-sm">{simResult.projectedStockouts} SKUs</strong>
                   </div>
-                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-700/60">
                     <span className="text-slate-500 block text-[10px]">Suggested Reroutes</span>
-                    <strong className="text-indigo-700 text-sm">{simResult.suggestedReroutes} Routes</strong>
+                    <strong className="text-indigo-400 text-sm">{simResult.suggestedReroutes} Routes</strong>
                   </div>
-                  <div className="bg-white p-2 rounded-lg border border-emerald-100">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-700/60">
                     <span className="text-slate-500 block text-[10px]">Buffer Runway</span>
-                    <strong className="text-emerald-700 text-sm">{simResult.estimatedBufferRunwayDays} Days</strong>
+                    <strong className="text-emerald-400 text-sm">{simResult.estimatedBufferRunwayDays} Days</strong>
                   </div>
                 </div>
               </div>
             )}
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
               <Button variant="outline" size="sm" onClick={() => setIsSimModalOpen(false)}>
                 Close
               </Button>

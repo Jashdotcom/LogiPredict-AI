@@ -19,10 +19,10 @@ export function LoadingState({
         className
       )}
     >
-      <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-3 border border-indigo-100">
-        <Loader2 className="w-6 h-6 animate-spin text-indigo-600" />
+      <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-indigo-950/80 text-indigo-400 mb-3 border border-indigo-800/60">
+        <Loader2 className="w-6 h-6 animate-spin text-indigo-400" />
       </div>
-      <p className="text-sm font-semibold text-slate-800">{message}</p>
+      <p className="text-sm font-semibold text-slate-200">{message}</p>
       {description && (
         <p className="text-xs text-slate-500 mt-1 max-w-xs">{description}</p>
       )}

@@ -46,8 +46,8 @@ export function SettingsPage() {
       />
 
       {isSaved && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2 text-xs sm:text-sm font-semibold animate-in slide-in-from-top duration-150">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-800/60 text-emerald-400 flex items-center gap-2 text-xs sm:text-sm font-semibold animate-in slide-in-from-top duration-150">
+          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
           <span>System parameters updated across all 6 regional warehouse nodes.</span>
         </div>
       )}
@@ -62,26 +62,26 @@ export function SettingsPage() {
             />
             <div className="space-y-4 text-xs sm:text-sm">
               <div>
-                <label className="block font-semibold text-slate-800 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   Forecast Time Horizon (Days)
                 </label>
                 <select
                   value={horizon}
                   onChange={(e) => setHorizon(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-300 focus:outline-none focus:border-indigo-500 font-medium cursor-pointer"
                 >
                   <option value="7">7 Days Forward (Short-term High Precision)</option>
                   <option value="14">14 Days Forward (Standard Recommended)</option>
                   <option value="30">30 Days Forward (Monthly Planning)</option>
                   <option value="90">90 Days Forward (Quarterly Macro)</option>
                 </select>
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Affects lookahead window in Demand Forecasting and Stockout calculations.
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   Confidence Interval Level (%)
                 </label>
                 <input
@@ -90,15 +90,15 @@ export function SettingsPage() {
                   max="99"
                   value={confidence}
                   onChange={(e) => setConfidence(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-300 focus:outline-none focus:border-indigo-500 font-medium"
                 />
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Statistical confidence band used for upper and lower demand bounds.
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   Minimum Safety Buffer Threshold (%)
                 </label>
                 <input
@@ -107,9 +107,9 @@ export function SettingsPage() {
                   max="50"
                   value={safetyBuffer}
                   onChange={(e) => setSafetyBuffer(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-300 focus:outline-none focus:border-indigo-500 font-medium"
                 />
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Triggers warning alerts whenever stock levels fall below this percentage of maximum capacity.
                 </p>
               </div>
@@ -127,10 +127,10 @@ export function SettingsPage() {
                   type="checkbox"
                   checked={autoPO}
                   onChange={(e) => setAutoPO(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+                  className="mt-1 w-4 h-4 rounded text-indigo-500 bg-slate-950 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900"
                 />
                 <div>
-                  <span className="font-semibold text-slate-800">
+                  <span className="font-semibold text-slate-300">
                     Enable Autonomous Draft Purchase Order Generation
                   </span>
                   <p className="text-[11px] text-slate-500">
@@ -143,10 +143,10 @@ export function SettingsPage() {
                 <input
                   type="checkbox"
                   defaultChecked
-                  className="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+                  className="mt-1 w-4 h-4 rounded text-indigo-500 bg-slate-950 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900"
                 />
                 <div>
-                  <span className="font-semibold text-slate-800">
+                  <span className="font-semibold text-slate-300">
                     Dynamic Route Congestion Bypass
                   </span>
                   <p className="text-[11px] text-slate-500">
@@ -174,10 +174,10 @@ export function SettingsPage() {
                 { name: 'Chennai Auto Port Hub', code: 'MAA-02', status: 'Online' },
                 { name: 'Nagpur Buffer Node', code: 'NAG-01', status: 'Online' },
               ].map((hub) => (
-                <div key={hub.code} className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div key={hub.code} className="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
                   <div>
-                    <span className="font-semibold text-slate-800">{hub.name}</span>
-                    <span className="block text-[10px] text-slate-400 font-mono">{hub.code}</span>
+                    <span className="font-semibold text-slate-300">{hub.name}</span>
+                    <span className="block text-[10px] text-slate-500 font-mono">{hub.code}</span>
                   </div>
                   <Badge variant="success" size="xs" dot>
                     {hub.status}
@@ -192,22 +192,22 @@ export function SettingsPage() {
               title="System Build Info"
               subtitle="Prototype metadata for SIH 2026"
             />
-            <div className="space-y-2 text-xs text-slate-600">
-              <div className="flex justify-between py-1 border-b border-slate-100">
+            <div className="space-y-2 text-xs text-slate-400">
+              <div className="flex justify-between py-1 border-b border-slate-800">
                 <span>Application:</span>
-                <span className="font-bold text-slate-800">LogiPredict AI</span>
+                <span className="font-bold text-slate-300">LogiPredict AI</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100">
+              <div className="flex justify-between py-1 border-b border-slate-800">
                 <span>Version:</span>
-                <span className="font-mono text-indigo-600">v1.4.0-rc</span>
+                <span className="font-mono text-indigo-400">v1.4.0-rc</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100">
+              <div className="flex justify-between py-1 border-b border-slate-800">
                 <span>Environment:</span>
-                <span className="font-medium text-slate-700">SIH 2026 Prototype</span>
+                <span className="font-medium text-slate-300">SIH 2026 Prototype</span>
               </div>
               <div className="flex justify-between py-1">
                 <span>UI Framework:</span>
-                <span className="font-medium text-slate-700">React 19 + Tailwind v4</span>
+                <span className="font-medium text-slate-300">React 19 + Tailwind v4</span>
               </div>
             </div>
           </Card>

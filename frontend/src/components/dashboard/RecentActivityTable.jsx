@@ -66,11 +66,11 @@ export function RecentActivityTable({
 
         return (
           <div className="flex items-start gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 mt-0.5">
+            <div className="w-7 h-7 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center shrink-0 mt-0.5">
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div>
-              <span className="font-semibold text-xs sm:text-sm text-slate-900 block leading-tight">
+              <span className="font-semibold text-xs sm:text-sm text-slate-100 block leading-tight">
                 {row.activity}
               </span>
               <span className="text-xs text-slate-500 font-normal">
@@ -86,7 +86,7 @@ export function RecentActivityTable({
       title: 'Domain',
       sortable: true,
       render: (row) => (
-        <span className="text-xs font-medium text-slate-600 bg-slate-100/70 px-2 py-0.5 rounded border border-slate-200">
+        <span className="text-xs font-medium text-slate-300 bg-slate-800/70 px-2 py-0.5 rounded border border-slate-700">
           {row.category}
         </span>
       ),
@@ -96,7 +96,7 @@ export function RecentActivityTable({
       title: 'Destination / Corridor',
       sortable: true,
       render: (row) => (
-        <span className="text-xs font-mono text-slate-700">
+        <span className="text-xs font-mono text-slate-300">
           {row.resource}
         </span>
       ),
@@ -106,7 +106,7 @@ export function RecentActivityTable({
       title: 'Triggered By',
       sortable: true,
       render: (row) => (
-        <span className="text-xs text-slate-600 font-medium">
+        <span className="text-xs text-slate-400 font-medium">
           {row.user}
         </span>
       ),
@@ -148,8 +148,8 @@ export function RecentActivityTable({
                 onClick={() => setFilterCategory(cat)}
                 className={`px-2 py-1 rounded text-xs font-medium capitalize transition-colors cursor-pointer ${
                   filterCategory === cat
-                    ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold'
-                    : 'text-slate-500 hover:text-slate-800'
+                    ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-800/60 font-semibold'
+                    : 'text-slate-500 hover:text-slate-200'
                 }`}
               >
                 {cat}
@@ -168,12 +168,12 @@ export function RecentActivityTable({
         />
       </div>
 
-      <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+      <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
         <span>Showing {filteredActivities.length} recent operational events</span>
         <button
           type="button"
           onClick={() => alert('Exporting full military logistics audit trail (SIH 2026 format)...')}
-          className="text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-1 cursor-pointer"
+          className="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1 cursor-pointer"
         >
           Export Telemetry Trail <ArrowUpRight className="w-3 h-3" />
         </button>

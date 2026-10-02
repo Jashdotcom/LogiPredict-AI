@@ -42,11 +42,11 @@ export function PageHeader({
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-xs text-slate-500 mb-1 flex-wrap"
+            className="flex items-center gap-1.5 text-xs text-slate-400 mb-1 flex-wrap font-medium"
           >
             <Link
               to="/"
-              className="inline-flex items-center gap-1 hover:text-indigo-600 transition-colors focus:outline-none focus-visible:underline"
+              className="inline-flex items-center gap-1 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:underline text-slate-400"
             >
               <Home className="w-3.5 h-3.5" />
               <span>LogiPredict</span>
@@ -57,16 +57,16 @@ export function PageHeader({
 
               return (
                 <React.Fragment key={idx}>
-                  <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                  <ChevronRight className="w-3 h-3 text-slate-500 shrink-0" />
                   {targetUrl && !isLast ? (
                     <Link
                       to={targetUrl}
-                      className="hover:text-indigo-600 transition-colors focus:outline-none focus-visible:underline"
+                      className="hover:text-indigo-400 transition-colors focus:outline-none focus-visible:underline text-slate-400"
                     >
                       {crumb.label}
                     </Link>
                   ) : (
-                    <span className="font-medium text-slate-800" aria-current={isLast ? 'page' : undefined}>
+                    <span className="font-semibold text-slate-200" aria-current={isLast ? 'page' : undefined}>
                       {crumb.label}
                     </span>
                   )}
@@ -78,7 +78,7 @@ export function PageHeader({
 
         {/* Title & Badge */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">
             {title}
           </h1>
           {badge}
@@ -86,7 +86,7 @@ export function PageHeader({
 
         {/* Subtitle / Description */}
         {displayDescription && (
-          <p className="text-xs sm:text-sm text-slate-500 max-w-3xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed">
             {displayDescription}
           </p>
         )}

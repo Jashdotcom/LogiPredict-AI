@@ -100,9 +100,9 @@ export function AlertsPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-2xs">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Severity Filter:</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Severity Filter:</span>
           {['all', 'critical', 'high', 'warning'].map((sev) => (
             <button
               key={sev}
@@ -111,7 +111,7 @@ export function AlertsPage() {
               className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-colors cursor-pointer ${
                 filterSeverity === sev
                   ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
               {sev}
@@ -130,43 +130,43 @@ export function AlertsPage() {
           return (
             <div
               key={alertId}
-              className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-2xs space-y-3 hover:border-slate-300 transition-all"
+              className="bg-slate-900 p-4 sm:p-5 rounded-xl border border-slate-800 shadow-2xs space-y-3 hover:border-slate-700 transition-all"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  <span className="font-mono text-xs font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                     {alertId}
                   </span>
                   <Badge variant={config.variant} size="xs" dot>
                     {config.label}
                   </Badge>
-                  <span className="text-xs text-slate-400">• {alert.category || 'Supply Chain'}</span>
+                  <span className="text-xs text-slate-500">• {alert.category || 'Supply Chain'}</span>
                 </div>
-                <div className="flex items-center gap-1 text-xs text-slate-400">
+                <div className="flex items-center gap-1 text-xs text-slate-500">
                   <Clock className="w-3.5 h-3.5" />
                   <span>{alert.timestamp || alert.created_at}</span>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-slate-900">{alert.title}</h3>
-                <p className="text-xs text-slate-600 mt-1">{alert.description}</p>
+                <h3 className="text-base font-bold text-slate-100">{alert.title}</h3>
+                <p className="text-xs text-slate-400 mt-1">{alert.description}</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-lg border border-slate-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-800/40 p-3 rounded-lg border border-slate-700/60">
                 <div>
                   <span className="text-slate-500 font-semibold block">Warehouse / Depot:</span>
-                  <span className="text-slate-900 font-medium">{alert.warehouse}</span>
+                  <span className="text-slate-300 font-medium">{alert.warehouse}</span>
                 </div>
                 <div>
-                  <span className="text-rose-700 font-semibold block">Predicted Impact:</span>
-                  <span className="text-rose-900 font-medium">{alert.predictedImpact}</span>
+                  <span className="text-rose-500 font-semibold block">Predicted Impact:</span>
+                  <span className="text-rose-400 font-medium">{alert.predictedImpact}</span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
-                <div className="text-xs text-slate-600">
-                  <strong className="text-indigo-600">Mitigation Protocol: </strong>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-800">
+                <div className="text-xs text-slate-400">
+                  <strong className="text-indigo-400">Mitigation Protocol: </strong>
                   {alert.recommendedAction}
                 </div>
                 <Button
@@ -183,9 +183,9 @@ export function AlertsPage() {
         })}
 
         {filteredAlerts.length === 0 && (
-          <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
-            <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-            <h3 className="text-base font-bold text-slate-900">No Active Alerts Found</h3>
+          <div className="bg-slate-900 p-12 rounded-xl border border-slate-800 text-center space-y-3">
+            <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+            <h3 className="text-base font-bold text-slate-100">No Active Alerts Found</h3>
             <p className="text-xs text-slate-500">All anomalies in this severity bracket have been successfully resolved.</p>
           </div>
         )}

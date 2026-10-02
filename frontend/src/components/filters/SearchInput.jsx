@@ -63,14 +63,14 @@ export function SearchInput({
       {isLoading ? (
         <Loader2
           className={cn(
-            'absolute text-indigo-600 animate-spin pointer-events-none',
+            'absolute text-indigo-400 animate-spin pointer-events-none',
             iconSizes[size] || iconSizes.md
           )}
         />
       ) : (
         <Search
           className={cn(
-            'absolute text-slate-400 pointer-events-none transition-colors',
+            'absolute text-slate-500 pointer-events-none transition-colors',
             iconSizes[size] || iconSizes.md
           )}
         />
@@ -83,9 +83,9 @@ export function SearchInput({
         placeholder={placeholder}
         autoFocus={autoFocus}
         className={cn(
-          'w-full bg-slate-50/80 hover:bg-slate-100/80 focus:bg-white text-slate-900 placeholder:text-slate-400',
-          'border border-slate-200/90 rounded-lg transition-all duration-150',
-          'focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-2xs',
+          'w-full bg-[#0b0f19] hover:bg-[#131b2e] focus:bg-[#0f172a] text-slate-100 placeholder:text-slate-500',
+          'border border-slate-800 rounded-lg transition-all duration-150',
+          'focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 shadow-2xs',
           sizes[size] || sizes.md
         )}
         {...props}
@@ -94,7 +94,7 @@ export function SearchInput({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-2.5 p-0.5 text-slate-400 hover:text-slate-600 rounded cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          className="absolute right-2.5 p-0.5 text-slate-500 hover:text-slate-300 rounded cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           title="Clear search"
           aria-label="Clear search text"
         >
@@ -102,7 +102,7 @@ export function SearchInput({
         </button>
       ) : shortcut ? (
         <div className="absolute right-2.5 hidden sm:flex items-center pointer-events-none">
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-medium text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
+          <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-medium text-slate-500 bg-slate-800 border border-slate-700 rounded shadow-2xs">
             {shortcut}
           </kbd>
         </div>

@@ -40,7 +40,7 @@ export function ChartContainer({
             <div className="flex items-center gap-2 flex-wrap justify-end">
               {badge}
               {timeRanges && timeRanges.length > 0 && (
-                <div className="inline-flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600">
+                <div className="inline-flex items-center p-0.5 bg-slate-800 rounded-lg border border-slate-700 text-xs font-semibold text-slate-400">
                   {timeRanges.map((tr) => (
                     <button
                       key={tr.value || tr}
@@ -49,8 +49,8 @@ export function ChartContainer({
                       className={cn(
                         'px-2 py-0.5 rounded-md transition-all cursor-pointer text-[11px]',
                         selectedTimeRange === (tr.value || tr)
-                          ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                          : 'hover:text-slate-900'
+                          ? 'bg-slate-700 text-indigo-300 shadow-2xs font-bold'
+                          : 'hover:text-slate-200'
                       )}
                     >
                       {tr.label || tr}
@@ -76,7 +76,7 @@ export function ChartContainer({
         }}
       >
         {isLoading ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-white/80 backdrop-blur-2xs rounded-lg">
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-slate-900/80 backdrop-blur-2xs rounded-lg">
             <Skeleton className="w-full h-full rounded-lg" />
           </div>
         ) : isEmpty ? (
@@ -92,7 +92,7 @@ export function ChartContainer({
 
       {/* Optional Footer Bar */}
       {footer && (
-        <div className="mt-auto pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+        <div className="mt-auto pt-3 border-t border-slate-800 text-xs text-slate-500 flex items-center justify-between">
           {footer}
         </div>
       )}

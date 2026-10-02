@@ -12,7 +12,7 @@ export function AppLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#080c14] flex text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white">
       {/* Desktop Sidebar (Fixed left) */}
       <Sidebar />
 
@@ -33,17 +33,17 @@ export function AppLayout() {
         </main>
 
         {/* Global Enterprise Footer Note */}
-        <footer className="py-4 px-6 border-t border-slate-200/80 bg-white/60 text-center text-xs text-slate-400">
+        <footer className="py-4 px-6 border-t border-slate-800 bg-[#0b0f19] text-center text-xs text-slate-400">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>
               LogiPredict AI © 2026 — Smart India Hackathon Autonomous Supply Chain Prototype
             </span>
-            <div className="flex items-center gap-4 text-[11px] text-slate-500">
+            <div className="flex items-center gap-4 text-[11px] text-slate-400 font-mono">
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 Inference Latency: 28ms
               </span>
-              <span>Regional Hub: India Central</span>
+              <span>Regional Hub: India Central (HQ)</span>
             </div>
           </div>
         </footer>

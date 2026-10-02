@@ -103,10 +103,10 @@ export function SuppliesPage() {
       sortable: true,
       render: (row) => (
         <div>
-          <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+          <span className="font-mono text-xs font-bold text-slate-300 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
             {row.requisitionId}
           </span>
-          <p className="text-xs sm:text-sm font-semibold text-slate-900 mt-1">
+          <p className="text-xs sm:text-sm font-semibold text-slate-100 mt-1">
             {row.item}
           </p>
         </div>
@@ -116,19 +116,19 @@ export function SuppliesPage() {
       key: 'category',
       title: 'Category',
       sortable: true,
-      render: (row) => <span className="text-slate-600 font-medium">{row.category}</span>,
+      render: (row) => <span className="text-slate-400 font-medium">{row.category}</span>,
     },
     {
       key: 'destination',
       title: 'Forward Destination',
       sortable: true,
-      render: (row) => <span className="text-slate-600">{row.destination}</span>,
+      render: (row) => <span className="text-slate-400">{row.destination}</span>,
     },
     {
       key: 'quantity',
       title: 'Quantity',
       sortable: true,
-      render: (row) => <span className="font-bold text-slate-900">{row.quantity}</span>,
+      render: (row) => <span className="font-bold text-slate-100">{row.quantity}</span>,
     },
     {
       key: 'status',
@@ -140,7 +140,7 @@ export function SuppliesPage() {
       key: 'eta',
       title: 'ETA',
       sortable: true,
-      render: (row) => <span className="font-mono text-xs text-slate-600">{row.eta}</span>,
+      render: (row) => <span className="font-mono text-xs text-slate-400">{row.eta}</span>,
     },
   ];
 

@@ -37,22 +37,22 @@ export function ConfirmDialog({
     primary: {
       buttonVariant: 'primary',
       icon: CheckCircle2,
-      iconColor: 'text-indigo-600 bg-indigo-50 border-indigo-100',
+      iconColor: 'text-indigo-400 bg-indigo-950/80 border-indigo-800/60',
     },
     destructive: {
       buttonVariant: 'destructive',
       icon: AlertOctagon,
-      iconColor: 'text-rose-600 bg-rose-50 border-rose-100',
+      iconColor: 'text-rose-400 bg-rose-950/80 border-rose-800/60',
     },
     warning: {
       buttonVariant: 'primary',
       icon: AlertTriangle,
-      iconColor: 'text-amber-600 bg-amber-50 border-amber-100',
+      iconColor: 'text-amber-400 bg-amber-950/80 border-amber-800/60',
     },
     info: {
       buttonVariant: 'primary',
       icon: Info,
-      iconColor: 'text-blue-600 bg-blue-50 border-blue-100',
+      iconColor: 'text-sky-400 bg-sky-950/80 border-sky-800/60',
     },
   };
 
@@ -88,11 +88,11 @@ export function ConfirmDialog({
           </div>
 
           <div className="space-y-1 flex-1">
-            <h3 className="text-base font-bold text-slate-900 leading-snug">
+            <h3 className="text-base font-bold text-slate-100 leading-snug">
               {title}
             </h3>
             {displayDescription && (
-              <div className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+              <div className="text-xs sm:text-sm text-slate-400 leading-relaxed">
                 {displayDescription}
               </div>
             )}
@@ -100,7 +100,7 @@ export function ConfirmDialog({
         </div>
 
         {/* Action Buttons Footer */}
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
+        <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
           <Button
             variant="outline"
             size="sm"

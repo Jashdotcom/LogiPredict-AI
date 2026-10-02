@@ -22,16 +22,16 @@ export function TableContainer({
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col',
+        'bg-slate-900 rounded-xl border border-slate-800 shadow-xs overflow-hidden flex flex-col',
         className
       )}
     >
       {/* Optional Table Header */}
       {(title || subtitle || action) && (
-        <div className="p-4 sm:px-6 sm:py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
+        <div className="p-4 sm:px-6 sm:py-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900">
           <div>
             {title && (
-              <h3 className="text-sm sm:text-base font-semibold text-slate-900">
+              <h3 className="text-sm sm:text-base font-semibold text-slate-100">
                 {title}
               </h3>
             )}
@@ -58,7 +58,7 @@ export function TableContainer({
             />
           </div>
         ) : (
-          <table className={cn('w-full text-left text-xs sm:text-sm text-slate-600', tableClassName)}>
+          <table className={cn('w-full text-left text-xs sm:text-sm text-slate-300', tableClassName)}>
             {children}
           </table>
         )}
@@ -66,7 +66,7 @@ export function TableContainer({
 
       {/* Optional Pagination Footer */}
       {pagination && (
-        <div className="px-4 py-3 sm:px-6 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div className="px-4 py-3 sm:px-6 border-t border-slate-800 bg-slate-900/80 flex items-center justify-between">
           {pagination}
         </div>
       )}

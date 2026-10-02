@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BarChart3,
   Download,
@@ -127,11 +127,11 @@ export function AnalyticsPage() {
           {REPORT_TEMPLATES.map((rep) => (
             <div
               key={rep.id}
-              className="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 hover:bg-white hover:shadow-xs transition-all flex flex-col justify-between"
+              className="p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/70 hover:shadow-xs transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="font-mono text-[11px] font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                  <span className="font-mono text-[11px] font-bold text-slate-300 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
                     {rep.id}
                   </span>
                   <Badge variant="neutral" size="xs">
@@ -139,16 +139,16 @@ export function AnalyticsPage() {
                   </Badge>
                 </div>
 
-                <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                <h4 className="text-sm font-bold text-slate-100 leading-snug">
                   {rep.title}
                 </h4>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   {rep.description}
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-                <span>Format: <strong className="text-slate-700">{rep.type}</strong></span>
+              <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span>Format: <strong className="text-slate-300">{rep.type}</strong></span>
                 <Button
                   variant="outline"
                   size="xs"

@@ -52,7 +52,7 @@ export function Dialog({
     >
       {/* Backdrop overlay */}
       <div
-        className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity duration-200 animate-in fade-in"
+        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity duration-200 animate-in fade-in"
         onClick={closeOnBackdrop ? onClose : undefined}
         aria-hidden="true"
       />
@@ -61,22 +61,22 @@ export function Dialog({
       <div
         ref={dialogRef}
         className={cn(
-          'relative z-50 w-full bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-150',
+          'relative z-50 w-full bg-[#131b2e] rounded-2xl shadow-2xl border border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150',
           maxWidth,
           className
         )}
       >
         {/* Optional Header */}
         {(title || subtitle || showCloseButton) && (
-          <div className="flex items-start justify-between p-5 border-b border-slate-100">
+          <div className="flex items-start justify-between p-5 border-b border-slate-800">
             <div className="space-y-0.5 pr-4 min-w-0 flex-1">
               {title && (
-                <h3 id="dialog-title" className="text-base font-bold text-slate-900 tracking-tight">
+                <h3 id="dialog-title" className="text-base font-bold text-slate-100 tracking-tight">
                   {title}
                 </h3>
               )}
               {subtitle && (
-                <p className="text-xs text-slate-500">{subtitle}</p>
+                <p className="text-xs text-slate-400">{subtitle}</p>
               )}
             </div>
             {showCloseButton && onClose && (

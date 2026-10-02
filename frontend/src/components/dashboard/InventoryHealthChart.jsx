@@ -26,7 +26,7 @@ function CustomInventoryTooltip({ active, payload, label }) {
     const safety = payload.find((p) => p.dataKey === 'safetyStock')?.value ?? 30;
 
     return (
-      <div className="bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-48 z-50">
+      <div className="bg-[#131b2e] text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-48 z-50">
         <p className="font-bold text-slate-100 border-b border-slate-800 pb-1.5">
           {label}
         </p>
@@ -77,19 +77,19 @@ export function InventoryHealthChart({
         }
       />
 
-      {/* Stock distribution quick summary pills */}
+      {/* Stock distribution quick summary pills — dark tokens */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3 px-1">
         {distribution.map((item) => (
           <div
             key={item.name}
-            className="p-2 rounded-lg bg-slate-50 border border-slate-100 flex flex-col"
+            className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/60 flex flex-col"
           >
             <span className="text-[10px] font-semibold text-slate-500 truncate">
               {item.name.split('(')[0]}
             </span>
             <div className="flex items-baseline gap-1 mt-0.5">
-              <span className="text-sm font-bold text-slate-900">{item.value}%</span>
-              <span className="text-[10px] text-slate-400">({item.count.split(' ')[0]})</span>
+              <span className="text-sm font-bold text-slate-100">{item.value}%</span>
+              <span className="text-[10px] text-slate-500">({item.count.split(' ')[0]})</span>
             </div>
           </div>
         ))}
@@ -102,12 +102,12 @@ export function InventoryHealthChart({
             margin={{ top: 10, right: 10, left: -20, bottom: 25 }}
             barGap={6}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
             <XAxis
               dataKey="category"
               tick={{ fill: '#64748b', fontSize: 10 }}
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
+              axisLine={{ stroke: '#334155' }}
               interval={0}
               angle={-15}
               textAnchor="end"
@@ -115,7 +115,7 @@ export function InventoryHealthChart({
             <YAxis
               tick={{ fill: '#64748b', fontSize: 11 }}
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
+              axisLine={{ stroke: '#334155' }}
               unit="%"
               domain={[0, 100]}
             />
@@ -147,7 +147,7 @@ export function InventoryHealthChart({
             <Bar
               name="Optimal Target"
               dataKey="optimal"
-              fill="#cbd5e1"
+              fill="#475569"
               radius={[4, 4, 0, 0]}
               maxBarSize={28}
             />
@@ -155,12 +155,12 @@ export function InventoryHealthChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-auto pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
-        <span className="flex items-center gap-1.5 text-slate-700">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          Aggregate Stock Health: <strong className="text-slate-900">94.2% Optimal</strong>
+      <div className="mt-auto pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+        <span className="flex items-center gap-1.5 text-slate-300">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          Aggregate Stock Health: <strong className="text-slate-100">94.2% Optimal</strong>
         </span>
-        <span className="text-amber-600 font-medium inline-flex items-center gap-1">
+        <span className="text-amber-400 font-medium inline-flex items-center gap-1">
           <AlertCircle className="w-3.5 h-3.5" />
           1 Category below safety buffer (ECWCS)
         </span>

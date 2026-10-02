@@ -18,19 +18,19 @@ export function IconButton({
   ...props
 }) {
   const baseStyles =
-    'relative inline-flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed select-none';
+    'relative inline-flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed select-none';
 
   const variants = {
     ghost:
-      'text-slate-500 hover:text-slate-800 hover:bg-slate-100 active:bg-slate-200 focus-visible:ring-indigo-500',
+      'text-slate-400 hover:text-slate-200 hover:bg-slate-800 active:bg-slate-700 focus-visible:ring-indigo-500',
     outline:
-      'text-slate-600 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 shadow-xs focus-visible:ring-indigo-500',
+      'text-slate-300 hover:text-slate-100 bg-slate-900 border border-slate-700 hover:bg-slate-800 shadow-xs focus-visible:ring-indigo-500',
     primary:
       'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-xs focus-visible:ring-indigo-500',
     secondary:
-      'bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300 focus-visible:ring-slate-400',
+      'bg-slate-800 text-slate-300 hover:bg-slate-700 active:bg-slate-600 focus-visible:ring-slate-400',
     subtle:
-      'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 active:bg-indigo-200 focus-visible:ring-indigo-400',
+      'bg-indigo-950/80 text-indigo-400 hover:bg-indigo-900/80 active:bg-indigo-800/60 focus-visible:ring-indigo-400',
   };
 
   const sizes = {
@@ -61,7 +61,7 @@ export function IconButton({
       {badge !== undefined && badge !== null && (
         <span
           className={cn(
-            'absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[10px] font-bold text-white rounded-full ring-2 ring-white',
+            'absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[10px] font-bold text-white rounded-full ring-2 ring-slate-900',
             badgeVariant === 'danger' ? 'bg-rose-600' : 'bg-indigo-600'
           )}
         >

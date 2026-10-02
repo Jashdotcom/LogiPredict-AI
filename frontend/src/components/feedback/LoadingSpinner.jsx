@@ -21,10 +21,10 @@ export function LoadingSpinner({
   const content = (
     <div className={cn('flex flex-col items-center justify-center gap-3', className)}>
       <Loader2
-        className={cn('animate-spin text-indigo-600', sizeClasses[size] || sizeClasses.md)}
+        className={cn('animate-spin text-indigo-400', sizeClasses[size] || sizeClasses.md)}
       />
       {text && (
-        <span className="text-xs sm:text-sm font-medium text-slate-500 animate-pulse">
+        <span className="text-xs sm:text-sm font-medium text-slate-400 animate-pulse">
           {text}
         </span>
       )}
@@ -33,8 +33,8 @@ export function LoadingSpinner({
 
   if (fullPage) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-xs">
-        <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-200">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs">
+        <div className="bg-[#131b2e] p-6 rounded-2xl shadow-xl border border-slate-800">
           {content}
         </div>
       </div>

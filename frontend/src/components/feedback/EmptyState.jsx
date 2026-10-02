@@ -27,15 +27,15 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-white rounded-xl border border-slate-200 shadow-xs',
+        'flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-slate-900 rounded-xl border border-slate-800 shadow-xs',
         className
       )}
     >
-      <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 mb-3.5 shadow-2xs">
+      <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 mb-3.5 shadow-2xs">
         <IconComponent className="w-6 h-6" />
       </div>
 
-      <h3 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">
+      <h3 className="text-sm sm:text-base font-bold text-slate-200 tracking-tight">
         {title}
       </h3>
 

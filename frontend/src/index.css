@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------------------- */
-/* LogiPredict AI — Enterprise Design System Imports                          */
+/* LogiPredict AI — Military Command Center Design System                     */
 /* -------------------------------------------------------------------------- */
 @import "./styles/tokens.css";
 @import "./styles/typography.css";
@@ -15,7 +15,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
@@ -30,22 +30,22 @@
     box-sizing: border-box;
   }
 
-  /* Custom Clean Scrollbars */
+  /* Custom Clean Tactical Scrollbars */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #080c14;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #1e293b;
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: #334155;
   }
 }

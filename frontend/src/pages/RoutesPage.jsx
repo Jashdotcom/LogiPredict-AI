@@ -143,7 +143,7 @@ export function RoutesPage() {
           />
 
           {/* Interactive Styled Map Placeholder Container */}
-          <div className="relative flex-1 min-h-[300px] rounded-lg bg-slate-900 overflow-hidden border border-slate-800 flex items-center justify-center p-6 text-center">
+          <div className="relative flex-1 min-h-[300px] rounded-lg bg-slate-950 overflow-hidden border border-slate-800 flex items-center justify-center p-6 text-center">
             {/* Background Grid Lines simulating GIS map */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-60" />
 
@@ -207,18 +207,18 @@ export function RoutesPage() {
                 onClick={() => setSelectedRoute(route)}
                 className={`p-3 rounded-lg border transition-all cursor-pointer ${
                   selectedRoute.id === route.id
-                    ? 'bg-indigo-50/70 border-indigo-300 ring-1 ring-indigo-400'
-                    : 'bg-slate-50/70 hover:bg-slate-50 border-slate-200/80'
+                    ? 'bg-indigo-950/40 border-indigo-500/50 ring-1 ring-indigo-500'
+                    : 'bg-slate-800/40 hover:bg-slate-800/70 border-slate-700/60'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1">
-                  <span className="font-mono text-xs font-bold text-slate-800">
+                  <span className="font-mono text-xs font-bold text-slate-200">
                     {route.id} • {route.truck}
                   </span>
                   <StatusBadge status={route.status} size="xs" />
                 </div>
 
-                <div className="text-xs text-slate-600 space-y-0.5">
+                <div className="text-xs text-slate-400 space-y-0.5">
                   <p className="truncate font-medium">{route.origin} &rarr; {route.destination}</p>
                 </div>
 
@@ -228,9 +228,9 @@ export function RoutesPage() {
                     <span>Progress: {route.progress}%</span>
                     <span>ETA: {route.eta}</span>
                   </div>
-                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div
-                      className="bg-indigo-600 h-full rounded-full transition-all duration-300"
+                      className="bg-indigo-500 h-full rounded-full transition-all duration-300"
                       style={{ width: `${route.progress}%` }}
                     />
                   </div>

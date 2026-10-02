@@ -25,31 +25,31 @@ export function Toast({
   const typeConfigs = {
     success: {
       icon: CheckCircle2,
-      border: 'border-emerald-200',
-      bg: 'bg-white',
-      iconColor: 'text-emerald-600 bg-emerald-50 border-emerald-100',
-      titleColor: 'text-slate-900',
+      border: 'border-emerald-700/60',
+      bg: 'bg-[#131b2e]',
+      iconColor: 'text-emerald-400 bg-emerald-950/80 border-emerald-800/60',
+      titleColor: 'text-slate-100',
     },
     error: {
       icon: AlertOctagon,
-      border: 'border-rose-200',
-      bg: 'bg-white',
-      iconColor: 'text-rose-600 bg-rose-50 border-rose-100',
-      titleColor: 'text-slate-900',
+      border: 'border-rose-700/60',
+      bg: 'bg-[#131b2e]',
+      iconColor: 'text-rose-400 bg-rose-950/80 border-rose-800/60',
+      titleColor: 'text-slate-100',
     },
     warning: {
       icon: AlertTriangle,
-      border: 'border-amber-200',
-      bg: 'bg-white',
-      iconColor: 'text-amber-600 bg-amber-50 border-amber-100',
-      titleColor: 'text-slate-900',
+      border: 'border-amber-700/60',
+      bg: 'bg-[#131b2e]',
+      iconColor: 'text-amber-400 bg-amber-950/80 border-amber-800/60',
+      titleColor: 'text-slate-100',
     },
     info: {
       icon: Info,
-      border: 'border-indigo-200',
-      bg: 'bg-white',
-      iconColor: 'text-indigo-600 bg-indigo-50 border-indigo-100',
-      titleColor: 'text-slate-900',
+      border: 'border-indigo-700/60',
+      bg: 'bg-[#131b2e]',
+      iconColor: 'text-indigo-400 bg-indigo-950/80 border-indigo-800/60',
+      titleColor: 'text-slate-100',
     },
   };
 
@@ -61,8 +61,9 @@ export function Toast({
       role="status"
       aria-live="polite"
       className={cn(
-        'w-full sm:max-w-sm bg-white rounded-xl shadow-lg border p-4 transition-all duration-200 select-none flex items-start gap-3',
+        'w-full sm:max-w-sm rounded-xl shadow-lg border p-4 transition-all duration-200 select-none flex items-start gap-3',
         'animate-in fade-in slide-in-from-top-3',
+        config.bg,
         config.border,
         className
       )}
@@ -83,7 +84,7 @@ export function Toast({
           </h4>
         )}
         {displayMessage && (
-          <p className="text-xs text-slate-600 leading-snug">
+          <p className="text-xs text-slate-400 leading-snug">
             {displayMessage}
           </p>
         )}
@@ -93,7 +94,7 @@ export function Toast({
         <button
           type="button"
           onClick={() => onDismiss(id)}
-          className="text-slate-400 hover:text-slate-600 p-1 rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          className="text-slate-500 hover:text-slate-300 p-1 rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           aria-label="Dismiss notification"
         >
           <X className="w-3.5 h-3.5" />

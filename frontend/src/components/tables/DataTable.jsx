@@ -74,12 +74,12 @@ export function DataTable({
   const getRowId = (row, index) => row[rowKey] || row.id || row.sku || row.requisitionId || index;
 
   return (
-    <div className={cn('w-full bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col', className)}>
+    <div className={cn('w-full bg-slate-900 rounded-xl border border-slate-800 shadow-xs overflow-hidden flex flex-col', className)}>
       {/* Horizontal Scroll Area */}
       <div className="w-full overflow-x-auto">
-        <table className={cn('w-full text-left text-xs sm:text-sm text-slate-600 border-collapse', tableClassName)}>
+        <table className={cn('w-full text-left text-xs sm:text-sm text-slate-300 border-collapse', tableClassName)}>
           {/* Table Header */}
-          <thead className="bg-slate-50/90 border-b border-slate-200 text-slate-500 font-semibold text-[11px] uppercase tracking-wider select-none">
+          <thead className="bg-slate-900/80 border-b border-slate-800 text-slate-400 font-semibold text-[11px] uppercase tracking-wider select-none">
             <tr>
               {selectable && (
                 <th className="w-10 px-4 py-3 text-center">
@@ -88,7 +88,7 @@ export function DataTable({
                     checked={allSelected}
                     ref={(el) => el && (el.indeterminate = someSelected)}
                     onChange={handleSelectAllChange}
-                    className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                    className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-600 bg-slate-800 cursor-pointer"
                     aria-label="Select all rows"
                   />
                 </th>
@@ -108,9 +108,9 @@ export function DataTable({
                     key={col.key}
                     style={{ width: col.width }}
                     className={cn(
-                      'px-4 py-3 font-semibold text-slate-600 tracking-wider',
+                      'px-4 py-3 font-semibold text-slate-400 tracking-wider',
                       alignmentClass,
-                      col.sortable ? 'cursor-pointer hover:bg-slate-100/80 transition-colors' : '',
+                      col.sortable ? 'cursor-pointer hover:bg-slate-800/60 transition-colors' : '',
                       col.className || ''
                     )}
                     onClick={() => col.sortable && onSort && onSort(col.key)}
@@ -118,15 +118,15 @@ export function DataTable({
                     <div className={cn('inline-flex items-center gap-1.5', col.align === 'right' ? 'justify-end' : col.align === 'center' ? 'justify-center' : 'justify-start')}>
                       <span>{col.header || col.title}</span>
                       {col.sortable && (
-                        <span className="text-slate-400">
+                        <span className="text-slate-500">
                           {isSorted ? (
                             sortDirection === 'asc' ? (
-                              <ChevronUp className="w-3.5 h-3.5 text-indigo-600" />
+                              <ChevronUp className="w-3.5 h-3.5 text-indigo-400" />
                             ) : (
-                              <ChevronDown className="w-3.5 h-3.5 text-indigo-600" />
+                              <ChevronDown className="w-3.5 h-3.5 text-indigo-400" />
                             )
                           ) : (
-                            <ArrowUpDown className="w-3 h-3 text-slate-300 group-hover:text-slate-400" />
+                            <ArrowUpDown className="w-3 h-3 text-slate-600 group-hover:text-slate-400" />
                           )}
                         </span>
                       )}
@@ -138,14 +138,14 @@ export function DataTable({
           </thead>
 
           {/* Table Body */}
-          <tbody className="divide-y divide-slate-100 bg-white">
+          <tbody className="divide-y divide-slate-800/60 bg-slate-900">
             {isLoading ? (
               // Loading Skeleton Rows
               Array.from({ length: 5 }).map((_, rIdx) => (
                 <tr key={`skeleton-${rIdx}`} className="animate-pulse">
                   {selectable && (
                     <td className="px-4 py-3.5 text-center">
-                      <div className="w-4 h-4 bg-slate-200 rounded mx-auto" />
+                      <div className="w-4 h-4 bg-slate-800 rounded mx-auto" />
                     </td>
                   )}
                   {columns.map((col, cIdx) => (
@@ -160,10 +160,10 @@ export function DataTable({
               <tr>
                 <td colSpan={columns.length + (selectable ? 1 : 0)} className="py-12 px-4 text-center">
                   <div className="inline-flex flex-col items-center gap-2 max-w-sm mx-auto">
-                    <div className="p-3 bg-slate-100 rounded-full text-slate-400">
+                    <div className="p-3 bg-slate-800 rounded-full text-slate-400">
                       <Inbox className="w-6 h-6" />
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-800">{emptyTitle}</h4>
+                    <h4 className="text-sm font-semibold text-slate-200">{emptyTitle}</h4>
                     <p className="text-xs text-slate-500">{emptyDescription}</p>
                     {emptyAction && <div className="mt-2">{emptyAction}</div>}
                   </div>
@@ -181,8 +181,8 @@ export function DataTable({
                     onClick={() => onRowClick && onRowClick(row)}
                     className={cn(
                       'transition-colors duration-100',
-                      hover ? 'hover:bg-slate-50/80' : '',
-                      isSelected ? 'bg-indigo-50/60' : '',
+                      hover ? 'hover:bg-slate-800/50' : '',
+                      isSelected ? 'bg-indigo-950/40' : '',
                       onRowClick ? 'cursor-pointer' : ''
                     )}
                   >
@@ -195,7 +195,7 @@ export function DataTable({
                           type="checkbox"
                           checked={isSelected}
                           onChange={(e) => onSelectRow && onSelectRow(row, e.target.checked)}
-                          className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                          className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-600 bg-slate-800 cursor-pointer"
                           aria-label={`Select row ${id}`}
                         />
                       </td>
@@ -213,7 +213,7 @@ export function DataTable({
                       return (
                         <td
                           key={`${id}-${col.key}`}
-                          className={cn('px-4 py-3.5 text-slate-700 align-middle', alignmentClass, col.className || '')}
+                          className={cn('px-4 py-3.5 text-slate-300 align-middle', alignmentClass, col.className || '')}
                         >
                           {col.render ? col.render(value, row, index) : value}
                         </td>
@@ -229,20 +229,20 @@ export function DataTable({
 
       {/* Optional Pagination Controls */}
       {pagination && (
-        <div className="px-4 py-3 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <div className="px-4 py-3 sm:px-6 border-t border-slate-800 bg-slate-900/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <div>
             <span>
               Showing{' '}
-              <strong className="text-slate-800">
+              <strong className="text-slate-200">
                 {pagination.totalItems === 0
                   ? 0
                   : (pagination.currentPage - 1) * pagination.pageSize + 1}
               </strong>{' '}
               to{' '}
-              <strong className="text-slate-800">
+              <strong className="text-slate-200">
                 {Math.min(pagination.currentPage * pagination.pageSize, pagination.totalItems)}
               </strong>{' '}
-              of <strong className="text-slate-800">{pagination.totalItems}</strong> entries
+              of <strong className="text-slate-200">{pagination.totalItems}</strong> entries
             </span>
           </div>
 
@@ -256,7 +256,7 @@ export function DataTable({
             >
               Previous
             </Button>
-            <span className="px-2 font-medium text-slate-700">
+            <span className="px-2 font-medium text-slate-300">
               Page {pagination.currentPage} of {Math.max(1, pagination.totalPages)}
             </span>
             <Button

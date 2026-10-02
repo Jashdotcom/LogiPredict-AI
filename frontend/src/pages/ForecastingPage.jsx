@@ -48,7 +48,7 @@ function CustomForecastTooltip({ active, payload, label }) {
     const upper = payload.find((p) => p.dataKey === 'upperBound')?.value;
 
     return (
-      <div className="bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-52 z-50">
+      <div className="bg-[#131b2e] text-white text-xs rounded-xl p-3.5 shadow-xl border border-slate-700 space-y-1.5 min-w-52 z-50">
         <p className="font-bold text-slate-100 border-b border-slate-800 pb-1.5">
           {label}
         </p>
@@ -59,7 +59,7 @@ function CustomForecastTooltip({ active, payload, label }) {
           </div>
         )}
         {forecast !== null && forecast !== undefined && (
-          <div className="flex justify-between items-center text-indigo-300">
+          <div className="flex justify-between items-center text-indigo-400">
             <span>AI Predicted Demand:</span>
             <span className="font-bold">{formatNumber(forecast)} units</span>
           </div>
@@ -163,7 +163,7 @@ export function ForecastingPage() {
       sortable: true,
       render: (row) => (
         <div>
-          <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+          <span className="font-mono text-xs font-bold text-slate-300 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
             {row.date}
           </span>
           <span className="text-xs text-slate-500 ml-2">({row.label})</span>
@@ -187,7 +187,7 @@ export function ForecastingPage() {
       render: (row) => {
         const val = row.isHistorical ? row.actual : row.forecast;
         return (
-          <span className="font-bold text-slate-900 text-xs font-numeric">
+          <span className="font-bold text-slate-100 text-xs font-numeric">
             {val !== null ? `${formatNumber(val)} units` : '—'}
           </span>
         );
@@ -198,11 +198,11 @@ export function ForecastingPage() {
       title: '95% Confidence Interval',
       render: (row) =>
         row.lowerBound !== null && row.upperBound !== null ? (
-          <span className="text-slate-600 font-mono text-xs">
+          <span className="text-slate-400 font-mono text-xs">
             {formatNumber(row.lowerBound)} – {formatNumber(row.upperBound)}
           </span>
         ) : (
-          <span className="text-slate-400 text-xs">—</span>
+          <span className="text-slate-500 text-xs">—</span>
         ),
     },
     {
@@ -210,7 +210,7 @@ export function ForecastingPage() {
       title: 'Illustrative Projected Stock',
       sortable: true,
       render: (row) => (
-        <span className="text-slate-700 font-medium text-xs font-numeric">
+        <span className="text-slate-300 font-medium text-xs font-numeric">
           {formatNumber(row.projectedStock)} units
         </span>
       ),
@@ -304,17 +304,17 @@ export function ForecastingPage() {
       </div>
 
       {/* Selector Toolbar (Item, Depot, Horizon, Model) */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3">
+      <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-2xs space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Item / Category Selector */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
               Select Item / SKU
             </label>
             <select
               value={selectedItem}
               onChange={(e) => setSelectedItem(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="all">All Items (Aggregated Total)</option>
               {INVENTORY_ITEMS.map((item) => (
@@ -327,13 +327,13 @@ export function ForecastingPage() {
 
           {/* Depot Selector */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
               Select Storage Depot
             </label>
             <select
               value={selectedDepot}
               onChange={(e) => setSelectedDepot(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="all">All Depots (Northern & Eastern)</option>
               {depots.filter(d => d !== 'all').map((dep) => (
@@ -346,13 +346,13 @@ export function ForecastingPage() {
 
           {/* Horizon Selector */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
               Forecast Horizon
             </label>
             <select
               value={horizonDays}
               onChange={(e) => setHorizonDays(Number(e.target.value))}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value={7}>7 Days Forward</option>
               <option value={14}>14 Days Forward</option>
@@ -364,13 +364,13 @@ export function ForecastingPage() {
 
           {/* Model Selector */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
               AI Prediction Model
             </label>
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="ensemble">Ensemble LSTM-Prophet-XGBoost</option>
               <option value="xgboost">XGBoost Regressor v2.4</option>
@@ -410,17 +410,17 @@ export function ForecastingPage() {
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
               <XAxis
                 dataKey="label"
-                tick={{ fill: '#64748b', fontSize: 11 }}
+                tick={{ fill: '#94a3b8', fontSize: 11 }}
                 tickLine={false}
-                axisLine={{ stroke: '#e2e8f0' }}
+                axisLine={{ stroke: '#334155' }}
               />
               <YAxis
-                tick={{ fill: '#64748b', fontSize: 11 }}
+                tick={{ fill: '#94a3b8', fontSize: 11 }}
                 tickLine={false}
-                axisLine={{ stroke: '#e2e8f0' }}
+                axisLine={{ stroke: '#334155' }}
                 tickFormatter={(v) => `${(v / 1000).toFixed(1)}k`}
               />
               <Tooltip content={<CustomForecastTooltip />} />
@@ -437,7 +437,7 @@ export function ForecastingPage() {
                 strokeDasharray="4 4"
                 label={{
                   value: 'Forecast Horizon Boundary',
-                  fill: '#475569',
+                  fill: '#94a3b8',
                   fontSize: 10,
                   position: 'insideTopLeft',
                 }}
@@ -450,18 +450,18 @@ export function ForecastingPage() {
                 stroke="#2563eb"
                 strokeWidth={2.5}
                 fill="url(#actualGrad)"
-                activeDot={{ r: 6, fill: '#2563eb' }}
+                activeDot={{ r: 6, fill: '#2563eb', stroke: '#080c14' }}
               />
 
               <Area
                 type="monotone"
                 dataKey="forecast"
                 name="AI Predicted Demand"
-                stroke="#7c3aed"
+                stroke="#8b5cf6"
                 strokeWidth={2.5}
                 strokeDasharray="5 5"
                 fill="url(#forecastGrad)"
-                activeDot={{ r: 6, fill: '#7c3aed' }}
+                activeDot={{ r: 6, fill: '#8b5cf6', stroke: '#080c14' }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -471,11 +471,11 @@ export function ForecastingPage() {
       {/* Grid: Daily Forecast Table & Forecast Explanation Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Daily Forecast Table (2 cols) */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-slate-200 flex items-center justify-between">
+        <div className="lg:col-span-2 bg-slate-900 rounded-xl border border-slate-800 shadow-2xs overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-slate-900">Daily Forecast Projections</h3>
-              <p className="text-xs text-slate-500">Granular daily demand predictions and confidence intervals</p>
+              <h3 className="text-base font-bold text-slate-100">Daily Forecast Projections</h3>
+              <p className="text-xs text-slate-400">Granular daily demand predictions and confidence intervals</p>
             </div>
             <Badge variant="info" size="xs">
               {horizonDays} Days Horizon
@@ -496,33 +496,33 @@ export function ForecastingPage() {
             subtitle="Explainability metadata for SIH 2026 AI pipeline"
           />
           <div className="space-y-3 text-xs pt-1 flex-1">
-            <div className="flex justify-between py-2 border-b border-slate-100">
-              <span className="text-slate-500">Selected Scope:</span>
-              <span className="font-bold text-slate-800">{selectedItem === 'all' ? 'All Inventory SKUs' : selectedItem}</span>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-400">Selected Scope:</span>
+              <span className="font-bold text-slate-200">{selectedItem === 'all' ? 'All Inventory SKUs' : selectedItem}</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-slate-100">
-              <span className="text-slate-500">Storage Depot:</span>
-              <span className="font-bold text-slate-800">{selectedDepot}</span>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-400">Storage Depot:</span>
+              <span className="font-bold text-slate-200">{selectedDepot}</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-slate-100">
-              <span className="text-slate-500">Active ML Engine:</span>
-              <span className="font-bold text-indigo-700 capitalize">{selectedModel} Ensemble</span>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-400">Active ML Engine:</span>
+              <span className="font-bold text-indigo-400 capitalize">{selectedModel} Ensemble</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-slate-100">
-              <span className="text-slate-500">Historical Window:</span>
-              <span className="font-bold text-slate-800">180 Days Lookback</span>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-400">Historical Window:</span>
+              <span className="font-bold text-slate-200">180 Days Lookback</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-slate-100">
-              <span className="text-slate-500">Confidence Interval:</span>
-              <span className="font-bold text-slate-800">95% Uncertainty Band</span>
+            <div className="flex justify-between py-2 border-b border-slate-800">
+              <span className="text-slate-400">Confidence Interval:</span>
+              <span className="font-bold text-slate-200">95% Uncertainty Band</span>
             </div>
 
-            <div className="bg-amber-50/70 p-3 rounded-xl border border-amber-200 mt-3 text-amber-900 space-y-1">
+            <div className="bg-amber-950/40 p-3 rounded-xl border border-amber-900 mt-3 text-amber-200 space-y-1">
               <div className="flex items-center gap-1.5 font-bold">
-                <Info className="w-4 h-4 text-amber-700 shrink-0" />
+                <Info className="w-4 h-4 text-amber-500 shrink-0" />
                 <span>Synthetic Demonstration Disclaimer</span>
               </div>
-              <p className="text-[11px] leading-relaxed text-amber-800">
+              <p className="text-[11px] leading-relaxed text-amber-400/80">
                 Projections are generated from calibrated synthetic military logistics telemetry for Smart India Hackathon 2026 demonstration and are not operational predictions.
               </p>
             </div>

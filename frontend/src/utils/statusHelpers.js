@@ -1,5 +1,6 @@
 /**
  * LogiPredict AI - Status and Badge Utilities
+ * Dark command-center token variants
  */
 
 /**
@@ -13,9 +14,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'danger',
         label: 'Critical',
-        bg: 'bg-rose-50',
-        text: 'text-rose-700',
-        border: 'border-rose-200',
+        bg: 'bg-rose-950/80',
+        text: 'text-rose-400',
+        border: 'border-rose-800/60',
         dot: 'bg-rose-500',
         badgeVariant: 'danger',
       };
@@ -24,9 +25,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'warning',
         label: 'High Risk',
-        bg: 'bg-amber-50',
-        text: 'text-amber-700',
-        border: 'border-amber-200',
+        bg: 'bg-amber-950/80',
+        text: 'text-amber-400',
+        border: 'border-amber-800/60',
         dot: 'bg-amber-500',
         badgeVariant: 'warning',
       };
@@ -34,9 +35,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'amber',
         label: 'Medium',
-        bg: 'bg-yellow-50',
-        text: 'text-yellow-800',
-        border: 'border-yellow-200',
+        bg: 'bg-yellow-950/80',
+        text: 'text-yellow-400',
+        border: 'border-yellow-800/60',
         dot: 'bg-yellow-500',
         badgeVariant: 'warning',
       };
@@ -44,9 +45,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'neutral',
         label: 'Low',
-        bg: 'bg-slate-100',
-        text: 'text-slate-700',
-        border: 'border-slate-200',
+        bg: 'bg-slate-800',
+        text: 'text-slate-300',
+        border: 'border-slate-700',
         dot: 'bg-slate-400',
         badgeVariant: 'neutral',
       };
@@ -56,9 +57,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'success',
         label: 'Optimal',
-        bg: 'bg-emerald-50',
-        text: 'text-emerald-700',
-        border: 'border-emerald-200',
+        bg: 'bg-emerald-950/80',
+        text: 'text-emerald-400',
+        border: 'border-emerald-800/60',
         dot: 'bg-emerald-500',
         badgeVariant: 'success',
       };
@@ -67,9 +68,9 @@ export function getSeverityConfig(severity) {
       return {
         variant: 'info',
         label: 'Info',
-        bg: 'bg-blue-50',
-        text: 'text-blue-700',
-        border: 'border-blue-200',
+        bg: 'bg-blue-950/80',
+        text: 'text-blue-400',
+        border: 'border-blue-800/60',
         dot: 'bg-blue-500',
         badgeVariant: 'info',
       };

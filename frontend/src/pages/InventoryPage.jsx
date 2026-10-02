@@ -217,10 +217,10 @@ export function InventoryPage() {
       sortable: true,
       render: (row) => (
         <div>
-          <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+          <span className="font-mono text-xs font-bold text-slate-300 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
             {row.item_id}
           </span>
-          <p className="text-xs sm:text-sm font-semibold text-slate-900 mt-1 hover:text-indigo-600 transition-colors">
+          <p className="text-xs sm:text-sm font-semibold text-slate-100 mt-1 hover:text-indigo-400 transition-colors">
             {row.item_name}
           </p>
         </div>
@@ -231,7 +231,7 @@ export function InventoryPage() {
       title: 'Category',
       sortable: true,
       render: (row) => (
-        <span className="text-slate-600 font-medium text-xs bg-slate-100/70 px-2 py-0.5 rounded border border-slate-200">
+        <span className="text-slate-400 font-medium text-xs bg-slate-800/70 px-2 py-0.5 rounded border border-slate-700">
           {row.category}
         </span>
       ),
@@ -241,8 +241,8 @@ export function InventoryPage() {
       title: 'Depot / Location',
       sortable: true,
       render: (row) => (
-        <div className="flex items-center gap-1 text-xs text-slate-700">
-          <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+        <div className="flex items-center gap-1 text-xs text-slate-400">
+          <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
           <span className="truncate">{row.storage_location}</span>
         </div>
       ),
@@ -255,10 +255,10 @@ export function InventoryPage() {
         const pct = Math.round((row.current_stock / row.maximum_capacity) * 100);
         return (
           <div>
-            <span className="font-bold text-slate-900 text-xs font-numeric">
+            <span className="font-bold text-slate-100 text-xs font-numeric">
               {formatNumber(row.current_stock)} {row.unit}
             </span>
-            <div className="w-20 bg-slate-200 h-1.5 rounded-full mt-1 overflow-hidden">
+            <div className="w-20 bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
               <div
                 className={`h-full rounded-full ${
                   pct < 35 ? 'bg-rose-500' : pct < 60 ? 'bg-amber-500' : 'bg-emerald-500'
@@ -275,7 +275,7 @@ export function InventoryPage() {
       title: 'Min Safety',
       sortable: true,
       render: (row) => (
-        <span className="text-slate-500 font-mono text-xs">
+        <span className="text-slate-400 font-mono text-xs">
           {formatNumber(row.minimum_stock)} {row.unit}
         </span>
       ),
@@ -304,7 +304,7 @@ export function InventoryPage() {
       title: 'Last Updated',
       sortable: true,
       render: (row) => (
-        <span className="text-slate-400 text-[11px]">
+        <span className="text-slate-500 text-[11px]">
           {formatDate(row.last_updated, true)}
         </span>
       ),
@@ -390,8 +390,8 @@ export function InventoryPage() {
       </div>
 
       {/* Status Filter Pills */}
-      <div className="flex flex-wrap items-center gap-2 bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
-        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider mr-2">Status Filter:</span>
+      <div className="flex flex-wrap items-center gap-2 bg-slate-900 p-3.5 rounded-xl border border-slate-800 shadow-2xs">
+        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Status Filter:</span>
         {[
           { id: 'all', label: `All Statuses (${inventoryItems.length})` },
           { id: 'critical', label: `Critical / Stockout (${invMetrics.criticalStockCount})` },
@@ -406,7 +406,7 @@ export function InventoryPage() {
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
               selectedStatus === tab.id
                 ? 'bg-indigo-600 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
             }`}
           >
             {tab.label}
@@ -415,22 +415,22 @@ export function InventoryPage() {
       </div>
 
       {/* Filter Bar (Search, Category, Depot) */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3">
+      <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 shadow-2xs space-y-3">
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by SKU, item name, category, or storage location..."
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
             {searchTerm && (
               <button
                 type="button"
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-slate-300 cursor-pointer"
               >
                 Clear
               </button>
@@ -438,11 +438,11 @@ export function InventoryPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-600 shrink-0">Category:</span>
+            <span className="text-xs font-semibold text-slate-400 shrink-0">Category:</span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="all">All Categories</option>
               {categories.filter(c => c !== 'all').map((cat) => (
@@ -454,11 +454,11 @@ export function InventoryPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-600 shrink-0">Depot:</span>
+            <span className="text-xs font-semibold text-slate-400 shrink-0">Depot:</span>
             <select
               value={selectedDepot}
               onChange={(e) => setSelectedDepot(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+              className="px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="all">All Storage Depots</option>
               {depots.filter(d => d !== 'all').map((dep) => (
@@ -471,7 +471,7 @@ export function InventoryPage() {
         </div>
 
         {(searchTerm || selectedCategory !== 'all' || selectedDepot !== 'all' || selectedStatus !== 'all') && (
-          <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+          <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-500">
             <span>
               Showing <strong>{filteredItems.length}</strong> matching inventory records (out of {inventoryItems.length})
             </span>
@@ -484,7 +484,7 @@ export function InventoryPage() {
                 setSelectedStatus('all');
                 setSearchParams({});
               }}
-              className="text-indigo-600 hover:text-indigo-700 font-semibold cursor-pointer"
+              className="text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer"
             >
               Clear All Filters &times;
             </button>
@@ -493,7 +493,7 @@ export function InventoryPage() {
       </div>
 
       {/* Inventory Data Table */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
+      <div className="bg-slate-900 rounded-xl border border-slate-800 shadow-2xs overflow-hidden">
         <DataTable
           columns={columns}
           data={paginatedItems}
@@ -502,7 +502,7 @@ export function InventoryPage() {
           emptyDescription="Try adjusting your search criteria or resetting active filters."
         />
 
-        <div className="p-4 border-t border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <div className="p-4 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <span>
             Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong> ({filteredItems.length} total records)
           </span>
@@ -537,10 +537,10 @@ export function InventoryPage() {
           maxWidth="max-w-2xl"
         >
           <div className="space-y-4 py-2 text-xs">
-            <div className="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-between bg-slate-950 p-3.5 rounded-xl border border-slate-800">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-indigo-600" />
-                <span className="font-bold text-slate-900">{selectedItem.storage_location}</span>
+                <MapPin className="w-4 h-4 text-indigo-400" />
+                <span className="font-bold text-slate-100">{selectedItem.storage_location}</span>
               </div>
               <div>
                 <StatusBadge status={classifyItemStatus(selectedItem)} size="sm" />
@@ -549,51 +549,51 @@ export function InventoryPage() {
 
             {/* Stock Levels Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-                <span className="text-slate-500 block text-[11px]">Current Stock</span>
-                <strong className="text-slate-900 text-base font-extrabold mt-0.5 block font-numeric">
-                  {formatNumber(selectedItem.current_stock)} <span className="text-xs font-normal">{selectedItem.unit}</span>
+              <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-2xs">
+                <span className="text-slate-400 block text-[11px]">Current Stock</span>
+                <strong className="text-slate-100 text-base font-extrabold mt-0.5 block font-numeric">
+                  {formatNumber(selectedItem.current_stock)} <span className="text-xs font-normal text-slate-400">{selectedItem.unit}</span>
                 </strong>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-                <span className="text-slate-500 block text-[11px]">Minimum Safety</span>
-                <strong className="text-amber-700 text-base font-extrabold mt-0.5 block">
-                  {formatNumber(selectedItem.minimum_stock)} <span className="text-xs font-normal">{selectedItem.unit}</span>
+              <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-2xs">
+                <span className="text-slate-400 block text-[11px]">Minimum Safety</span>
+                <strong className="text-amber-500 text-base font-extrabold mt-0.5 block">
+                  {formatNumber(selectedItem.minimum_stock)} <span className="text-xs font-normal text-amber-500/70">{selectedItem.unit}</span>
                 </strong>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-                <span className="text-slate-500 block text-[11px]">Reorder Point</span>
-                <strong className="text-indigo-700 text-base font-extrabold mt-0.5 block">
-                  {formatNumber(calculateReorderThreshold(calculateDailyConsumption(selectedItem), selectedItem.lead_time_days, selectedItem.minimum_stock))} <span className="text-xs font-normal">{selectedItem.unit}</span>
+              <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-2xs">
+                <span className="text-slate-400 block text-[11px]">Reorder Point</span>
+                <strong className="text-indigo-400 text-base font-extrabold mt-0.5 block">
+                  {formatNumber(calculateReorderThreshold(calculateDailyConsumption(selectedItem), selectedItem.lead_time_days, selectedItem.minimum_stock))} <span className="text-xs font-normal text-indigo-400/70">{selectedItem.unit}</span>
                 </strong>
               </div>
-              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-                <span className="text-slate-500 block text-[11px]">Max Capacity</span>
-                <strong className="text-slate-900 text-base font-extrabold mt-0.5 block">
-                  {formatNumber(selectedItem.maximum_capacity)} <span className="text-xs font-normal">{selectedItem.unit}</span>
+              <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-2xs">
+                <span className="text-slate-400 block text-[11px]">Max Capacity</span>
+                <strong className="text-slate-100 text-base font-extrabold mt-0.5 block">
+                  {formatNumber(selectedItem.maximum_capacity)} <span className="text-xs font-normal text-slate-400">{selectedItem.unit}</span>
                 </strong>
               </div>
             </div>
 
             {/* Consumption & Replenishment Telemetry */}
-            <div className="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-2.5">
-              <h4 className="font-bold text-indigo-900 text-xs uppercase tracking-wide">
+            <div className="bg-indigo-950/40 p-4 rounded-xl border border-indigo-900/60 space-y-2.5">
+              <h4 className="font-bold text-indigo-300 text-xs uppercase tracking-wide">
                 Advanced Inventory Logic & Runway Telemetry
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-indigo-900/40">
                   <span className="text-slate-500 block text-[10px]">Daily Consumption</span>
-                  <strong className="text-slate-900 text-sm font-bold">{calculateDailyConsumption(selectedItem)} {selectedItem.unit}/day</strong>
+                  <strong className="text-slate-200 text-sm font-bold">{calculateDailyConsumption(selectedItem)} {selectedItem.unit}/day</strong>
                 </div>
-                <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-indigo-900/40">
                   <span className="text-slate-500 block text-[10px]">Stock Runway (Cover)</span>
-                  <strong className="text-emerald-700 text-sm font-bold">
+                  <strong className="text-emerald-400 text-sm font-bold">
                     {calculateStockCoverDays(selectedItem.current_stock, calculateDailyConsumption(selectedItem)) ?? 'N/A'} Days
                   </strong>
                 </div>
-                <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-indigo-900/40">
                   <span className="text-slate-500 block text-[10px]">Reorder Recommendation</span>
-                  <strong className="text-indigo-700 text-sm font-bold">
+                  <strong className="text-indigo-400 text-sm font-bold">
                     {calculateReorderRecommendation(selectedItem).required
                       ? `+${formatNumber(calculateReorderRecommendation(selectedItem).recommendedQuantity)} ${selectedItem.unit}`
                       : 'Secure (No Reorder)'}
@@ -602,15 +602,15 @@ export function InventoryPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-500">
+            <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-[11px] text-slate-500">
               <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <Clock className="w-3.5 h-3.5 text-slate-600" />
                 Last Update: {formatDate(selectedItem.last_updated, true)} IST
               </span>
-              <span className="italic text-slate-400">SIH 2026 Deterministic Logic Engine</span>
+              <span className="italic text-slate-600">SIH 2026 Deterministic Logic Engine</span>
             </div>
 
-            <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-200">
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-800">
               <Button
                 variant="outline"
                 size="sm"
@@ -653,7 +653,7 @@ export function InventoryPage() {
         >
           <form onSubmit={handleQuantityAdjustment} className="space-y-4 py-2 text-xs">
             <div>
-              <label className="block font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                 Adjustment Mode
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -668,8 +668,8 @@ export function InventoryPage() {
                     onClick={() => setAdjustmentType(m.id)}
                     className={`py-2 px-3 rounded-lg border font-semibold transition-all cursor-pointer ${
                       adjustmentType === m.id
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-2xs'
+                        : 'bg-slate-900 text-slate-300 border-slate-700 hover:bg-slate-800'
                     }`}
                   >
                     {m.label}
@@ -679,7 +679,7 @@ export function InventoryPage() {
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                 Quantity ({selectedItem.unit})
               </label>
               <input
@@ -690,21 +690,21 @@ export function InventoryPage() {
                 value={adjustmentValue}
                 onChange={(e) => setAdjustmentValue(e.target.value)}
                 placeholder="Enter quantity amount..."
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
               />
-              <span className="text-[11px] text-slate-400 mt-1 block">
+              <span className="text-[11px] text-slate-500 mt-1 block">
                 Maximum capacity: {selectedItem.maximum_capacity.toLocaleString()} {selectedItem.unit}
               </span>
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                 Adjustment Reason / Authority
               </label>
               <select
                 value={adjustmentReason}
                 onChange={(e) => setAdjustmentReason(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Scheduled Depot Restock">Scheduled Depot Restock</option>
                 <option value="Emergency Convoy Offload">Emergency Convoy Offload</option>
@@ -714,7 +714,7 @@ export function InventoryPage() {
               </select>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
               <Button variant="outline" size="sm" onClick={() => setIsAdjustModalOpen(false)}>
                 Cancel
               </Button>
