@@ -1,16 +1,20 @@
 /**
  * Navigation Configuration for LogiPredict AI
- * Integrated with centralized ROUTES_CONFIG.
+ * Centralized navigation items for Command Center sidebar, topbar, and mobile drawer.
+ * Aligned with Indian Army forward logistics hierarchy and SIH 2026 specifications.
  */
 import {
   LayoutDashboard,
   Boxes,
   TrendingUp,
-  Route,
   Package,
+  Route,
   AlertTriangle,
+  Sliders,
   BarChart3,
   Settings,
+  Shield,
+  Activity,
 } from 'lucide-react';
 
 export const NAVIGATION_ITEMS = [
@@ -35,16 +39,16 @@ export const NAVIGATION_ITEMS = [
     description: 'Predictive time-series demand models & trends',
   },
   {
-    name: 'GIS Route Planning',
-    path: '/routes',
-    icon: Route,
-    description: 'GIS tracking, dynamic rerouting & transit ETA',
-  },
-  {
     name: 'Supply Management',
     path: '/supplies',
     icon: Package,
     description: 'Unit requisitions, convoy manifests, and POL reserves',
+  },
+  {
+    name: 'Route Planning',
+    path: '/routes',
+    icon: Route,
+    description: 'GIS tracking, dynamic rerouting & transit ETA',
   },
   {
     name: 'Predictive Alerts',
@@ -53,6 +57,14 @@ export const NAVIGATION_ITEMS = [
     badge: '4',
     badgeVariant: 'danger',
     description: 'Anomaly detection and stockout risk warnings',
+  },
+  {
+    name: 'Simulations',
+    path: '/simulations',
+    icon: Sliders,
+    badge: 'What-If',
+    badgeVariant: 'purple',
+    description: 'Monsoon, roadblock, and surge stress simulations',
   },
   {
     name: 'Analytics & Reports',
@@ -75,7 +87,10 @@ export const CURRENT_USER = {
   name: 'Col. Rajesh Verma',
   role: 'Forward Logistics Director',
   organization: 'Indian Army — Central Logistics Hub',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  rank: 'Colonel',
+  echelon: 'HQ Northern Command',
   initials: 'RV',
   status: 'online',
 };
+
+export default NAVIGATION_ITEMS;

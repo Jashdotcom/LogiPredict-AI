@@ -1,15 +1,18 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes';
+import { ToastProvider } from './components/feedback/ToastContext';
 
 /**
  * LogiPredict AI Root Application
- * Uses centralized route configuration from src/routes
+ * Uses centralized route configuration from src/routes and global ToastProvider
  */
 export function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <ToastProvider position="top-right">
+        <AppRoutes />
+      </ToastProvider>
     </BrowserRouter>
   );
 }

@@ -4,20 +4,17 @@ import {
   Menu,
   Bell,
   Sparkles,
-  Calendar,
-  ChevronDown,
-  RefreshCw,
   Clock,
-  ShieldCheck,
+  RefreshCw,
   Search,
+  Sliders,
 } from 'lucide-react';
-import { SearchInput } from '../common/SearchInput';
-import { IconButton } from '../common/IconButton';
+import { SearchInput } from '../filters/SearchInput';
+import { IconButton } from '../ui/Button';
 import { NotificationIndicator } from '../common/NotificationIndicator';
-import { Button } from '../common/Button';
-import { Badge } from '../common/Badge';
+import { Button } from '../ui/Button';
+import { Badge } from '../ui/Badge';
 import { CURRENT_USER } from '../../data/navigationConfig';
-import { formatDate } from '../../utils/formatters';
 import { cn } from '../../utils/cn';
 
 // Route title dictionary
@@ -25,18 +22,19 @@ const ROUTE_TITLES = {
   '/': { title: 'Dashboard', category: 'Command Center' },
   '/inventory': { title: 'Inventory Management', category: 'Stock & Storage' },
   '/forecasting': { title: 'Demand Forecasting', category: 'Predictive Intelligence' },
-  '/routes': { title: 'GIS Route Planning', category: 'Fleet & Transit' },
+  '/routes': { title: 'Route Planning', category: 'Fleet & Transit' },
   '/supplies': { title: 'Supply Management', category: 'Forward Logistics' },
   '/alerts': { title: 'Predictive Alerts', category: 'Anomaly Detection' },
+  '/simulations': { title: 'Disruption Simulations', category: 'Stress Testing' },
   '/reports': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
   '/analytics': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
   '/settings': { title: 'Settings', category: 'System Configuration' },
 };
 
 /**
- * Enterprise Application Top Navigation Header
+ * Enterprise Application Top Navigation Header (Topbar)
  */
-export function Header({ onMenuClick }) {
+export function Header({ onMenuClick, className = '' }) {
   const location = useLocation();
   const [searchValue, setSearchValue] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -55,7 +53,12 @@ export function Header({ onMenuClick }) {
   };
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 transition-colors">
+    <header
+      className={cn(
+        'sticky top-0 z-20 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 transition-colors',
+        className
+      )}
+    >
       {/* Left side: Mobile Toggle & Page Context */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         {/* Mobile menu button */}
@@ -63,7 +66,7 @@ export function Header({ onMenuClick }) {
           type="button"
           onClick={onMenuClick}
           aria-label="Open sidebar menu"
-          className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 cursor-pointer"
+          className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -87,12 +90,12 @@ export function Header({ onMenuClick }) {
         <SearchInput
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Search SKUs, batches, routes, warehouses..."
+          placeholder="Search SKUs, batches, routes, FOB depots..."
           shortcut="/"
         />
       </div>
 
-      {/* Right side: Live Date Context, Refresh, Notifications & Profile */}
+      {/* Right side: Live Date Context, Refresh, Quick Action, Notifications & Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Live Date / Time Badge (Hidden on mobile) */}
         <div className="hidden xl:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200/80 text-xs text-slate-600">
@@ -154,10 +157,10 @@ export function Header({ onMenuClick }) {
                     <span className="w-2 h-2 rounded-full bg-rose-500 mt-1.5 shrink-0" />
                     <div>
                       <p className="text-xs font-semibold text-slate-800">
-                        Stockout Risk: Microcontroller Units
+                        Stockout Risk: Winter Diesel (HSD)
                       </p>
                       <p className="text-[11px] text-slate-500 mt-0.5">
-                        Pune West Hub — Bay 4B (Depletion in 42h)
+                        Forward Post Tango-4 (Depletion in 36h)
                       </p>
                       <span className="text-[10px] text-slate-400 mt-1 block">12 mins ago</span>
                     </div>
@@ -169,10 +172,10 @@ export function Header({ onMenuClick }) {
                     <span className="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0" />
                     <div>
                       <p className="text-xs font-semibold text-slate-800">
-                        Transit Delay: Lithium Cells (+14h)
+                        Corridor Delay: Zojila Pass Landslide
                       </p>
                       <p className="text-[11px] text-slate-500 mt-0.5">
-                        Expressway landslide clearance in progress
+                        Convoy CV-09 holding at Sonamarg staging
                       </p>
                       <span className="text-[10px] text-slate-400 mt-1 block">38 mins ago</span>
                     </div>
@@ -193,7 +196,7 @@ export function Header({ onMenuClick }) {
           )}
         </div>
 
-        {/* User Profile Pill */}
+        {/* User Profile Area */}
         <div className="flex items-center gap-2.5 pl-2 sm:pl-3 border-l border-slate-200">
           <div className="relative">
             <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs ring-2 ring-indigo-100">
@@ -216,4 +219,5 @@ export function Header({ onMenuClick }) {
   );
 }
 
+export const Topbar = Header;
 export default Header;

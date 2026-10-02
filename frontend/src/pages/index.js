@@ -4,6 +4,7 @@ export { ForecastingPage } from './ForecastingPage';
 export { RoutesPage } from './RoutesPage';
 export { SuppliesPage } from './SuppliesPage';
 export { AlertsPage } from './AlertsPage';
+export { SimulationsPage } from './SimulationsPage';
 export { AnalyticsPage } from './AnalyticsPage';
 export { AnalyticsPage as ReportsPage } from './AnalyticsPage';
 export { SettingsPage } from './SettingsPage';

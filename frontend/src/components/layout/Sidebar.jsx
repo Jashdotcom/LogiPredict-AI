@@ -7,19 +7,22 @@ import {
   ChevronRight,
   ShieldCheck,
   Zap,
+  Sparkles,
+  Sliders,
 } from 'lucide-react';
 import { NAVIGATION_ITEMS, SECONDARY_NAVIGATION } from '../../data/navigationConfig';
-import { Badge } from '../common/Badge';
 import { cn } from '../../utils/cn';
 
 /**
- * Enterprise Sidebar Navigation for LogiPredict AI
+ * Enterprise Command Sidebar Navigation for LogiPredict AI
+ * Aligned with Google Stitch military enterprise dashboard theme.
  */
 export function Sidebar({ isOpen, onClose, isMobile = false }) {
   const location = useLocation();
 
   return (
     <aside
+      aria-label="Application Command Sidebar"
       className={cn(
         'flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 transition-all duration-300 select-none z-30',
         isMobile
@@ -29,7 +32,12 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
     >
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-5 border-b border-slate-800/80 shrink-0">
-        <NavLink to="/" onClick={isMobile ? onClose : undefined} className="flex items-center gap-3 group">
+        <NavLink
+          to="/"
+          onClick={isMobile ? onClose : undefined}
+          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg p-1"
+          aria-label="LogiPredict AI Command Center Home"
+        >
           {/* Logo Mark */}
           <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 ring-1 ring-white/20 group-hover:scale-105 transition-transform duration-200">
             <Boxes className="w-5 h-5" />
@@ -52,12 +60,13 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
 
       {/* Main Navigation Items */}
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-slate-800">
-        {/* Primary Menu */}
+        {/* Primary Command Center Menu */}
         <div>
-          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            Command Center
+          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+            <span>Command Center</span>
+            <span className="text-[9px] font-mono text-slate-500">v1.4</span>
           </div>
-          <nav className="space-y-1">
+          <nav className="space-y-1" aria-label="Main Navigation">
             {NAVIGATION_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -66,10 +75,13 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
                 <NavLink
                   key={item.path}
                   to={item.path}
+                  end={item.path === '/'}
                   onClick={isMobile ? onClose : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   className={({ isActive: active }) =>
                     cn(
                       'group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150',
+                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400',
                       active
                         ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/70'
@@ -94,6 +106,8 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
                         'text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0',
                         item.badgeVariant === 'danger'
                           ? 'bg-rose-500 text-white animate-pulse'
+                          : item.badgeVariant === 'purple'
+                          ? 'bg-purple-900/80 text-purple-200 border border-purple-700/60'
                           : isActive
                           ? 'bg-indigo-800 text-indigo-200'
                           : 'bg-indigo-950 text-indigo-300 border border-indigo-800/60'
@@ -113,7 +127,7 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
           <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
             System & Engine
           </div>
-          <nav className="space-y-1">
+          <nav className="space-y-1" aria-label="System Settings Navigation">
             {SECONDARY_NAVIGATION.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -123,9 +137,11 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
                   key={item.path}
                   to={item.path}
                   onClick={isMobile ? onClose : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   className={({ isActive: active }) =>
                     cn(
                       'group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150',
+                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400',
                       active
                         ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/70'

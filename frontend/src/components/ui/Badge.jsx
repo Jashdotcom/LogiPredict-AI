@@ -3,7 +3,7 @@ import { cn } from '../../utils/cn';
 
 /**
  * LogiPredict AI — Enterprise Status Badge Component
- * Supports neutral, brand, success, warning, critical, danger, info, and purple variants
+ * Supports neutral, brand, success, warning, critical, danger, info (information), and purple variants
  * with dot indicators, pulse animation, custom icons, and size scales.
  */
 export function Badge({
@@ -43,6 +43,10 @@ export function Badge({
       dot: 'bg-rose-500',
     },
     info: {
+      bg: 'bg-blue-50 text-blue-700 border-blue-200',
+      dot: 'bg-blue-500',
+    },
+    information: {
       bg: 'bg-blue-50 text-blue-700 border-blue-200',
       dot: 'bg-blue-500',
     },
