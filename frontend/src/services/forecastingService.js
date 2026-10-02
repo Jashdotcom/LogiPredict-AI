@@ -5,7 +5,7 @@
  * and falls back to deterministic client-side calculation for demo reliability.
  */
 
-import { apiClient } from './apiClient';
+import { apiRequest } from './apiClient';
 import { generateForecastData } from '../utils/forecastingCalculations';
 
 export const forecastingService = {
@@ -17,8 +17,8 @@ export const forecastingService = {
   async getForecast(params = {}) {
     const { itemId = 'all', depot = 'all', horizonDays = 14, modelName = 'ensemble' } = params;
     try {
-      const response = await apiClient.get('/api/v1/forecast', { params });
-      return response.data || generateForecastData(itemId, depot, horizonDays, modelName);
+      const response = await apiRequest('forecast', { method: 'GET', params });
+      return response || generateForecastData(itemId, depot, horizonDays, modelName);
     } catch {
       // Fallback to local simulation generator
       return generateForecastData(itemId, depot, horizonDays, modelName);
@@ -32,8 +32,11 @@ export const forecastingService = {
    */
   async runInferencePipeline(config = {}) {
     try {
-      const response = await apiClient.post('/api/v1/forecast/retrain', config);
-      return response.data;
+      const response = await apiRequest('forecast/retrain', {
+        method: 'POST',
+        body: JSON.stringify(config),
+      });
+      return response;
     } catch {
       await new Promise((r) => setTimeout(r, 1200));
       return {

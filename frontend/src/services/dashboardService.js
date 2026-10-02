@@ -6,7 +6,7 @@
  * and falls back seamlessly to calibrated synthetic data for offline/demo reliability.
  */
 
-import { apiClient } from './apiClient';
+import { apiRequest } from './apiClient';
 import {
   DASHBOARD_KPIS,
   INVENTORY_HEALTH_DATA,
@@ -27,7 +27,7 @@ export const dashboardService = {
    */
   async getDashboardSummary(params = {}) {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/summary', { params });
+      const response = await apiRequest('dashboard/summary', { method: 'GET', params });
       return {
         kpis: response.kpis || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS),
         inventoryHealth: response.inventoryHealth || INVENTORY_HEALTH_DATA,
@@ -63,8 +63,8 @@ export const dashboardService = {
    */
   async getKPIs() {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/kpis');
-      return response.data || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
+      const response = await apiRequest('dashboard/kpis', { method: 'GET' });
+      return response || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
     } catch {
       return generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
     }
@@ -75,7 +75,7 @@ export const dashboardService = {
    */
   async getInventoryHealth() {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/inventory-health');
+      const response = await apiRequest('dashboard/inventory-health', { method: 'GET' });
       return {
         categories: response.categories || INVENTORY_HEALTH_DATA,
         distribution: response.distribution || INVENTORY_DISTRIBUTION_DATA,
@@ -94,10 +94,11 @@ export const dashboardService = {
    */
   async getDemandForecast(timeframe = '14d') {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/demand-forecast', {
+      const response = await apiRequest('dashboard/demand-forecast', {
+        method: 'GET',
         params: { timeframe },
       });
-      return response.data || DEMAND_FORECAST_DATA;
+      return response || DEMAND_FORECAST_DATA;
     } catch {
       return DEMAND_FORECAST_DATA;
     }
@@ -108,8 +109,8 @@ export const dashboardService = {
    */
   async getPriorityAlerts() {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/alerts');
-      return response.data || PRIORITY_ALERTS;
+      const response = await apiRequest('dashboard/alerts', { method: 'GET' });
+      return response || PRIORITY_ALERTS;
     } catch {
       return PRIORITY_ALERTS;
     }
@@ -121,10 +122,11 @@ export const dashboardService = {
    */
   async getRecentActivities(limit = 10) {
     try {
-      const response = await apiClient.get('/api/v1/dashboard/activities', {
+      const response = await apiRequest('dashboard/activities', {
+        method: 'GET',
         params: { limit },
       });
-      return response.data || RECENT_ACTIVITIES;
+      return response || RECENT_ACTIVITIES;
     } catch {
       return RECENT_ACTIVITIES;
     }
@@ -138,9 +140,9 @@ export const dashboardService = {
    */
   async triggerMitigationAction(alertId, actionType, payload = {}) {
     try {
-      return await apiClient.post(`/api/v1/alerts/${alertId}/mitigate`, {
-        actionType,
-        ...payload,
+      return await apiRequest(`alerts/${alertId}/mitigate`, {
+        method: 'POST',
+        body: JSON.stringify({ actionType, ...payload }),
       });
     } catch {
       // Return simulated success confirmation for prototype flow

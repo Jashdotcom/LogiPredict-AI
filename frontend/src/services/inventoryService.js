@@ -5,7 +5,7 @@
  * and robust offline synthetic fallback for SIH 2026 demonstration.
  */
 
-import { apiClient } from './apiClient';
+import { apiRequest } from './apiClient';
 import { INVENTORY_ITEMS as INITIAL_ITEMS } from '../data/dashboard/inventoryData';
 
 // In-memory state store for prototype quantity updates
@@ -19,8 +19,8 @@ export const inventoryService = {
    */
   async getInventory(params = {}) {
     try {
-      const response = await apiClient.get('/api/v1/inventory', { params });
-      return response.data || cachedInventory;
+      const response = await apiRequest('inventory', { method: 'GET', params });
+      return response || cachedInventory;
     } catch {
       // Offline fallback to local synthetic store
       let items = [...cachedInventory];
@@ -50,8 +50,8 @@ export const inventoryService = {
    */
   async getItemById(itemId) {
     try {
-      const response = await apiClient.get(`/api/v1/inventory/${itemId}`);
-      return response.data;
+      const response = await apiRequest(`inventory/${itemId}`, { method: 'GET' });
+      return response;
     } catch {
       const found = cachedInventory.find((i) => i.item_id === itemId);
       if (!found) throw new Error(`Item ${itemId} not found`);
@@ -73,9 +73,12 @@ export const inventoryService = {
     }
 
     try {
-      const response = await apiClient.patch(`/api/v1/inventory/${itemId}/stock`, {
-        current_stock: qty,
-        reason,
+      const response = await apiRequest(`inventory/${itemId}/stock`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          current_stock: qty,
+          reason,
+        }),
       });
       // Update local cache
       cachedInventory = cachedInventory.map((item) =>
@@ -83,7 +86,7 @@ export const inventoryService = {
           ? { ...item, current_stock: qty, last_updated: new Date().toISOString() }
           : item
       );
-      return response.data || { success: true, item_id: itemId, current_stock: qty };
+      return response || { success: true, item_id: itemId, current_stock: qty };
     } catch {
       // Offline simulation success
       const index = cachedInventory.findIndex((i) => i.item_id === itemId);
