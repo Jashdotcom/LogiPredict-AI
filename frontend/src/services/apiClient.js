@@ -213,6 +213,9 @@ export const alertsApi = {
  * 6. Logistics Simulation API Service
  */
 export const simulationApi = {
+  getBaseline: () => apiRequest('/simulation/baseline', { method: 'GET' }),
+  listScenarios: () => apiRequest('/simulation/scenarios', { method: 'GET' }),
+  getScenarioById: (scenarioId) => apiRequest(`/simulation/scenarios/${scenarioId}`, { method: 'GET' }),
   runSimulation: (config) =>
     apiRequest('/simulation/run', {
       method: 'POST',
@@ -220,7 +223,6 @@ export const simulationApi = {
       timeout: 60000, // Extended timeout for Monte Carlo runs
     }),
   getById: (simId) => apiRequest(`/simulation/${simId}`, { method: 'GET' }),
-  listScenarios: () => apiRequest('/simulation/scenarios', { method: 'GET' }),
 };
 
 /**

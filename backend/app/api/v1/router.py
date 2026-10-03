@@ -9,6 +9,7 @@ from app.api.v1.dashboard import router as dashboard_router
 from app.api.v1.forecast import router as forecast_router
 from app.api.v1.alerts import router as alerts_router
 from app.api.v1.routes import router as routes_router
+from app.api.v1.simulation import router as simulation_router
 
 api_router = APIRouter()
 
@@ -17,6 +18,7 @@ api_router.include_router(dashboard_router)
 api_router.include_router(forecast_router)
 api_router.include_router(alerts_router)
 api_router.include_router(routes_router)
+api_router.include_router(simulation_router)
 
 
 @api_router.get("/info", tags=["System Info"])
@@ -36,6 +38,7 @@ async def get_system_info():
             "route_planning",
             "supply_requisitions",
             "predictive_alerts",
+            "simulation_workspace",
             "analytics_reports",
         ],
     }
