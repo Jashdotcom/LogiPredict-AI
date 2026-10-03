@@ -223,3 +223,38 @@ class AuditReportResponse(BaseModel):
     summary_notes: str = Field(...)
     kpi_highlights: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
     top_risk_locations: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
+
+
+# ==============================================================================
+# Comprehensive Executive Demo Report Schemas (Phase 9.2)
+# ==============================================================================
+
+class DemoReportRecommendation(BaseModel):
+    priority: str = Field(..., description="URGENT, HIGH, MEDIUM, ROUTINE")
+    category: str = Field(..., description="POL, Ordnance, Medical, Route, Buffer")
+    title: str = Field(..., description="Action recommendation headline")
+    description: str = Field(..., description="Operational detail and risk mitigation context")
+    target_node: str = Field(..., description="Affected depot, corridor, or brigade FOB")
+    suggested_action: str = Field(..., description="Specific command intervention")
+    requires_human_review: bool = Field(default=True, description="Human-in-the-loop sign-off required")
+
+
+class DemoReportResponse(BaseModel):
+    report_id: str = Field(..., description="Unique report identifier e.g. REP-HQNC-2026-...")
+    title: str = Field(default="HQ Northern Command Master Readiness & Logistics Report")
+    subtitle: str = Field(default="Multi-Echelon Telematics, AI Forecasting Diagnostics & Stockout Risk Audit")
+    classification: str = Field(default="RESTRICTED // HQ NC // SIH 2026")
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    period: str = Field(default="Last 7 Days (Standard Military Assessment)")
+    scope: str = Field(default="Northern Command Forward Supply Chain (Ladakh & Kashmir Sectors)")
+    disclaimer: str = Field(
+        default="SYNTHETIC DATA DISCLAIMER: All metrics, inventory figures, convoy telematics, and demand projections are simulated for demonstration, research, and testing purposes under the Smart India Hackathon (SIH 2026) framework."
+    )
+    executive_summary: Dict[str, Any] = Field(..., description="High-level readiness, valuation, health %, and key takeaways")
+    inventory_analysis: Dict[str, Any] = Field(..., description="Multi-echelon stock levels, category allocation, and critical stockout items")
+    forecasting_analysis: Dict[str, Any] = Field(..., description="Neural model accuracy, residual metrics, and 7-day demand projections")
+    predictive_alerts_summary: Dict[str, Any] = Field(..., description="Anomaly counts by severity, active vs resolved, and top alerts")
+    logistics_performance: Dict[str, Any] = Field(..., description="Mountain corridor transit telemetry, delays, and OTD rate")
+    strategic_recommendations: List[DemoReportRecommendation] = Field(default_factory=list, description="Prioritized human-in-the-loop action items")
+    certification: Dict[str, Any] = Field(default_factory=dict, description="Algorithmic verification hash and command sign-off block")
+

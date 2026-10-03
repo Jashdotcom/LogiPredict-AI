@@ -28,6 +28,7 @@ import {
   ReplenishmentLifecycleChart,
   CorridorTelematicsChart,
   AuditReportModal,
+  DemoReportModal,
 } from '../components/analytics';
 import {
   analyticsDataService,
@@ -40,35 +41,39 @@ import { SkeletonCard, SkeletonChart } from '../components/feedback/Skeleton';
 const REPORT_TEMPLATES = [
   {
     id: 'REP-01',
-    title: 'Forward Stockout Probability & Safety Buffer Audit',
-    description: 'Comprehensive risk scoring across all 6 distribution hubs with 14-day stockout probabilities.',
-    type: 'CSV / Data Audit',
-    frequency: 'Daily Automated',
-    lastGenerated: 'Today, 06:00 AM',
+    title: 'Forward Inventory Status & Multi-Echelon Stock Telemetry',
+    description: 'Comprehensive stock levels, burn rates, days of cover, safety thresholds, and valuation across active filters.',
+    type: 'CSV Data Export',
+    frequency: 'Live Synchronized',
+    lastGenerated: 'Live Query',
+    actionKey: 'inventory_csv',
   },
   {
     id: 'REP-02',
-    title: 'AI Demand Forecast MAPE & Accuracy Diagnostics',
-    description: 'Neural model error decomposition, residual analysis, and seasonal factor regression audit.',
-    type: 'JSON / Diagnostics',
-    frequency: 'Weekly',
-    lastGenerated: '28 Sep 2026',
+    title: 'AI Demand Forecast MAPE & Neural Confidence Intervals',
+    description: 'Historical and forward demand projections, residual errors, and 95% upper/lower confidence bounds.',
+    type: 'CSV Data Export',
+    frequency: '7-Day / 14-Day Horizon',
+    lastGenerated: 'Live Inference',
+    actionKey: 'forecasts_csv',
   },
   {
     id: 'REP-03',
-    title: 'Dynamic Route Optimization & Convoy Telematics',
-    description: 'Fleet mileage, transit bottleneck mitigations, mountain pass delays, and corridor reliability.',
-    type: 'CSV / Telematics',
-    frequency: 'Monthly',
-    lastGenerated: '01 Oct 2026',
+    title: 'Predictive Anomaly Alerts & Early Warning Log',
+    description: 'Critical stockout risks, lead-time spikes, anomaly triggers, and automated intervention actions.',
+    type: 'CSV Data Export',
+    frequency: 'Continuous Stream',
+    lastGenerated: 'Live Telemetry',
+    actionKey: 'alerts_csv',
   },
   {
     id: 'REP-04',
-    title: 'HQ Northern Command Master Readiness Briefing (Form 48-A)',
-    description: 'High-level synthesis of resilience metrics, SLA performance, and prototype ROI indicators.',
-    type: 'Executive Briefing',
+    title: 'HQ Northern Command Master Readiness Briefing (Demo Report)',
+    description: 'High-level executive briefing combining multi-echelon readiness, neural forecasts, convoy OTD, and human-in-the-loop actions.',
+    type: 'Executive Briefing / HTML / PDF',
     frequency: 'On Demand',
-    lastGenerated: '03 Oct 2026',
+    lastGenerated: 'Certified v2.4',
+    actionKey: 'demo_report',
   },
 ];
 
@@ -83,6 +88,11 @@ export function AnalyticsPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [overviewData, setOverviewData] = useState(null);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+
+  // Individual export loading states
+  const [exportingType, setExportingType] = useState(null); // 'inventory' | 'forecasts' | 'alerts' | null
+
 
   // Data fetching handler
   const fetchAnalyticsOverview = useCallback(async (isSilent = false) => {
@@ -112,7 +122,52 @@ export function AnalyticsPage() {
     fetchAnalyticsOverview();
   }, [fetchAnalyticsOverview]);
 
-  // Export handlers
+  // Phase 9.2 Specialized CSV Export Handlers
+  const handleDownloadInventoryCsv = async () => {
+    setExportingType('inventory');
+    try {
+      await analyticsDataService.downloadInventoryCsv({
+        timeframe,
+        depot_id: selectedDepot !== 'all' ? selectedDepot : undefined,
+        category: selectedCategory !== 'all' ? selectedCategory : undefined,
+      });
+    } catch (err) {
+      console.error('[AnalyticsPage] Failed to export inventory CSV:', err);
+    } finally {
+      setExportingType(null);
+    }
+  };
+
+  const handleDownloadForecastsCsv = async () => {
+    setExportingType('forecasts');
+    try {
+      await analyticsDataService.downloadForecastsCsv({
+        timeframe,
+        depot_id: selectedDepot !== 'all' ? selectedDepot : undefined,
+        category: selectedCategory !== 'all' ? selectedCategory : undefined,
+      });
+    } catch (err) {
+      console.error('[AnalyticsPage] Failed to export forecasts CSV:', err);
+    } finally {
+      setExportingType(null);
+    }
+  };
+
+  const handleDownloadAlertsCsv = async () => {
+    setExportingType('alerts');
+    try {
+      await analyticsDataService.downloadAlertsCsv({
+        depot_id: selectedDepot !== 'all' ? selectedDepot : undefined,
+        category: selectedCategory !== 'all' ? selectedCategory : undefined,
+      });
+    } catch (err) {
+      console.error('[AnalyticsPage] Failed to export alerts CSV:', err);
+    } finally {
+      setExportingType(null);
+    }
+  };
+
+  // General Export handlers
   const handleExportCsv = () => {
     if (!overviewData) return;
     const csvContent = analyticsDataService.exportToCsv(overviewData);
@@ -140,8 +195,14 @@ export function AnalyticsPage() {
   };
 
   const handleDownloadTemplate = (template) => {
-    if (template.id === 'REP-04') {
-      setIsAuditModalOpen(true);
+    if (template.actionKey === 'inventory_csv') {
+      handleDownloadInventoryCsv();
+    } else if (template.actionKey === 'forecasts_csv') {
+      handleDownloadForecastsCsv();
+    } else if (template.actionKey === 'alerts_csv') {
+      handleDownloadAlertsCsv();
+    } else if (template.actionKey === 'demo_report' || template.id === 'REP-04') {
+      setIsDemoModalOpen(true);
     } else if (template.type.includes('JSON')) {
       handleExportJson();
     } else {
@@ -176,6 +237,14 @@ export function AnalyticsPage() {
               Refresh
             </Button>
             <Button
+              variant="brand"
+              size="sm"
+              icon={Sparkles}
+              onClick={() => setIsDemoModalOpen(true)}
+            >
+              Master Demo Briefing
+            </Button>
+            <Button
               variant="outline"
               size="sm"
               icon={FileText}
@@ -187,12 +256,34 @@ export function AnalyticsPage() {
               variant="outline"
               size="sm"
               icon={FileSpreadsheet}
-              onClick={handleExportCsv}
+              onClick={handleDownloadInventoryCsv}
+              isLoading={exportingType === 'inventory'}
+              loadingText="Inventory..."
             >
-              Export CSV
+              Inventory CSV
             </Button>
             <Button
-              variant="primary"
+              variant="outline"
+              size="sm"
+              icon={FileSpreadsheet}
+              onClick={handleDownloadForecastsCsv}
+              isLoading={exportingType === 'forecasts'}
+              loadingText="Forecasts..."
+            >
+              Forecasts CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              icon={FileSpreadsheet}
+              onClick={handleDownloadAlertsCsv}
+              isLoading={exportingType === 'alerts'}
+              loadingText="Alerts..."
+            >
+              Alerts CSV
+            </Button>
+            <Button
+              variant="outline"
               size="sm"
               icon={Download}
               onClick={handleExportJson}
@@ -398,6 +489,15 @@ export function AnalyticsPage() {
         overviewData={overviewData}
         onExportCsv={handleExportCsv}
         onExportJson={handleExportJson}
+      />
+
+      {/* Master Demo Report Modal (Phase 9.2) */}
+      <DemoReportModal
+        isOpen={isDemoModalOpen}
+        onClose={() => setIsDemoModalOpen(false)}
+        timeframe={timeframe}
+        selectedDepot={selectedDepot}
+        selectedCategory={selectedCategory}
       />
     </div>
   );

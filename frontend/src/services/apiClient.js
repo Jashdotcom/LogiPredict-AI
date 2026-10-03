@@ -243,6 +243,23 @@ export const analyticsApi = {
   getDeliveryPerformance: () => apiRequest('/analytics/delivery-performance', { method: 'GET' }),
   getDashboardSummary: () => apiRequest('/analytics/dashboard', { method: 'GET' }),
   getAuditReport: (params) => apiRequest('/analytics/audit-report', { method: 'GET', params }),
+  getDemoReport: (params) => apiRequest('/analytics/reports/demo-report', { method: 'GET', params }),
+  getInventoryCsvUrl: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return `${API_BASE_URL}/analytics/export/inventory${q ? `?${q}` : ''}`;
+  },
+  getForecastsCsvUrl: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return `${API_BASE_URL}/analytics/export/forecasts${q ? `?${q}` : ''}`;
+  },
+  getAlertsCsvUrl: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return `${API_BASE_URL}/analytics/export/alerts${q ? `?${q}` : ''}`;
+  },
+  getDemoHtmlUrl: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return `${API_BASE_URL}/analytics/reports/demo-html${q ? `?${q}` : ''}`;
+  },
 };
 
 export default {

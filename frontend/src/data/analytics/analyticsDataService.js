@@ -2,7 +2,7 @@
  * LogiPredict AI - Analytics & Telematics Data Service
  * ===================================================
  * Client-side data management, mathematical metric aggregation,
- * and resilient API synchronizer for the Executive Analytics Dashboard.
+ * CSV export generators, and resilient API synchronizer for the Executive Analytics Dashboard.
  *
  * Indian Army Forward Supply Chain (SIH 2026)
  */
@@ -289,7 +289,161 @@ export const FALLBACK_DELIVERY_PERFORMANCE = {
   ],
 };
 
+// Fallback Master Demo Report
+export const FALLBACK_DEMO_REPORT = {
+  report_id: 'REP-HQNC-2026-DEMO-MASTER',
+  title: 'HQ Northern Command Master Readiness & Logistics Report',
+  subtitle: 'Multi-Echelon Telematics, AI Forecasting Diagnostics & Stockout Risk Audit',
+  classification: 'RESTRICTED // HQ NC // SIH 2026',
+  generated_at: new Date().toISOString(),
+  period: 'Last 7 Days (Standard Military Assessment)',
+  scope: 'Northern Command Forward Supply Chain (Ladakh & Kashmir Sectors)',
+  disclaimer: 'SYNTHETIC DATA DISCLAIMER: All metrics, inventory figures, convoy telematics, and demand projections are simulated for demonstration, research, and testing purposes under the Smart India Hackathon (SIH 2026) framework.',
+  executive_summary: {
+    total_skus_tracked: 25,
+    overall_inventory_health_percentage: 94.8,
+    total_valuation_inr: '₹42.85 Cr',
+    critical_stockout_skus: 2,
+    warning_stockout_skus: 4,
+    pending_replenishments: 8,
+    active_anomaly_alerts: 4,
+    forecast_model_accuracy_percentage: 96.8,
+    mean_absolute_percentage_error: 3.2,
+    on_time_delivery_rate_percentage: 96.2,
+    total_convoy_missions_completed: 156,
+    key_takeaways: [
+      'Forward echelon fuel (POL) reserves at Drass FOB require immediate top-off before winter closure.',
+      'Siachen sector biological cold-chain supplies need expedited replenishment via emergency rotary airlift.',
+      'AI demand forecasting MAPE remains within 3.2% high-precision tolerance across all northern nodes.',
+      'Corridor transit via Zoji La experiencing an average 1.3h delay due to high-altitude pass congestion.',
+    ],
+  },
+  inventory_analysis: {
+    total_items: 25,
+    healthy_items: 19,
+    low_stock_items: 4,
+    critical_items_count: 2,
+    depots_audited: 6,
+    category_distribution: {
+      POL: 7,
+      'Ordnance & Ammunition': 7,
+      'Rations & Subsistence': 5,
+      'Medical & Cold-Chain': 4,
+      'Engineering & Spares': 2,
+    },
+    critical_watchlist: [
+      { sku: 'SKU-POL-001', name: 'High-Altitude Diesel Fuel (POL-HAD)', depot: 'Drass Forward Operating Base', on_hand: 8500, min_threshold: 12000, days_of_cover: 3.4, unit: 'Liters', status: 'CRITICAL' },
+      { sku: 'SKU-MED-002', name: 'Plasma & Blood Biological Kits', depot: 'Siachen Base Support Camp', on_hand: 45, min_threshold: 80, days_of_cover: 2.8, unit: 'Kits', status: 'CRITICAL' },
+      { sku: 'SKU-RAT-003', name: 'Extreme Cold Combat Rations MRE', depot: 'Kargil Forward Logistics Hub', on_hand: 2400, min_threshold: 2800, days_of_cover: 5.2, unit: 'Packs', status: 'WARNING' },
+    ],
+  },
+  forecasting_analysis: {
+    model_architecture: 'Hybrid LSTM + Prophet with Ridge Baseline Ensemble',
+    evaluation_timeframe: '7d',
+    mape: 3.2,
+    mae: 142.5,
+    rmse: 185.0,
+    r_squared: 0.968,
+    accuracy_percentage: 96.8,
+    evaluation_series: [
+      { date: 'Sep 27', actual: 4650, forecasted: 4580, residual: 70, error_pct: 1.5 },
+      { date: 'Sep 28', actual: 4820, forecasted: 4710, residual: 110, error_pct: 2.3 },
+      { date: 'Sep 29', actual: 5120, forecasted: 4980, residual: 140, error_pct: 2.7 },
+      { date: 'Sep 30', actual: 4950, forecasted: 5100, residual: -150, error_pct: 3.0 },
+      { date: 'Oct 01', actual: 5280, forecasted: 5120, residual: 160, error_pct: 3.0 },
+      { date: 'Oct 02', actual: 4790, forecasted: 4940, residual: -150, error_pct: 3.1 },
+      { date: 'Oct 03', actual: 4890, forecasted: 4780, residual: 110, error_pct: 2.2 },
+    ],
+  },
+  predictive_alerts_summary: {
+    total_alerts: 6,
+    critical_alerts: 2,
+    warning_alerts: 3,
+    info_alerts: 1,
+    active_count: 4,
+    resolved_count: 2,
+    top_alerts: [
+      { alert_id: 'ALT-2026-POL-DRS', type: 'Stockout Risk', severity: 'critical', depot: 'Drass FOB', trigger: 'POL-HAD buffer below 3.5 days cover', action: 'Dispatch 12,000L emergency POL bowser convoy from Srinagar Depot.' },
+      { alert_id: 'ALT-2026-MED-SIA', type: 'Cold Chain Expiry Risk', severity: 'critical', depot: 'Siachen Base Camp', trigger: 'Biological kits temperature alert & sub-3 day inventory', action: 'Initiate rotary airlift replenishment from Leh Corps Supply Depot.' },
+      { alert_id: 'ALT-2026-CON-ZOJ', type: 'Corridor Transit Delay', severity: 'warning', depot: 'Zoji La Corridor', trigger: 'Convoy transit delay exceeding 1.2h SLA', action: 'Reroute secondary logistics echelon via alternate axis.' },
+    ],
+  },
+  logistics_performance: {
+    total_missions: 156,
+    completed_missions: 150,
+    on_time_delivery_rate: 96.2,
+    fleet_average_transit_hours: 6.8,
+    corridors: [
+      { name: 'Srinagar to Kargil (Zoji La Pass)', standard_hours: 6.5, actual_hours: 7.8, delay_hours: 1.3, otd_pct: 94.2, status: 'High_Altitude_Pass' },
+      { name: 'Kargil to Drass Sector Axis', standard_hours: 1.8, actual_hours: 2.0, delay_hours: 0.2, otd_pct: 98.5, status: 'Clear_All_Weather' },
+      { name: 'Kargil to Leh via Fotu La', standard_hours: 5.5, actual_hours: 5.7, delay_hours: 0.2, otd_pct: 97.0, status: 'Clear_All_Weather' },
+      { name: 'Leh to Siachen Base (Khardung La)', standard_hours: 8.5, actual_hours: 11.2, delay_hours: 2.7, otd_pct: 88.4, status: 'Snow_Bound' },
+      { name: 'Srinagar to Kupwara Sector', standard_hours: 2.5, actual_hours: 2.6, delay_hours: 0.1, otd_pct: 99.1, status: 'Clear_All_Weather' },
+    ],
+  },
+  strategic_recommendations: [
+    {
+      priority: 'URGENT',
+      category: 'POL',
+      title: 'Emergency Fuel Top-off for Drass Sector',
+      description: 'Projected severe weather window in 48 hours will close Zoji La pass. Immediate dispatch of 2 heavy POL bowsers required.',
+      target_node: 'Drass Forward Operating Base (LOC-DRS-04)',
+      suggested_action: 'Issue Command Dispatch Order for 2x 10,000L POL tankers from Srinagar Base.',
+      requires_human_review: true,
+    },
+    {
+      priority: 'URGENT',
+      category: 'Medical',
+      title: 'Airlift Critical Blood Plasma Units to Siachen Camp',
+      description: 'Siachen Base Camp reserve is down to 2.8 days of cover. Ground transit via Khardung La is impeded by fresh snow.',
+      target_node: 'Siachen Base Support Camp (LOC-SIA-05)',
+      suggested_action: 'Coordinate with Army Aviation for priority helicopter resupply mission.',
+      requires_human_review: true,
+    },
+    {
+      priority: 'HIGH',
+      category: 'Buffer',
+      title: 'Adjust Safety Thresholds for Winter Stocking Phase',
+      description: 'Winter buffer multiplier (+25%) should be enabled for all non-perishable combat rations at Kargil and Leh depots.',
+      target_node: 'Kargil Forward Logistics Hub (LOC-KRG-02)',
+      suggested_action: 'Approve AI automated safety stock recalculation rule.',
+      requires_human_review: true,
+    },
+    {
+      priority: 'MEDIUM',
+      category: 'Route',
+      title: 'Optimize Convoy Departure Times for Fotu La Pass',
+      description: 'Shifting departure schedule by -90 minutes avoids afternoon icing and reduces mean transit time by 0.6 hours.',
+      target_node: 'Kargil-Leh Axis (RTE-KRG-LEH-03)',
+      suggested_action: 'Update standard convoy operating timetable in Fleet Management.',
+      requires_human_review: false,
+    },
+  ],
+  certification: {
+    status: 'DIGITALLY VERIFIED',
+    hash: 'SHA256:8f4c2b9a71d8e03e5c9a1b4f6d7e8c0a3b2e1f9a8d7c6b5a4e3f2d1c0b9a8f7e',
+    certifying_officer: 'Col. V. K. Sharma, SM',
+    designation: 'Staff Officer (Logistics), HQ Northern Command',
+    system_engine: 'LogiPredict AI Telematics & Predictive Decision Engine v2.4',
+  },
+};
+
 class AnalyticsDataService {
+  /**
+   * Helper: Trigger browser file download with blob/string
+   */
+  triggerDownload(content, filename, mimeType = 'text/csv;charset=utf-8;') {
+    const blob = content instanceof Blob ? content : new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   /**
    * Fetch complete unified analytics overview with offline fallback
    */
@@ -317,6 +471,124 @@ class AnalyticsDataService {
       delivery_performance: FALLBACK_DELIVERY_PERFORMANCE,
       generated_at: new Date().toISOString(),
     };
+  }
+
+  /**
+   * 1. Export Inventory CSV (Phase 9.2)
+   */
+  async downloadInventoryCsv(params = {}) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const filename = `logipredict_inventory_${todayStr}.csv`;
+
+    try {
+      const url = analyticsApi.getInventoryCsvUrl(params);
+      const response = await fetch(url);
+      if (response.ok) {
+        const text = await response.text();
+        this.triggerDownload(text, filename, 'text/csv;charset=utf-8;');
+        return { success: true, filename, source: 'backend' };
+      }
+    } catch (err) {
+      console.warn('[AnalyticsDataService] API inventory CSV export failed, generating client-side fallback:', err);
+    }
+
+    // Client-side fallback CSV generator
+    const rows = [
+      ['SKU ID', 'Item Name', 'Category', 'Depot ID', 'Depot Name', 'Available Stock', 'Unit', 'Daily Burn Rate', 'Days of Cover', 'Safety Stock (Min)', 'Status', 'Total Valuation (INR)'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel (POL-HAD)', 'POL', 'LOC-DRS-04', 'Drass Forward Operating Base', '8500', 'Liters', '2500.0', '3.4', '12000', 'CRITICAL', '807500.0'],
+      ['SKU-MED-002', 'Plasma & Blood Biological Kits', 'Medical & Cold-Chain', 'LOC-SIA-05', 'Siachen Base Support Camp', '45', 'Kits', '16.0', '2.8', '80', 'CRITICAL', '202500.0'],
+      ['SKU-RAT-003', 'Extreme Cold Combat Rations MRE', 'Rations & Subsistence', 'LOC-KRG-02', 'Kargil Forward Logistics Hub', '2400', 'Packs', '460.0', '5.2', '2800', 'WARNING', '1080000.0'],
+      ['SKU-ORD-004', '7.62mm NATO Small Arms Ammunition', 'Ordnance & Ammunition', 'LOC-LEH-03', 'Leh Corps Supply Depot', '45000', 'Rounds', '1200.0', '37.5', '15000', 'HEALTHY', '5400000.0'],
+      ['SKU-ENG-005', 'Heavy Vehicle Cold Start Batteries', 'Engineering & Spares', 'LOC-SRI-01', 'Srinagar Central Logistics Depot', '320', 'Units', '12.0', '26.7', '100', 'HEALTHY', '3840000.0'],
+    ];
+    const csvString = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    this.triggerDownload(csvString, filename, 'text/csv;charset=utf-8;');
+    return { success: true, filename, source: 'client-fallback' };
+  }
+
+  /**
+   * 2. Export Demand Forecasts CSV (Phase 9.2)
+   */
+  async downloadForecastsCsv(params = {}) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const filename = `logipredict_forecasts_${todayStr}.csv`;
+
+    try {
+      const url = analyticsApi.getForecastsCsvUrl(params);
+      const response = await fetch(url);
+      if (response.ok) {
+        const text = await response.text();
+        this.triggerDownload(text, filename, 'text/csv;charset=utf-8;');
+        return { success: true, filename, source: 'backend' };
+      }
+    } catch (err) {
+      console.warn('[AnalyticsDataService] API forecasts CSV export failed, generating client-side fallback:', err);
+    }
+
+    const rows = [
+      ['SKU ID', 'Item Name', 'Category', 'Depot ID', 'Depot Name', 'Forecast Date', 'Record Type', 'Predicted Demand', 'Actual Demand', 'Residual Error', 'Percentage Error (%)', 'Lower Confidence (95%)', 'Upper Confidence (95%)', 'Model Name', 'Horizon (Days)'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel', 'POL', 'LOC-DRS-04', 'Drass FOB', '2026-10-01', 'HISTORICAL', '5120.0', '5280.0', '160.0', '3.0%', '4915.2', '5324.8', 'Hybrid LSTM-Prophet Ensemble', '14'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel', 'POL', 'LOC-DRS-04', 'Drass FOB', '2026-10-02', 'HISTORICAL', '4940.0', '4790.0', '-150.0', '3.1%', '4742.4', '5137.6', 'Hybrid LSTM-Prophet Ensemble', '14'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel', 'POL', 'LOC-DRS-04', 'Drass FOB', '2026-10-03', 'HISTORICAL', '4780.0', '4890.0', '110.0', '2.2%', '4588.8', '4971.2', 'Hybrid LSTM-Prophet Ensemble', '14'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel', 'POL', 'LOC-DRS-04', 'Drass FOB', '2026-10-04', 'PROJECTION', '4850.0', 'N/A (Forward)', '0.0', 'N/A', '4510.5', '5189.5', 'Hybrid LSTM-Prophet Ensemble', '14'],
+      ['SKU-POL-001', 'High-Altitude Diesel Fuel', 'POL', 'LOC-DRS-04', 'Drass FOB', '2026-10-05', 'PROJECTION', '5020.0', 'N/A (Forward)', '0.0', 'N/A', '4668.6', '5371.4', 'Hybrid LSTM-Prophet Ensemble', '14'],
+    ];
+    const csvString = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    this.triggerDownload(csvString, filename, 'text/csv;charset=utf-8;');
+    return { success: true, filename, source: 'client-fallback' };
+  }
+
+  /**
+   * 3. Export Predictive Alerts CSV (Phase 9.2)
+   */
+  async downloadAlertsCsv(params = {}) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const filename = `logipredict_alerts_${todayStr}.csv`;
+
+    try {
+      const url = analyticsApi.getAlertsCsvUrl(params);
+      const response = await fetch(url);
+      if (response.ok) {
+        const text = await response.text();
+        this.triggerDownload(text, filename, 'text/csv;charset=utf-8;');
+        return { success: true, filename, source: 'backend' };
+      }
+    } catch (err) {
+      console.warn('[AnalyticsDataService] API alerts CSV export failed, generating client-side fallback:', err);
+    }
+
+    const rows = [
+      ['Alert ID', 'Anomaly Type', 'Severity', 'Depot ID', 'Depot Name', 'Related SKU', 'Item Name', 'Category', 'Description', 'Trigger Condition', 'Recommended Action', 'Status', 'Detected At', 'Acknowledged By', 'Resolved By', 'Resolution Notes'],
+      ['ALT-2026-POL-DRS', 'Critical Stockout Risk', 'CRITICAL', 'LOC-DRS-04', 'Drass FOB', 'SKU-POL-001', 'High-Altitude Diesel Fuel (POL-HAD)', 'POL', 'POL-HAD fuel reserves in Drass FOB have dropped to 3.4 days of cover.', 'Available stock 8,500L < safety stock 12,000L', 'Dispatch emergency 12,000L POL bowser convoy from Srinagar Base Depot.', 'ACTIVE', '2026-10-03T05:30:00Z', 'Capt. S. Rawat', '', ''],
+      ['ALT-2026-MED-SIA', 'Cold Chain & Inventory Expiry', 'CRITICAL', 'LOC-SIA-05', 'Siachen Base Camp', 'SKU-MED-002', 'Plasma & Blood Biological Kits', 'Medical & Cold-Chain', 'Siachen Base biological kits reserve at 45 kits (2.8 days of cover).', 'Available stock 45 < safety threshold 80', 'Initiate emergency rotary airlift replenishment from Leh Corps Supply Depot.', 'ACTIVE', '2026-10-03T06:15:00Z', '', '', ''],
+      ['ALT-2026-CON-ZOJ', 'Corridor Transit Delay Spike', 'WARNING', 'LOC-SRI-01', 'Srinagar-Kargil Corridor', 'N/A', 'Zoji La Corridor Convoys', 'Route Telematics', 'High-altitude snowfall inducing 1.3h average transit delay across Zoji La.', 'Average transit 7.8h > SLA benchmark 6.5h', 'Reroute non-perishable freight via secondary southern corridor.', 'ACTIVE', '2026-10-03T07:00:00Z', '', '', ''],
+    ];
+    const csvString = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    this.triggerDownload(csvString, filename, 'text/csv;charset=utf-8;');
+    return { success: true, filename, source: 'client-fallback' };
+  }
+
+  /**
+   * 4. Fetch Master Executive Demo Report (JSON payload)
+   */
+  async getDemoReport(params = {}) {
+    try {
+      const response = await analyticsApi.getDemoReport(params);
+      if (response && response.report_id) {
+        return response;
+      }
+    } catch (err) {
+      console.warn('[AnalyticsDataService] Backend demo report call failed, utilizing local demo report template:', err.message);
+    }
+    return FALLBACK_DEMO_REPORT;
+  }
+
+  /**
+   * 5. Open printable military HTML Demo Report
+   */
+  openDemoReportHtml(params = {}) {
+    const url = analyticsApi.getDemoHtmlUrl(params);
+    window.open(url, '_blank');
   }
 
   /**
@@ -364,7 +636,7 @@ class AnalyticsDataService {
       rows.push([c.route_id, c.route_name, c.standard_hours, c.actual_hours, c.delay_hours, c.on_time_rate_percentage, c.road_condition]);
     });
 
-    return rows.map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+    return '﻿' + rows.map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
   }
 
   /**
