@@ -78,6 +78,56 @@ export function getSeverityConfig(severity) {
 }
 
 /**
+ * Get status configuration for alert lifecycle states
+ * @param {'new'|'acknowledged'|'resolved'|string} status
+ */
+export function getAlertStatusConfig(status) {
+  const norm = (status || '').toLowerCase();
+  switch (norm) {
+    case 'new':
+      return {
+        variant: 'danger',
+        label: 'New Anomaly',
+        dot: true,
+        dotPulse: true,
+        bg: 'bg-rose-950/80',
+        text: 'text-rose-400',
+        border: 'border-rose-800/60',
+      };
+    case 'acknowledged':
+      return {
+        variant: 'warning',
+        label: 'Acknowledged',
+        dot: true,
+        dotPulse: false,
+        bg: 'bg-amber-950/80',
+        text: 'text-amber-400',
+        border: 'border-amber-800/60',
+      };
+    case 'resolved':
+      return {
+        variant: 'success',
+        label: 'Mitigated / Resolved',
+        dot: false,
+        dotPulse: false,
+        bg: 'bg-emerald-950/80',
+        text: 'text-emerald-400',
+        border: 'border-emerald-800/60',
+      };
+    default:
+      return {
+        variant: 'neutral',
+        label: status || 'Unknown',
+        dot: false,
+        dotPulse: false,
+        bg: 'bg-slate-800',
+        text: 'text-slate-300',
+        border: 'border-slate-700',
+      };
+  }
+}
+
+/**
  * Get status configuration for inventory health
  * @param {number} stockLevel - Percentage or ratio
  * @param {number} [reorderPoint=30]
