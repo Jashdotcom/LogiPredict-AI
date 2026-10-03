@@ -251,6 +251,27 @@ class SimulationService:
             raise NotFoundError(f"Simulation run '{simulation_id}' not found.")
         return sim
 
+    def update_recommendation_status(self, simulation_id: str, recommendation_id: str, update: RecommendationStatusUpdate) -> SimulationResultResponse:
+        """Update the review status of a simulated recommendation"""
+        sim = self.get_simulation_by_id(simulation_id)
+
+        rec_found = False
+        for rec in sim.recommendations:
+            if rec.recommendation_id == recommendation_id:
+                rec.status = update.status
+                if update.reviewed_by:
+                    rec.reviewed_by = update.reviewed_by
+                if update.review_notes:
+                    rec.review_notes = update.review_notes
+                rec.reviewed_at = datetime.now(timezone.utc)
+                rec_found = True
+                break
+
+        if not rec_found:
+            raise NotFoundError(f"Recommendation '{recommendation_id}' not found in simulation '{simulation_id}'")
+
+        return sim
+
     # --------------------------------------------------------------------------
     # Main Simulation Execution Engine
     # --------------------------------------------------------------------------
@@ -407,6 +428,7 @@ class SimulationService:
                         urgency = "Critical" if sim_stock < safety_stock else "High"
                         rec = ReplenishmentRecommendation(
                             recommendation_id=rec_id,
+                            title=f"Emergency Resupply for {sku['name'][:15]}",
                             item_id=sku_id,
                             item_name=sku["name"],
                             category=category,
@@ -424,6 +446,14 @@ class SimulationService:
                                 f"to prevent forward stockout at Day {day_num + min(3, effective_lead_time)} "
                                 f"under +{int(request.demand_surge_percentage)}% consumption surge and +{lead_time_dilation}d corridor lag."
                             ),
+                            current_inventory=round(base_stock, 1),
+                            projected_inventory=round(sim_stock, 1),
+                            estimated_impact=f"Avoids {round(s_demand * min(3, effective_lead_time), 1)} unit stockout deficit over {min(3, effective_lead_time)} days.",
+                            assumptions=[
+                                f"Route remains open with {effective_lead_time} days lead time.",
+                                f"Demand surge remains at +{int(request.demand_surge_percentage)}%."
+                            ],
+                            status="pending"
                         )
                         # Add if not duplicate
                         if not any(r.item_id == sku_id and r.recommended_order_day == rec.recommended_order_day for r in recommendations):

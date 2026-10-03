@@ -17,6 +17,7 @@ from app.schemas.simulation import (
     SimulationBaselineResponse,
     SimulationResultResponse,
     PresetScenarioInfo,
+    RecommendationStatusUpdate,
 )
 from app.services.simulation_service import simulation_service
 from app.utils.exceptions import NotFoundError, ValidationError
@@ -120,6 +121,27 @@ async def get_simulation_run(
     Retrieve full results, comparative envelopes, and recommendations of a prior simulation execution.
     """
     result = simulation_service.get_simulation_by_id(simulation_id)
+    return ApiResponse(
+        success=True,
+        data=result,
+    )
+
+
+@router.patch(
+    "/{simulation_id}/recommendations/{recommendation_id}",
+    response_model=ApiResponse[SimulationResultResponse],
+    summary="Update the status of a simulated replenishment recommendation",
+)
+async def update_recommendation_status(
+    simulation_id: str = Path(..., description="Simulation Run ID"),
+    recommendation_id: str = Path(..., description="Recommendation ID"),
+    update: RecommendationStatusUpdate = Body(..., description="New status and review notes"),
+):
+    """
+    Update the status of a specific recommendation (e.g., from pending to approved or rejected).
+    This simulates human-in-the-loop review but strictly does NOT mutate master inventory.
+    """
+    result = simulation_service.update_recommendation_status(simulation_id, recommendation_id, update)
     return ApiResponse(
         success=True,
         data=result,

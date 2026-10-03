@@ -119,6 +119,7 @@ class StockoutEvent(BaseModel):
 class ReplenishmentRecommendation(BaseModel):
     """Simulated proactive replenishment order recommendation"""
     recommendation_id: str = Field(..., description="Unique recommendation ID")
+    title: str = Field(default="Emergency Resupply", description="Recommendation title")
     item_id: str = Field(..., description="SKU identifier")
     item_name: str = Field(..., description="Item nomenclature")
     category: str = Field(default="General", description="Supply category")
@@ -132,6 +133,21 @@ class ReplenishmentRecommendation(BaseModel):
     estimated_arrival_day: int = Field(..., description="Projected delivery day")
     urgency: str = Field(default="High", description="Urgency level: Critical, High, Medium, Routine")
     rationale: str = Field(..., description="AI reasoning explaining why this order mitigates risk")
+    current_inventory: float = Field(default=0.0, description="Current baseline on-hand stock")
+    projected_inventory: float = Field(default=0.0, description="Projected simulated stock at trigger day")
+    estimated_impact: str = Field(default="", description="Operational impact if executed")
+    assumptions: List[str] = Field(default_factory=list, description="Planning assumptions")
+    status: str = Field(default="pending", description="Review status: pending, approved, rejected, acknowledged")
+    reviewed_by: Optional[str] = Field(None, description="Callsign of reviewing officer")
+    reviewed_at: Optional[datetime] = Field(None, description="Review timestamp")
+    review_notes: Optional[str] = Field(None, description="Officer review comments")
+
+
+class RecommendationStatusUpdate(BaseModel):
+    """Schema for updating the status of a simulated recommendation"""
+    status: str = Field(..., description="New review status (approved, rejected, acknowledged)")
+    reviewed_by: Optional[str] = Field(None, description="Callsign of the reviewing officer")
+    review_notes: Optional[str] = Field(None, description="Reasoning or comments for the decision")
 
 
 class MetricComparisonPoint(BaseModel):

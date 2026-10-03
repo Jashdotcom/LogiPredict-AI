@@ -255,10 +255,13 @@ export function runLocalSimulation(params = {}) {
   const recommendations = [
     {
       recommendation_id: 'REC-DISP-01',
+      title: 'Emergency Fuel Resupply',
       item_id: 'SKU-POL-001',
       item_name: 'High-Altitude Diesel Fuel (POL-HAD)',
       category: 'POL',
+      source_location_id: 'LOC-UDH-02',
       source_location_name: 'Udhampur Base Depot',
+      target_location_id: 'LOC-LEH-01',
       target_location_name: 'Leh Base Logistics Hub',
       recommended_order_day: 1,
       recommended_quantity: Math.round(baseDailyDemand * 8 * demandMult),
@@ -266,13 +269,21 @@ export function runLocalSimulation(params = {}) {
       estimated_arrival_day: 1 + Math.round(simLead),
       urgency: simCoverage < 10 ? 'Critical' : 'High',
       rationale: `Preemptive dispatch required on Day 1 to safeguard heating and power fuel buffers before corridor dilation takes full effect.`,
+      current_inventory: 45000,
+      projected_inventory: 12000,
+      estimated_impact: 'Avoids total generator failure at 3 forward hubs.',
+      assumptions: ['Transit route remains open', 'Current demand surge holds'],
+      status: 'pending'
     },
     {
       recommendation_id: 'REC-REROUTE-02',
+      title: 'Tactical Rations Reroute',
       item_id: 'CONVOY-LADAKH-03',
       item_name: 'Combat Rations & Cold Weather Medical Kits',
       category: 'Rations',
+      source_location_id: 'LOC-SRI-01',
       source_location_name: 'Srinagar Forward Staging Hub',
+      target_location_id: 'LOC-KRG-01',
       target_location_name: 'Kargil Forward Operating Base',
       recommended_order_day: 2,
       recommended_quantity: 4500,
@@ -280,6 +291,11 @@ export function runLocalSimulation(params = {}) {
       estimated_arrival_day: 2 + Math.round(simLead),
       urgency: 'High',
       rationale: `Reroute 4x4 heavy all-terrain tactical convoys via alternate bypass corridor B-4 to circumvent high-altitude pass closures.`,
+      current_inventory: 28000,
+      projected_inventory: 5000,
+      estimated_impact: 'Secures 14-day ration buffer for forward troops.',
+      assumptions: ['Alternative corridor B-4 remains passable for 4x4 vehicles'],
+      status: 'pending'
     },
   ];
 

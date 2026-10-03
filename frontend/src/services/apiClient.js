@@ -223,6 +223,11 @@ export const simulationApi = {
       timeout: 60000, // Extended timeout for Monte Carlo runs
     }),
   getById: (simId) => apiRequest(`/simulation/${simId}`, { method: 'GET' }),
+  updateRecommendationStatus: (simId, recId, updateData) =>
+    apiRequest(`/simulation/${simId}/recommendations/${recId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updateData),
+    }),
 };
 
 /**
