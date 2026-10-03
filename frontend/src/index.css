@@ -7,6 +7,7 @@
 @import "./styles/typography.css";
 @import "./styles/components.css";
 @import "./styles/responsive.css";
+@import "./styles/appTheme.css";
 
 @layer base {
   html {
@@ -37,15 +38,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #080c14;
+    background: #f1f6fc;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #c7d4e8;
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #9eafca;
   }
 }

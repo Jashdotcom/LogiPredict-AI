@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../utils/cn';
 
 /**
@@ -19,39 +18,39 @@ export function Badge({
 }) {
   const variants = {
     neutral: {
-      bg: 'bg-slate-800 text-slate-300 border-slate-700',
+      bg: 'bg-slate-100 text-slate-700 border-slate-200',
       dot: 'bg-slate-400',
     },
     brand: {
-      bg: 'bg-indigo-950/80 text-indigo-300 border-indigo-700/60',
+      bg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
       dot: 'bg-indigo-400',
     },
     success: {
-      bg: 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60',
+      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       dot: 'bg-emerald-400',
     },
     warning: {
-      bg: 'bg-amber-950/80 text-amber-300 border-amber-700/60',
+      bg: 'bg-amber-50 text-amber-700 border-amber-200',
       dot: 'bg-amber-400',
     },
     critical: {
-      bg: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
+      bg: 'bg-rose-50 text-rose-700 border-rose-200',
       dot: 'bg-rose-400',
     },
     danger: {
-      bg: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
+      bg: 'bg-rose-50 text-rose-700 border-rose-200',
       dot: 'bg-rose-400',
     },
     info: {
-      bg: 'bg-sky-950/80 text-sky-300 border-sky-700/60',
+      bg: 'bg-sky-50 text-sky-700 border-sky-200',
       dot: 'bg-sky-400',
     },
     information: {
-      bg: 'bg-sky-950/80 text-sky-300 border-sky-700/60',
+      bg: 'bg-sky-50 text-sky-700 border-sky-200',
       dot: 'bg-sky-400',
     },
     purple: {
-      bg: 'bg-purple-950/80 text-purple-300 border-purple-700/60',
+      bg: 'bg-purple-50 text-purple-700 border-purple-200',
       dot: 'bg-purple-400',
     },
   };

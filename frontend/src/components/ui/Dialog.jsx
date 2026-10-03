@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { IconButton } from './Button';
@@ -61,7 +61,7 @@ export function Dialog({
       <div
         ref={dialogRef}
         className={cn(
-          'relative z-50 w-full bg-[#131b2e] rounded-2xl shadow-2xl border border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150',
+          'relative z-50 w-full bg-white text-slate-900 rounded-xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-150',
           maxWidth,
           className
         )}

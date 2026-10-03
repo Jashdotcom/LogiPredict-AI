@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 
 /**
@@ -43,7 +43,7 @@ export const Input = forwardRef(function Input(
           type={type}
           disabled={disabled}
           className={cn(
-            'w-full bg-[#0b0f19] hover:bg-[#131b2e] focus:bg-[#0f172a] text-slate-100 placeholder:text-slate-500',
+            'w-full bg-slate-50 hover:bg-white focus:bg-white text-slate-800 placeholder:text-slate-500',
             'border rounded-lg transition-all duration-150',
             'focus:outline-none focus:ring-2 focus:ring-indigo-500/30 shadow-2xs',
             'disabled:opacity-50 disabled:cursor-not-allowed',

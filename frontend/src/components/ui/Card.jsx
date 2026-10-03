@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../utils/cn';
 
 /**
@@ -14,11 +13,11 @@ export function Card({
   ...props
 }) {
   const variants = {
-    default: 'bg-slate-900 border border-slate-800 shadow-2xs text-slate-100',
-    flat: 'bg-slate-950/80 border border-slate-800 text-slate-100',
-    elevated: 'bg-[#131b2e] border border-slate-800 shadow-md text-slate-100',
-    subtle: 'bg-indigo-950/30 border border-indigo-900/40 text-slate-100',
-    bordered: 'bg-slate-900 border-2 border-slate-700 text-slate-100',
+    default: 'bg-white border border-slate-200 shadow-sm text-slate-900',
+    flat: 'bg-white border border-slate-200 text-slate-900',
+    elevated: 'bg-white border border-slate-200 shadow-md text-slate-900',
+    subtle: 'bg-indigo-50 border border-indigo-100 text-slate-900',
+    bordered: 'bg-white border-2 border-slate-200 text-slate-900',
   };
 
   const paddings = {

@@ -28,7 +28,7 @@ export function AppLayout() {
         <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
         {/* Dynamic Route Content */}
-        <main className="flex-1 p-3 max-w-none w-full mx-auto mt-[60px]">
+        <main className="app-main flex-1 p-3 max-w-none w-full mx-auto mt-[60px]">
           <Outlet />
         </main>
 

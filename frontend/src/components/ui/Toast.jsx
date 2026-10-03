@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CheckCircle2,
   AlertOctagon,
@@ -26,30 +25,30 @@ export function Toast({
     success: {
       icon: CheckCircle2,
       border: 'border-emerald-700/60',
-      bg: 'bg-[#131b2e]',
-      iconColor: 'text-emerald-400 bg-emerald-950/80 border-emerald-800/60',
-      titleColor: 'text-slate-100',
+      bg: 'bg-white',
+      iconColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+      titleColor: 'text-slate-900',
     },
     error: {
       icon: AlertOctagon,
       border: 'border-rose-700/60',
-      bg: 'bg-[#131b2e]',
-      iconColor: 'text-rose-400 bg-rose-950/80 border-rose-800/60',
-      titleColor: 'text-slate-100',
+      bg: 'bg-white',
+      iconColor: 'text-rose-700 bg-rose-50 border-rose-200',
+      titleColor: 'text-slate-900',
     },
     warning: {
       icon: AlertTriangle,
       border: 'border-amber-700/60',
-      bg: 'bg-[#131b2e]',
-      iconColor: 'text-amber-400 bg-amber-950/80 border-amber-800/60',
-      titleColor: 'text-slate-100',
+      bg: 'bg-white',
+      iconColor: 'text-amber-700 bg-amber-50 border-amber-200',
+      titleColor: 'text-slate-900',
     },
     info: {
       icon: Info,
       border: 'border-indigo-700/60',
-      bg: 'bg-[#131b2e]',
-      iconColor: 'text-indigo-400 bg-indigo-950/80 border-indigo-800/60',
-      titleColor: 'text-slate-100',
+      bg: 'bg-white',
+      iconColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
+      titleColor: 'text-slate-900',
     },
   };
 
@@ -84,7 +83,7 @@ export function Toast({
           </h4>
         )}
         {displayMessage && (
-          <p className="text-xs text-slate-400 leading-snug">
+          <p className="text-xs text-slate-600 leading-snug">
             {displayMessage}
           </p>
         )}
@@ -94,7 +93,7 @@ export function Toast({
         <button
           type="button"
           onClick={() => onDismiss(id)}
-          className="text-slate-500 hover:text-slate-300 p-1 rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          className="text-slate-500 hover:text-slate-700 p-1 rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           aria-label="Dismiss notification"
         >
           <X className="w-3.5 h-3.5" />

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loader2 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
@@ -29,21 +28,21 @@ export function Button({
     brand:
       'bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700 shadow-xs focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
     secondary:
-      'bg-slate-800 text-slate-200 hover:bg-slate-700 active:bg-slate-800 border border-slate-700 focus-visible:ring-slate-400 focus-visible:ring-offset-slate-950',
+      'bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-100 border border-slate-200 focus-visible:ring-slate-400 focus-visible:ring-offset-white',
     outline:
-      'bg-slate-900 text-slate-200 hover:bg-slate-800 active:bg-slate-900 border border-slate-700 shadow-2xs focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
+      'bg-white text-slate-700 hover:bg-slate-50 active:bg-white border border-slate-200 shadow-2xs focus-visible:ring-indigo-400 focus-visible:ring-offset-white',
     ghost:
-      'bg-transparent text-slate-400 hover:bg-slate-800/80 active:bg-slate-800 hover:text-slate-100 focus-visible:ring-slate-400 focus-visible:ring-offset-slate-950',
+      'bg-transparent text-slate-600 hover:bg-slate-100 active:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-400 focus-visible:ring-offset-white',
     destructive:
       'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 shadow-xs focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
     danger:
       'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 shadow-xs focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
     destructiveOutline:
-      'bg-slate-900 text-rose-400 hover:bg-rose-950/40 border border-rose-800/60 focus-visible:ring-rose-400 focus-visible:ring-offset-slate-950',
+      'bg-white text-rose-700 hover:bg-rose-50 border border-rose-200 focus-visible:ring-rose-400 focus-visible:ring-offset-white',
     success:
       'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700 shadow-xs focus-visible:ring-emerald-400 focus-visible:ring-offset-slate-950',
     subtleBrand:
-      'bg-indigo-950/80 text-indigo-300 hover:bg-indigo-900 active:bg-indigo-950 border border-indigo-800/70 focus-visible:ring-indigo-400 focus-visible:ring-offset-slate-950',
+      'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-50 border border-indigo-200 focus-visible:ring-indigo-400 focus-visible:ring-offset-white',
   };
 
   const sizes = {

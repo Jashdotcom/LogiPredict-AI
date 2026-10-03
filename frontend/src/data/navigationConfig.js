@@ -12,6 +12,7 @@ import {
   Sliders,
   BarChart3,
   Settings,
+  Truck,
 } from 'lucide-react';
 
 export const NAVIGATION_ITEMS = [
@@ -52,10 +53,16 @@ export const NAVIGATION_ITEMS = [
   {
     name: 'Shipments & Fleet',
     path: '/supplies',
+    icon: Truck,
+    description: 'Forward unit requisitions, convoy manifests, and fleet supplies',
+  },
+  {
+    name: 'Simulations',
+    path: '/simulations',
     icon: Sliders,
     badge: 'What-If',
     badgeVariant: 'purple',
-    description: 'Monsoon, roadblock, and surge stress simulations',
+    description: 'Weather, roadblock, and demand surge scenarios',
   },
   {
     name: 'Reports & Analytics',

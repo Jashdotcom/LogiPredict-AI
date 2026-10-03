@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { Search, X, Loader2 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
@@ -83,7 +83,7 @@ export function SearchInput({
         placeholder={placeholder}
         autoFocus={autoFocus}
         className={cn(
-          'w-full bg-[#0b0f19] hover:bg-[#131b2e] focus:bg-[#0f172a] text-slate-100 placeholder:text-slate-500',
+          'w-full bg-slate-50 hover:bg-white focus:bg-white text-slate-800 placeholder:text-slate-500',
           'border border-slate-800 rounded-lg transition-all duration-150',
           'focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 shadow-2xs',
           sizes[size] || sizes.md

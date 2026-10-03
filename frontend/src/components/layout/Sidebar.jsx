@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Boxes,
@@ -10,7 +9,7 @@ import { cn } from '../../utils/cn';
  * Enterprise Command Sidebar Navigation for LogiPredict AI
  * Aligned with Google Stitch military enterprise dashboard theme.
  */
-export function Sidebar({ isOpen, onClose, isMobile = false }) {
+export function Sidebar({ onClose, isMobile = false }) {
   return (
     <aside
       aria-label="Application Command Sidebar"
@@ -118,7 +117,7 @@ export function Sidebar({ isOpen, onClose, isMobile = false }) {
         {/* System & Config Menu */}
         <div>
           <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            System & Engine
+            Administration
           </div>
           <nav className="space-y-1" aria-label="System Settings Navigation">
             {SECONDARY_NAVIGATION.map((item) => {

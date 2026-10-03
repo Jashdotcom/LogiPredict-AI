@@ -26,19 +26,19 @@
   /* -------------------------------------------------------------------------- */
   /* 2. Surfaces & Backgrounds (Dark Military Command Center)                   */
   /* -------------------------------------------------------------------------- */
-  --color-bg-app: #080c14;           /* Military near-black canvas */
-  --color-bg-sidebar: #0b0f19;       /* Deep obsidian command sidebar */
-  --color-bg-sidebar-nav: #1e293b;   /* Slate 800 active nav highlight */
-  --color-bg-card: #0f172a;          /* Slate 900 panel surface */
-  --color-bg-elevated: #131b2e;      /* Elevated card & modal surface */
-  --color-bg-muted: #1e293b;         /* Slate 800 secondary containers */
-  --color-bg-subtle: #0b0f19;        /* Deep sub-surface background */
+  --color-bg-app: #f1f6fc;
+  --color-bg-sidebar: #182f5d;
+  --color-bg-sidebar-nav: #405bea;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #ffffff;
+  --color-bg-muted: #f2f6fc;
+  --color-bg-subtle: #f7f9fd;
 
-  --color-bg-input: #0b0f19;
-  --color-bg-input-hover: #131b2e;
-  --color-bg-table-header: #0b0f19;
-  --color-bg-table-stripe: #0d1424;
-  --color-bg-table-hover: #1e293b;
+  --color-bg-input: #f6f8fd;
+  --color-bg-input-hover: #eef3fb;
+  --color-bg-table-header: #f1f6fd;
+  --color-bg-table-stripe: #f9fbfe;
+  --color-bg-table-hover: #f3f7fd;
 
   /* -------------------------------------------------------------------------- */
   /* 3. Typography & Text Colors                                                */
@@ -46,12 +46,12 @@
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
-  --color-text-primary: #f8fafc;     /* Slate 50 - High contrast text */
-  --color-text-secondary: #94a3b8;   /* Slate 400 - Standard body text */
-  --color-text-muted: #64748b;       /* Slate 500 - Captions, placeholders */
-  --color-text-subtle: #475569;      /* Slate 600 - Low-contrast metadata */
-  --color-text-inverse: #080c14;     /* Near-black text on bright badges */
-  --color-text-brand: #818cf8;       /* Bright indigo text */
+  --color-text-primary: #102c70;
+  --color-text-secondary: #4f6488;
+  --color-text-muted: #6d7f9e;
+  --color-text-subtle: #8795ad;
+  --color-text-inverse: #ffffff;
+  --color-text-brand: #1f55d5;
 
   /* -------------------------------------------------------------------------- */
   /* 4. Semantic Status Colors                                                  */
@@ -61,42 +61,42 @@
   --color-success-hover: #059669;    /* Emerald 600 */
   --color-success-bg: rgba(16, 185, 129, 0.12); /* Emerald 950/20 */
   --color-success-border: rgba(16, 185, 129, 0.3); /* Emerald border */
-  --color-success-text: #6ee7b7;     /* Emerald 300 */
+  --color-success-text: #008451;
 
   /* Warning / Action Needed / Surge */
   --color-warning: #f59e0b;          /* Amber 500 */
   --color-warning-hover: #d97706;    /* Amber 600 */
   --color-warning-bg: rgba(245, 158, 11, 0.12); /* Amber 950/20 */
   --color-warning-border: rgba(245, 158, 11, 0.3); /* Amber border */
-  --color-warning-text: #fcd34d;     /* Amber 300 */
+  --color-warning-text: #a95700;
 
   /* Error / Critical Stockout */
   --color-danger: #f43f5e;           /* Rose 500 */
   --color-danger-hover: #e11d48;     /* Rose 600 */
   --color-danger-bg: rgba(244, 63, 94, 0.12); /* Rose 950/20 */
   --color-danger-border: rgba(244, 63, 94, 0.3); /* Rose border */
-  --color-danger-text: #fda4af;      /* Rose 300 */
+  --color-danger-text: #c52b35;
 
   /* Info / In Transit */
   --color-info: #0284c7;             /* Sky 600 */
   --color-info-hover: #0369a1;       /* Sky 700 */
   --color-info-bg: rgba(2, 132, 199, 0.12); /* Sky 950/20 */
   --color-info-border: rgba(2, 132, 199, 0.3); /* Sky border */
-  --color-info-text: #7dd3fc;        /* Sky 300 */
+  --color-info-text: #0369a1;
 
   /* AI Predictive / Neural Model */
   --color-purple: #8b5cf6;           /* Violet 500 */
   --color-purple-hover: #7c3aed;     /* Violet 600 */
   --color-purple-bg: rgba(139, 92, 246, 0.12); /* Violet 950/20 */
   --color-purple-border: rgba(139, 92, 246, 0.3); /* Violet border */
-  --color-purple-text: #c4b5fd;      /* Violet 300 */
+  --color-purple-text: #6541c6;
 
   /* -------------------------------------------------------------------------- */
   /* 5. Borders & Dividers                                                      */
   /* -------------------------------------------------------------------------- */
-  --color-border-default: #1e293b;   /* Slate 800 - Standard container borders */
-  --color-border-subtle: #131b2e;    /* Deep subtle divider */
-  --color-border-strong: #334155;    /* Slate 700 - Input & hover borders */
+  --color-border-default: #dce6f7;
+  --color-border-subtle: #e8eef8;
+  --color-border-strong: #c9d7ec;
   --color-border-focus: #6366f1;     /* Indigo 500 - Focus ring */
 
   /* -------------------------------------------------------------------------- */
@@ -127,12 +127,12 @@
   /* -------------------------------------------------------------------------- */
   /* 8. Elevation & Shadows                                                     */
   /* -------------------------------------------------------------------------- */
-  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
-  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.7), 0 8px 10px -6px rgb(0 0 0 / 0.6);
+  --shadow-2xs: 0 1px 2px 0 rgb(18 43 99 / 0.04);
+  --shadow-xs: 0 1px 3px 0 rgb(18 43 99 / 0.06);
+  --shadow-sm: 0 2px 5px 0 rgb(18 43 99 / 0.08);
+  --shadow-md: 0 5px 12px -3px rgb(18 43 99 / 0.12);
+  --shadow-lg: 0 10px 24px -8px rgb(18 43 99 / 0.16);
+  --shadow-xl: 0 18px 35px -12px rgb(18 43 99 / 0.2);
   --shadow-glow-brand: 0 0 20px rgba(99, 102, 241, 0.25);
   --shadow-glow-danger: 0 0 20px rgba(244, 63, 94, 0.25);
   --shadow-glow-success: 0 0 20px rgba(16, 185, 129, 0.25);
