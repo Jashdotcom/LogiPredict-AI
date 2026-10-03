@@ -91,6 +91,36 @@ export function formatQuantity(value, unit = '') {
   return unit ? `${num} ${unit}` : num;
 }
 
+/**
+ * Format decimal transit hours into human-readable hours & minutes (e.g. 6.8 → "6h 48m", 1.5 → "1h 30m", 0.5 → "30m")
+ * @param {number|null|undefined} hours
+ * @returns {string}
+ */
+export function formatTransitHours(hours) {
+  if (hours === null || hours === undefined || isNaN(Number(hours))) return '—';
+  const totalMinutes = Math.round(Number(hours) * 60);
+  if (totalMinutes < 60) {
+    return `${totalMinutes}m`;
+  }
+  const hrs = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  if (mins === 0) {
+    return `${hrs}h`;
+  }
+  return `${hrs}h ${mins}m`;
+}
+
+/**
+ * Format distance in kilometers (e.g. 204 → "204 km")
+ * @param {number|null|undefined} km
+ * @returns {string}
+ */
+export function formatDistance(km) {
+  if (km === null || km === undefined || isNaN(Number(km))) return '— km';
+  return `${formatDecimal(km, 0)} km`;
+}
+
+
 // ──────────────────────────────────────────────────────────────────────
 // DATE / TIME FORMATTING
 // ──────────────────────────────────────────────────────────────────────

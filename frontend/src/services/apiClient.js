@@ -154,13 +154,21 @@ export const forecastingApi = {
 export const routesApi = {
   getAll: (params) => apiRequest('/routes', { method: 'GET', params }),
   getById: (routeId) => apiRequest(`/routes/${routeId}`, { method: 'GET' }),
-  getLocations: () => apiRequest('/routes/locations', { method: 'GET' }),
+  getLocations: () => apiRequest('/locations', { method: 'GET' }),
+  getKpis: () => apiRequest('/routes/kpis', { method: 'GET' }),
   optimizeRoute: (requestData) =>
     apiRequest('/routes/optimize', {
       method: 'POST',
       body: JSON.stringify(requestData),
       timeout: 20000,
     }),
+  simulateDisruption: (requestData) =>
+    apiRequest('/routes/simulate-disruption', {
+      method: 'POST',
+      body: JSON.stringify(requestData),
+      timeout: 20000,
+    }),
+  reset: () => apiRequest('/routes/reset', { method: 'POST' }),
 };
 
 /**

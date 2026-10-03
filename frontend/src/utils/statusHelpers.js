@@ -144,3 +144,150 @@ export function getStockStatus(stockLevel, reorderPoint = 30) {
   }
   return { label: 'Healthy', variant: 'success', color: 'emerald' };
 }
+
+/**
+ * Get status configuration for forward logistics routes
+ * @param {'operational'|'delayed'|'disrupted'|'unavailable'|string} status
+ */
+export function getRouteStatusConfig(status) {
+  const norm = (status || '').toLowerCase();
+  switch (norm) {
+    case 'operational':
+      return {
+        variant: 'success',
+        label: 'Operational',
+        bg: 'bg-emerald-950/80',
+        text: 'text-emerald-400',
+        border: 'border-emerald-800/60',
+        dot: 'bg-emerald-500',
+        stroke: '#10b981', // emerald-500
+        badgeVariant: 'success',
+      };
+    case 'delayed':
+      return {
+        variant: 'warning',
+        label: 'Transit Delayed',
+        bg: 'bg-amber-950/80',
+        text: 'text-amber-400',
+        border: 'border-amber-800/60',
+        dot: 'bg-amber-500',
+        stroke: '#f59e0b', // amber-500
+        badgeVariant: 'warning',
+      };
+    case 'disrupted':
+      return {
+        variant: 'danger',
+        label: 'Corridor Disrupted',
+        bg: 'bg-rose-950/80',
+        text: 'text-rose-400',
+        border: 'border-rose-800/60',
+        dot: 'bg-rose-500',
+        stroke: '#f43f5e', // rose-500
+        badgeVariant: 'danger',
+      };
+    case 'unavailable':
+    default:
+      return {
+        variant: 'neutral',
+        label: 'Unavailable',
+        bg: 'bg-slate-900/80',
+        text: 'text-slate-400',
+        border: 'border-slate-700/60',
+        dot: 'bg-slate-500',
+        stroke: '#64748b', // slate-500
+        badgeVariant: 'neutral',
+      };
+  }
+}
+
+/**
+ * Get visual styling configuration for road condition classifications
+ * @param {string} roadCondition
+ */
+export function getRoadConditionConfig(roadCondition) {
+  switch (roadCondition) {
+    case 'Clear_All_Weather':
+      return {
+        label: 'Clear All-Weather',
+        text: 'text-emerald-400',
+        bg: 'bg-emerald-950/60',
+        border: 'border-emerald-800/40',
+      };
+    case 'High_Altitude_Pass':
+      return {
+        label: 'High-Altitude Pass',
+        text: 'text-cyan-400',
+        bg: 'bg-cyan-950/60',
+        border: 'border-cyan-800/40',
+      };
+    case 'Snow_Bound':
+      return {
+        label: 'Snow-Bound / Icy',
+        text: 'text-sky-300',
+        bg: 'bg-sky-950/60',
+        border: 'border-sky-800/40',
+      };
+    case 'Avalanche_Warning':
+      return {
+        label: 'Avalanche Warning',
+        text: 'text-rose-400',
+        bg: 'bg-rose-950/60',
+        border: 'border-rose-800/40',
+      };
+    case 'Landslide_Blocked':
+      return {
+        label: 'Landslide Blocked',
+        text: 'text-rose-500',
+        bg: 'bg-rose-950/80',
+        border: 'border-rose-800/80',
+      };
+    case 'Monsoon_Vulnerable':
+      return {
+        label: 'Monsoon Vulnerable',
+        text: 'text-amber-400',
+        bg: 'bg-amber-950/60',
+        border: 'border-amber-800/40',
+      };
+    default:
+      return {
+        label: roadCondition ? roadCondition.replace(/_/g, ' ') : 'Standard',
+        text: 'text-slate-300',
+        bg: 'bg-slate-800/60',
+        border: 'border-slate-700/40',
+      };
+  }
+}
+
+/**
+ * Get color threshold configuration for capacity utilization percentage
+ * @param {number} pct - Capacity utilization (0-100)
+ */
+export function getCapacityUtilizationConfig(pct) {
+  const val = Number(pct) || 0;
+  if (val >= 90.0) {
+    return {
+      label: 'Critical / Saturated',
+      textColor: 'text-rose-400',
+      barColor: 'bg-rose-500',
+      badgeVariant: 'danger',
+      glow: 'shadow-rose-500/30',
+    };
+  }
+  if (val >= 70.0) {
+    return {
+      label: 'Elevated Load',
+      textColor: 'text-amber-400',
+      barColor: 'bg-amber-500',
+      badgeVariant: 'warning',
+      glow: 'shadow-amber-500/30',
+    };
+  }
+  return {
+    label: 'Normal Headroom',
+    textColor: 'text-emerald-400',
+    barColor: 'bg-emerald-500',
+    badgeVariant: 'success',
+    glow: 'shadow-emerald-500/30',
+  };
+}
+
