@@ -149,8 +149,67 @@ export function ForecastingPage() {
     }
   };
 
-  // Derive unique categories/items and depots for selectors
+  // Handle Export Projections CSV Download
+  const handleExport = () => {
+    const records = forecastData.series || [];
+    if (!records.length) {
+      toast.error('No forecast projections available to export.', { title: 'Export Failed' });
+      return;
+    }
+
+    const headers = [
+      'Date',
+      'Day Label',
+      'Period Type',
+      'Actual Demand (units)',
+      'AI Predicted Demand (units)',
+      '95% Lower Bound (units)',
+      '95% Upper Bound (units)',
+      'Projected Stock (units)',
+      'Stock Health',
+    ];
+
+    const rows = records.map((s) => [
+      s.date,
+      `"${s.label}"`,
+      s.isHistorical ? 'Historical Observation' : 'AI Prediction',
+      s.actual !== null && s.actual !== undefined ? s.actual : '',
+      s.forecast !== null && s.forecast !== undefined ? s.forecast : '',
+      s.lowerBound !== null && s.lowerBound !== undefined ? s.lowerBound : '',
+      s.upperBound !== null && s.upperBound !== undefined ? s.upperBound : '',
+      s.projectedStock !== undefined ? s.projectedStock : '',
+      `"${s.stockStatus || ''}"`,
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `logipredict-forecast-${selectedItem}-${selectedDepot}-${horizonDays}d.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success(`Exported ${records.length} time-series forecast records to CSV.`, {
+      title: 'Export Complete',
+    });
+  };
+
+  // Derive unique categories, depots, and grouped items for selectors
+  const categories = [...new Set(INVENTORY_ITEMS.map((i) => i.category))];
   const depots = ['all', ...new Set(INVENTORY_ITEMS.map((i) => i.storage_location))];
+
+  const categorizedItems = React.useMemo(() => {
+    const groups = {};
+    INVENTORY_ITEMS.forEach((item) => {
+      const cat = item.category || 'General Inventory';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(item);
+    });
+    return groups;
+  }, []);
 
   const summary = forecastData.summary || {};
   const series = forecastData.series || [];
@@ -240,7 +299,7 @@ export function ForecastingPage() {
               variant="outline"
               size="sm"
               leftIcon={Download}
-              onClick={() => toast.success('Forecast projections CSV exported successfully.', { title: 'Export Ready' })}
+              onClick={handleExport}
             >
               Export Projections
             </Button>
@@ -317,10 +376,14 @@ export function ForecastingPage() {
               className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
             >
               <option value="all">All Items (Aggregated Total)</option>
-              {INVENTORY_ITEMS.map((item) => (
-                <option key={item.item_id} value={item.item_id}>
-                  {item.item_id} — {item.item_name}
-                </option>
+              {Object.entries(categorizedItems).map(([category, items]) => (
+                <optgroup key={category} label={category} className="bg-slate-900 text-slate-300 font-semibold">
+                  {items.map((item) => (
+                    <option key={item.item_id} value={item.item_id} className="bg-slate-950 text-slate-200 font-normal">
+                      {item.item_id} — {item.item_name}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </div>
