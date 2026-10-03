@@ -90,7 +90,7 @@ export function Header({ onMenuClick, className = '' }) {
         <SearchInput
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Search SKUs, batches, routes, FOB depots..."
+          placeholder="Search locations, units, supplies, or shipments..."
           shortcut="/"
         />
       </div>

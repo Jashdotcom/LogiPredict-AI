@@ -17,13 +17,13 @@ import {
 
 export const NAVIGATION_ITEMS = [
   {
-    name: 'Overview',
+    name: 'Dashboard',
     path: '/',
     icon: LayoutDashboard,
     description: 'Real-time telemetry and executive summary',
   },
   {
-    name: 'Inventory',
+    name: 'Inventory Management',
     path: '/inventory',
     icon: Boxes,
     description: 'Stock levels, safety stocks, and replenishment',
@@ -43,7 +43,7 @@ export const NAVIGATION_ITEMS = [
     description: 'GIS tracking, dynamic rerouting & transit ETA',
   },
   {
-    name: 'Predictive Alerts',
+    name: 'Risk Analysis',
     path: '/alerts',
     icon: AlertTriangle,
     badge: '4',
@@ -51,15 +51,15 @@ export const NAVIGATION_ITEMS = [
     description: 'Anomaly detection and stockout risk warnings',
   },
   {
-    name: 'Simulations',
-    path: '/simulations',
+    name: 'Shipments & Fleet',
+    path: '/supplies',
     icon: Sliders,
     badge: 'What-If',
     badgeVariant: 'purple',
     description: 'Monsoon, roadblock, and surge stress simulations',
   },
   {
-    name: 'Analytics',
+    name: 'Reports & Analytics',
     path: '/analytics',
     icon: BarChart3,
     description: 'Supply chain KPIs, exportable audit reports',
@@ -68,7 +68,7 @@ export const NAVIGATION_ITEMS = [
 
 export const SECONDARY_NAVIGATION = [
   {
-    name: 'Settings',
+    name: 'System Settings',
     path: '/settings',
     icon: Settings,
     description: 'Model parameters, API webhooks, and preferences',
@@ -76,12 +76,12 @@ export const SECONDARY_NAVIGATION = [
 ];
 
 export const CURRENT_USER = {
-  name: 'Col. Rajesh Verma',
-  role: 'Forward Logistics Director',
+  name: 'Lt. Col. A. Sharma',
+  role: 'Command Centre',
   organization: 'Indian Army — Central Logistics Hub',
   rank: 'Colonel',
   echelon: 'HQ Northern Command',
-  initials: 'RV',
+  initials: 'AS',
   status: 'online',
 };
 
