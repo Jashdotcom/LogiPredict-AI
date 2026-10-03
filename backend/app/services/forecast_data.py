@@ -1,7 +1,7 @@
 """
 LogiPredict AI - Synthetic Historical Demand Generator
 ======================================================
-Phase 5.2: Forecasting Engine Data Generator
+Phase 5.2 & 5.3: Forecasting Engine Data Generator & Integration
 Indian Army Forward Supply Chain (SIH 2026)
 
 Generates reproducible, realistic synthetic historical demand and stock series
@@ -23,7 +23,7 @@ import pandas as pd
 BASE_SIMULATION_DATE = datetime(2026, 10, 2, 0, 0, 0)
 DEFAULT_RANDOM_SEED = 42
 
-# Domain SKU Reference Catalog with baseline consumption rates and storage limits
+# Domain SKU Reference Catalog with baseline consumption rates and storage limits (All 25 Items)
 SKU_CATALOG: Dict[str, Dict[str, Any]] = {
     "SKU-POL-DSL-01": {
         "item_id": "SKU-POL-DSL-01",
@@ -32,11 +32,11 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "unit": "Liters",
         "base_daily": 3200.0,
         "std_dev_ratio": 0.12,
-        "seasonal_factor": 0.25,  # Higher in colder months (winter preparation)
+        "seasonal_factor": 0.25,
         "current_stock": 84000.0,
-        "max_capacity": 150000.0,
-        "min_threshold": 15000.0,
-        "reorder_level": 30000.0,
+        "max_capacity": 120000.0,
+        "min_threshold": 30000.0,
+        "reorder_level": 45000.0,
     },
     "SKU-POL-KRS-02": {
         "item_id": "SKU-POL-KRS-02",
@@ -45,11 +45,11 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "unit": "Liters",
         "base_daily": 1800.0,
         "std_dev_ratio": 0.14,
-        "seasonal_factor": 0.35,  # High altitude heating (Bukhari stoves)
+        "seasonal_factor": 0.35,
         "current_stock": 24000.0,
-        "max_capacity": 60000.0,
-        "min_threshold": 6000.0,
-        "reorder_level": 12000.0,
+        "max_capacity": 80000.0,
+        "min_threshold": 25000.0,
+        "reorder_level": 32000.0,
     },
     "SKU-ORD-556-03": {
         "item_id": "SKU-ORD-556-03",
@@ -60,9 +60,9 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "std_dev_ratio": 0.30,
         "seasonal_factor": 0.05,
         "current_stock": 650.0,
-        "max_capacity": 2000.0,
-        "min_threshold": 100.0,
-        "reorder_level": 250.0,
+        "max_capacity": 1000.0,
+        "min_threshold": 200.0,
+        "reorder_level": 350.0,
     },
     "SKU-ORD-81M-04": {
         "item_id": "SKU-ORD-81M-04",
@@ -73,22 +73,9 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "std_dev_ratio": 0.35,
         "seasonal_factor": 0.05,
         "current_stock": 420.0,
-        "max_capacity": 1200.0,
-        "min_threshold": 60.0,
-        "reorder_level": 150.0,
-    },
-    "SKU-ORD-155-08": {
-        "item_id": "SKU-ORD-155-08",
-        "name": "155mm Bofors High-Explosive Extended Range",
-        "category": "Ammunition & Ordnance",
-        "unit": "Shells",
-        "base_daily": 15.0,
-        "std_dev_ratio": 0.28,
-        "seasonal_factor": 0.04,
-        "current_stock": 880.0,
-        "max_capacity": 2500.0,
-        "min_threshold": 120.0,
-        "reorder_level": 300.0,
+        "max_capacity": 600.0,
+        "min_threshold": 150.0,
+        "reorder_level": 250.0,
     },
     "SKU-RAT-MRE-05": {
         "item_id": "SKU-RAT-MRE-05",
@@ -99,22 +86,9 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "std_dev_ratio": 0.09,
         "seasonal_factor": 0.10,
         "current_stock": 14200.0,
-        "max_capacity": 30000.0,
-        "min_threshold": 2500.0,
-        "reorder_level": 5000.0,
-    },
-    "SKU-RAT-WTR-09": {
-        "item_id": "SKU-RAT-WTR-09",
-        "name": "Mineralized Potable Water Cans (20L)",
-        "category": "Combat Rations & MREs",
-        "unit": "Cans",
-        "base_daily": 120.0,
-        "std_dev_ratio": 0.08,
-        "seasonal_factor": 0.15,
-        "current_stock": 3800.0,
-        "max_capacity": 10000.0,
-        "min_threshold": 800.0,
-        "reorder_level": 1800.0,
+        "max_capacity": 20000.0,
+        "min_threshold": 5000.0,
+        "reorder_level": 7500.0,
     },
     "SKU-MED-PLM-07": {
         "item_id": "SKU-MED-PLM-07",
@@ -126,72 +100,320 @@ SKU_CATALOG: Dict[str, Dict[str, Any]] = {
         "seasonal_factor": 0.08,
         "current_stock": 120.0,
         "max_capacity": 400.0,
-        "min_threshold": 25.0,
+        "min_threshold": 100.0,
+        "reorder_level": 150.0,
+    },
+    "SKU-ENG-BAT-09": {
+        "item_id": "SKU-ENG-BAT-09",
+        "name": "LiFePO4 Extreme-Cold Battery 24V",
+        "category": "Vehicle Spares & Batteries",
+        "unit": "Units",
+        "base_daily": 2.5,
+        "std_dev_ratio": 0.22,
+        "seasonal_factor": 0.30,
+        "current_stock": 48.0,
+        "max_capacity": 150.0,
+        "min_threshold": 30.0,
         "reorder_level": 50.0,
     },
-    "SKU-MED-TRM-10": {
-        "item_id": "SKU-MED-TRM-10",
-        "name": "High-Altitude Combat Trauma Packs",
-        "category": "Cold-Chain Medical & Vaccines",
-        "unit": "Packs",
-        "base_daily": 10.0,
-        "std_dev_ratio": 0.20,
-        "seasonal_factor": 0.05,
-        "current_stock": 260.0,
-        "max_capacity": 800.0,
-        "min_threshold": 40.0,
-        "reorder_level": 90.0,
+    "SKU-CLO-ECW-10": {
+        "item_id": "SKU-CLO-ECW-10",
+        "name": "Extreme Cold Weather Clothing (ECWCS)",
+        "category": "Extreme Winter Clothing (ECWCS)",
+        "unit": "Sets",
+        "base_daily": 15.0,
+        "std_dev_ratio": 0.18,
+        "seasonal_factor": 0.40,
+        "current_stock": 340.0,
+        "max_capacity": 1200.0,
+        "min_threshold": 400.0,
+        "reorder_level": 550.0,
     },
-    "SKU-ENG-BAT-11": {
-        "item_id": "SKU-ENG-BAT-11",
-        "name": "Extreme-Cold Heavy Duty Gel Batteries",
-        "category": "Spares & Engineering",
-        "unit": "Units",
+    "SKU-POL-AVF-11": {
+        "item_id": "SKU-POL-AVF-11",
+        "name": "Aviation Turbine Fuel (ATF Jet A-1)",
+        "category": "POL (Fuel & Lubricants)",
+        "unit": "Liters",
+        "base_daily": 1400.0,
+        "std_dev_ratio": 0.12,
+        "seasonal_factor": 0.20,
+        "current_stock": 45000.0,
+        "max_capacity": 60000.0,
+        "min_threshold": 15000.0,
+        "reorder_level": 22000.0,
+    },
+    "SKU-RAT-DRB-12": {
+        "item_id": "SKU-RAT-DRB-12",
+        "name": "High-Energy Composite Ration Bars",
+        "category": "Combat Rations & MREs",
+        "unit": "Boxes",
+        "base_daily": 210.0,
+        "std_dev_ratio": 0.10,
+        "seasonal_factor": 0.12,
+        "current_stock": 8900.0,
+        "max_capacity": 10000.0,
+        "min_threshold": 3000.0,
+        "reorder_level": 4000.0,
+    },
+    "SKU-ORD-155-13": {
+        "item_id": "SKU-ORD-155-13",
+        "name": "155mm Artillery High-Explosive Shells",
+        "category": "Ammunition & Ordnance",
+        "unit": "Shells",
+        "base_daily": 4.0,
+        "std_dev_ratio": 0.28,
+        "seasonal_factor": 0.05,
+        "current_stock": 210.0,
+        "max_capacity": 350.0,
+        "min_threshold": 100.0,
+        "reorder_level": 140.0,
+    },
+    "SKU-MED-OXY-14": {
+        "item_id": "SKU-MED-OXY-14",
+        "name": "Portable Medical Oxygen Cylinders (40L)",
+        "category": "Cold-Chain Medical & Vaccines",
+        "unit": "Cylinders",
         "base_daily": 5.0,
-        "std_dev_ratio": 0.22,
-        "seasonal_factor": 0.30,  # Cold weather battery degradation
+        "std_dev_ratio": 0.20,
+        "seasonal_factor": 0.15,
+        "current_stock": 85.0,
+        "max_capacity": 250.0,
+        "min_threshold": 90.0,
+        "reorder_level": 110.0,
+    },
+    "SKU-ENG-SPW-15": {
+        "item_id": "SKU-ENG-SPW-15",
+        "name": "All-Terrain Snowmobile Drive Tracks",
+        "category": "Vehicle Spares & Batteries",
+        "unit": "Sets",
+        "base_daily": 0.8,
+        "std_dev_ratio": 0.30,
+        "seasonal_factor": 0.25,
+        "current_stock": 18.0,
+        "max_capacity": 40.0,
+        "min_threshold": 10.0,
+        "reorder_level": 15.0,
+    },
+    "SKU-CLO-GLV-16": {
+        "item_id": "SKU-CLO-GLV-16",
+        "name": "Heated Electric Cold-Weather Mittens",
+        "category": "Extreme Winter Clothing (ECWCS)",
+        "unit": "Pairs",
+        "base_daily": 12.0,
+        "std_dev_ratio": 0.18,
+        "seasonal_factor": 0.35,
+        "current_stock": 520.0,
+        "max_capacity": 800.0,
+        "min_threshold": 250.0,
+        "reorder_level": 350.0,
+    },
+    "SKU-POL-LUB-17": {
+        "item_id": "SKU-POL-LUB-17",
+        "name": "Synthetic Multi-Grade Gear Oil SAE 75W-90",
+        "category": "POL (Fuel & Lubricants)",
+        "unit": "Liters",
+        "base_daily": 65.0,
+        "std_dev_ratio": 0.14,
+        "seasonal_factor": 0.15,
+        "current_stock": 3100.0,
+        "max_capacity": 5000.0,
+        "min_threshold": 1200.0,
+        "reorder_level": 1800.0,
+    },
+    "SKU-MED-ANT-18": {
+        "item_id": "SKU-MED-ANT-18",
+        "name": "High-Altitude Cerebral Edema (HACE) Kits",
+        "category": "Cold-Chain Medical & Vaccines",
+        "unit": "Kits",
+        "base_daily": 3.0,
+        "std_dev_ratio": 0.25,
+        "seasonal_factor": 0.12,
+        "current_stock": 190.0,
+        "max_capacity": 300.0,
+        "min_threshold": 80.0,
+        "reorder_level": 120.0,
+    },
+    "SKU-ORD-762-19": {
+        "item_id": "SKU-ORD-762-19",
+        "name": "7.62mm NATO Sniper Ammunition Match Grade",
+        "category": "Ammunition & Ordnance",
+        "unit": "Boxes",
+        "base_daily": 4.0,
+        "std_dev_ratio": 0.30,
+        "seasonal_factor": 0.05,
         "current_stock": 140.0,
         "max_capacity": 500.0,
-        "min_threshold": 20.0,
-        "reorder_level": 45.0,
+        "min_threshold": 150.0,
+        "reorder_level": 200.0,
     },
-    "SKU-ENG-TRK-12": {
-        "item_id": "SKU-ENG-TRK-12",
-        "name": "Heavy Transport Track Links & Pins",
+    "SKU-RAT-WAT-20": {
+        "item_id": "SKU-RAT-WAT-20",
+        "name": "Emergency Mineralized Water Purifier Packets",
+        "category": "Combat Rations & MREs",
+        "unit": "Tablets",
+        "base_daily": 850.0,
+        "std_dev_ratio": 0.08,
+        "seasonal_factor": 0.08,
+        "current_stock": 28000.0,
+        "max_capacity": 40000.0,
+        "min_threshold": 10000.0,
+        "reorder_level": 15000.0,
+    },
+    "SKU-ENG-GEN-21": {
+        "item_id": "SKU-ENG-GEN-21",
+        "name": "Tactical Silent Diesel Generator 5kW",
         "category": "Spares & Engineering",
-        "unit": "Sets",
-        "base_daily": 3.0,
-        "std_dev_ratio": 0.30,
-        "seasonal_factor": 0.12,
-        "current_stock": 95.0,
-        "max_capacity": 300.0,
+        "unit": "Units",
+        "base_daily": 0.2,
+        "std_dev_ratio": 0.35,
+        "seasonal_factor": 0.20,
+        "current_stock": 12.0,
+        "max_capacity": 30.0,
         "min_threshold": 15.0,
-        "reorder_level": 30.0,
+        "reorder_level": 18.0,
     },
-    "SKU-GEN-ECW-06": {
-        "item_id": "SKU-GEN-ECW-06",
-        "name": "Extreme Cold Weather Clothing (ECWCS)",
-        "category": "General Stores & Winter Gear",
-        "unit": "Sets",
-        "base_daily": 25.0,
-        "std_dev_ratio": 0.18,
-        "seasonal_factor": 0.40,  # High winter surge
-        "current_stock": 820.0,
-        "max_capacity": 2500.0,
-        "min_threshold": 100.0,
-        "reorder_level": 250.0,
+    "SKU-CLO-TENT-22": {
+        "item_id": "SKU-CLO-TENT-22",
+        "name": "Modular High-Wind Mountain Tent 4-Seater",
+        "category": "Extreme Winter Clothing (ECWCS)",
+        "unit": "Tents",
+        "base_daily": 1.0,
+        "std_dev_ratio": 0.20,
+        "seasonal_factor": 0.25,
+        "current_stock": 75.0,
+        "max_capacity": 150.0,
+        "min_threshold": 40.0,
+        "reorder_level": 60.0,
+    },
+    "SKU-ENG-TYR-23": {
+        "item_id": "SKU-ENG-TYR-23",
+        "name": "Heavy Tactical Truck Radial Tire 14.00R20",
+        "category": "Vehicle Spares & Batteries",
+        "unit": "Tyres",
+        "base_daily": 2.0,
+        "std_dev_ratio": 0.22,
+        "seasonal_factor": 0.12,
+        "current_stock": 94.0,
+        "max_capacity": 200.0,
+        "min_threshold": 50.0,
+        "reorder_level": 80.0,
+    },
+    "SKU-MED-TRA-24": {
+        "item_id": "SKU-MED-TRA-24",
+        "name": "Advanced Battlefield Trauma & Bandage Kits",
+        "category": "Cold-Chain Medical & Vaccines",
+        "unit": "Kits",
+        "base_daily": 15.0,
+        "std_dev_ratio": 0.20,
+        "seasonal_factor": 0.06,
+        "current_stock": 640.0,
+        "max_capacity": 1000.0,
+        "min_threshold": 300.0,
+        "reorder_level": 450.0,
+    },
+    "SKU-ORD-GRN-25": {
+        "item_id": "SKU-ORD-GRN-25",
+        "name": "Multi-Role Fragmentation Hand Grenades HE 36M",
+        "category": "Ammunition & Ordnance",
+        "unit": "Pieces",
+        "base_daily": 18.0,
+        "std_dev_ratio": 0.30,
+        "seasonal_factor": 0.05,
+        "current_stock": 1200.0,
+        "max_capacity": 2000.0,
+        "min_threshold": 500.0,
+        "reorder_level": 800.0,
     },
 }
 
+# Aliases for backward compatibility with early test scripts
+SKU_CATALOG["SKU-ORD-155-08"] = SKU_CATALOG["SKU-ORD-155-13"]
+SKU_CATALOG["SKU-RAT-WTR-09"] = SKU_CATALOG["SKU-RAT-WAT-20"]
+SKU_CATALOG["SKU-MED-TRM-10"] = SKU_CATALOG["SKU-MED-TRA-24"]
+SKU_CATALOG["SKU-ENG-BAT-11"] = SKU_CATALOG["SKU-ENG-BAT-09"]
+SKU_CATALOG["SKU-ENG-TRK-12"] = SKU_CATALOG["SKU-ENG-SPW-15"]
+SKU_CATALOG["SKU-GEN-ECW-06"] = SKU_CATALOG["SKU-CLO-ECW-10"]
+
 # Storage Locations (Forward Depots and Staging Hubs)
 DEPOT_CATALOG: Dict[str, Dict[str, Any]] = {
-    "DEPOT-LEH-01": {"name": "Leh Forward Logistics Hub", "elevation_ft": 11500, "weight": 1.0},
-    "DEPOT-KGL-02": {"name": "Kargil Sector Supply Point", "elevation_ft": 8780, "weight": 0.75},
-    "DEPOT-DRA-03": {"name": "Dras Sub-Sector Buffer Depot", "elevation_ft": 10800, "weight": 0.60},
-    "DEPOT-SNM-04": {"name": "Sonamarg Staging Transit Camp", "elevation_ft": 8960, "weight": 0.50},
-    "DEPOT-NYM-05": {"name": "Nyoma Advanced Landing Ground", "elevation_ft": 13700, "weight": 0.40},
-    "DEPOT-DIS-06": {"name": "Diskit / Nubra Base Logistics Depot", "elevation_ft": 10300, "weight": 0.45},
+    "DEPOT-LEH-01": {
+        "name": "Leh Corps Supply Depot",
+        "elevation_ft": 11500,
+        "weight": 1.0,
+        "aliases": ["leh", "leh corps supply depot", "leh forward logistics hub", "loc-leh-03"],
+    },
+    "DEPOT-KGL-02": {
+        "name": "Kargil Forward Logistics Hub",
+        "elevation_ft": 8780,
+        "weight": 0.75,
+        "aliases": ["kargil", "kargil forward logistics hub", "kargil sector supply point", "loc-kgl-01"],
+    },
+    "DEPOT-DRA-03": {
+        "name": "Drass Forward Operating Base",
+        "elevation_ft": 10800,
+        "weight": 0.60,
+        "aliases": ["drass", "dras", "drass forward operating base", "dras sub-sector buffer depot", "loc-dra-02"],
+    },
+    "DEPOT-SIA-04": {
+        "name": "Siachen Base Support Camp",
+        "elevation_ft": 12000,
+        "weight": 0.65,
+        "aliases": ["siachen", "siachen base support camp", "siachen base camp", "loc-sia-05"],
+    },
+    "DEPOT-SRN-05": {
+        "name": "Srinagar Central Logistics Depot",
+        "elevation_ft": 5200,
+        "weight": 0.85,
+        "aliases": ["srinagar", "srinagar central logistics depot", "loc-srn-04"],
+    },
+    "DEPOT-KUP-06": {
+        "name": "Kupwara Forward Support Hub",
+        "elevation_ft": 5300,
+        "weight": 0.55,
+        "aliases": ["kupwara", "kupwara forward support hub", "loc-kup-06"],
+    },
+    "DEPOT-AHM-07": {
+        "name": "Ahmedabad Cold Hub",
+        "elevation_ft": 174,
+        "weight": 0.40,
+        "aliases": ["ahmedabad", "ahmedabad cold hub", "loc-ahm-07"],
+    },
+    "DEPOT-SNM-08": {
+        "name": "Sonamarg Staging Transit Camp",
+        "elevation_ft": 8960,
+        "weight": 0.50,
+        "aliases": ["sonamarg", "sonamarg staging transit camp"],
+    },
+    "DEPOT-NYM-09": {
+        "name": "Nyoma Advanced Landing Ground",
+        "elevation_ft": 13700,
+        "weight": 0.40,
+        "aliases": ["nyoma", "nyoma advanced landing ground"],
+    },
+    "DEPOT-DIS-10": {
+        "name": "Diskit / Nubra Base Logistics Depot",
+        "elevation_ft": 10300,
+        "weight": 0.45,
+        "aliases": ["diskit", "nubra", "diskit / nubra base logistics depot"],
+    },
 }
+
+
+def resolve_depot_id(depot_query: str) -> Optional[str]:
+    """Matches depot_id or name/alias to standard DEPOT_CATALOG key."""
+    if not depot_query or depot_query.lower() == "all":
+        return "all"
+    query_norm = depot_query.strip().lower()
+    if query_norm in DEPOT_CATALOG:
+        return query_norm
+    for depot_id, info in DEPOT_CATALOG.items():
+        if depot_id.lower() == query_norm:
+            return depot_id
+        if info["name"].lower() == query_norm:
+            return depot_id
+        if any(alias in query_norm or query_norm in alias for alias in info.get("aliases", [])):
+            return depot_id
+    return None
 
 
 class SyntheticDemandGenerator:
@@ -208,12 +430,19 @@ class SyntheticDemandGenerator:
         self.base_date = base_date
 
     def get_sku_metadata(self, item_id: str) -> Optional[Dict[str, Any]]:
-        """Returns catalog entry for a specific SKU or None if not found."""
+        """Returns catalog entry for a specific SKU or None if not registered."""
         return SKU_CATALOG.get(item_id)
 
     def get_all_skus(self) -> List[Dict[str, Any]]:
         """Returns all registered SKU catalog entries."""
-        return list(SKU_CATALOG.values())
+        # Return unique entries preserving original IDs
+        seen = set()
+        unique_skus = []
+        for sku in SKU_CATALOG.values():
+            if sku["item_id"] not in seen:
+                seen.add(sku["item_id"])
+                unique_skus.append(sku)
+        return unique_skus
 
     def get_all_depots(self) -> List[Dict[str, Any]]:
         """Returns all registered storage depot locations."""
@@ -231,7 +460,7 @@ class SyntheticDemandGenerator:
 
         Args:
             item_id: Target SKU identifier or 'all' for aggregated demand.
-            depot_id: Target depot identifier or 'all'.
+            depot_id: Target depot identifier, location name, or 'all'.
             days: Number of daily data points to generate.
             start_offset_days: Offset relative to base_date for the first data point.
 
@@ -242,15 +471,32 @@ class SyntheticDemandGenerator:
         """
         rng = random.Random(self.seed + hash(f"{item_id}_{depot_id}"))
 
-        sku_list = [SKU_CATALOG[item_id]] if item_id in SKU_CATALOG else (
-            list(SKU_CATALOG.values()) if item_id == "all" else [SKU_CATALOG["SKU-POL-DSL-01"]]
-        )
+        if item_id in SKU_CATALOG:
+            sku_list = [SKU_CATALOG[item_id]]
+        elif item_id == "all":
+            sku_list = self.get_all_skus()
+        else:
+            # Fallback for dynamic/custom SKU
+            hash_val = abs(hash(item_id)) % 1000
+            sku_list = [{
+                "item_id": item_id,
+                "name": f"Item ({item_id})",
+                "category": "General Military Inventory",
+                "unit": "Units",
+                "base_daily": max(5.0, float(hash_val % 100 + 10)),
+                "std_dev_ratio": 0.15,
+                "seasonal_factor": 0.10,
+                "current_stock": 5000.0,
+                "max_capacity": 15000.0,
+                "min_threshold": 1000.0,
+                "reorder_level": 2500.0,
+            }]
 
-        depot_list = (
-            [{"id": depot_id, **DEPOT_CATALOG[depot_id]}]
-            if depot_id in DEPOT_CATALOG
-            else [{"id": k, **v} for k, v in DEPOT_CATALOG.items()]
-        )
+        resolved_depot = resolve_depot_id(depot_id) or "all"
+        if resolved_depot in DEPOT_CATALOG:
+            depot_list = [{"id": resolved_depot, **DEPOT_CATALOG[resolved_depot]}]
+        else:
+            depot_list = [{"id": k, **v} for k, v in DEPOT_CATALOG.items()]
 
         records = []
         start_dt = self.base_date + timedelta(days=start_offset_days)
@@ -273,7 +519,7 @@ class SyntheticDemandGenerator:
                 season_factor = sku["seasonal_factor"]
 
                 for depot in depot_list:
-                    depot_weight = depot["weight"] if depot_id == "all" else 1.0
+                    depot_weight = depot["weight"] if (resolved_depot == "all" or depot_id == "all") else 1.0
 
                     # Compute synthetic demand with seasonal wave and Gaussian noise
                     trend_adj = 1.0 + (day_idx * 0.0003)
@@ -310,7 +556,7 @@ class SyntheticDemandGenerator:
         start_offset_days: int = -90,
     ) -> pd.DataFrame:
         """
-        Generates daily demand aggregated by date for the selected SKU and depot filter.
+        Generates aggregated daily time-series summing across items and/or depots if requested.
 
         Returns:
             pd.DataFrame with columns ['date', 'timestamp', 'demand', 'is_synthetic', 'data_source']
@@ -328,10 +574,11 @@ class SyntheticDemandGenerator:
             .sort_values(by="timestamp")
             .reset_index(drop=True)
         )
+        agg_df["demand"] = agg_df["demand"].round(2)
         agg_df["is_synthetic"] = True
         agg_df["data_source"] = "synthetic"
         return agg_df
 
 
-# Module singleton instance
+# Module-level singleton instance for shared usage
 demand_generator = SyntheticDemandGenerator()

@@ -358,7 +358,7 @@ def get_forecast_model(model_name: str = "ensemble") -> BaseForecastModel:
 
     if norm_name in ["baseline", "historical_mean", "naive"]:
         return BaselineForecastModel()
-    elif norm_name in ["moving_average", "movingaverage", "ma_7", "ma"]:
+    elif norm_name in ["moving_average", "moving_avg", "movingaverage", "ma_7", "ma"]:
         return MovingAverageForecastModel(window_size=7)
     elif norm_name in ["ml_regression", "ridge", "linear", "xgboost", "prophet"]:
         # Map ML aliases to robust Scikit-Learn regressor
