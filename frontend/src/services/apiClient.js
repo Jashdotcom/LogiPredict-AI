@@ -184,11 +184,21 @@ export const alertsApi = {
       method: 'POST',
       body: JSON.stringify({ acknowledged_by: callsign }),
     }),
-  resolve: (alertId, resolutionNotes) =>
-    apiRequest(`/alerts/${alertId}/resolve`, {
+  resolve: (alertId, resolutionNotes, resolvedBy) => {
+    let body = {};
+    if (typeof resolutionNotes === 'object' && resolutionNotes !== null) {
+      body = resolutionNotes;
+    } else {
+      body = {
+        resolution_notes: resolutionNotes,
+        ...(resolvedBy ? { resolved_by: resolvedBy } : {}),
+      };
+    }
+    return apiRequest(`/alerts/${alertId}/resolve`, {
       method: 'POST',
-      body: JSON.stringify({ resolution_notes: resolutionNotes }),
-    }),
+      body: JSON.stringify(body),
+    });
+  },
 };
 
 /**

@@ -293,7 +293,7 @@ export async function resolveAlert(
   // Attempt backend API update in background if configured
   try {
     if (alertsApi?.resolve) {
-      await alertsApi.resolve(alertId, resolutionNotes);
+      await alertsApi.resolve(alertId, resolutionNotes, operatorCallsign);
     }
   } catch (err) {
     console.warn(`[alertsDataService] Backend API resolve fallback to mock state: ${err.message}`);

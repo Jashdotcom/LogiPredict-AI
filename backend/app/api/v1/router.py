@@ -6,11 +6,13 @@ Aggregates and registers all version 1 route endpoints.
 
 from fastapi import APIRouter
 from app.api.v1.forecast import router as forecast_router
+from app.api.v1.alerts import router as alerts_router
 
 api_router = APIRouter()
 
 # Register domain sub-routers
 api_router.include_router(forecast_router)
+api_router.include_router(alerts_router)
 
 
 @api_router.get("/info", tags=["System Info"])
