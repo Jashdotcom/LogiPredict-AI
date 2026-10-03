@@ -33,9 +33,12 @@ class PredictiveAlertModel(Base):
     location_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     location_name: Mapped[str] = mapped_column(String(128), nullable=False)
     alert_type: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    category: Mapped[str] = mapped_column(String(64), nullable=False, default="General")
     severity: Mapped[str] = mapped_column(String(32), default="HIGH", nullable=False, index=True)
     status: Mapped[str] = mapped_column(String(32), default="ACTIVE", nullable=False, index=True)
+    title: Mapped[str] = mapped_column(String(256), nullable=False, default="Alert")
     description: Mapped[str] = mapped_column(Text, nullable=False)
+    predicted_impact: Mapped[str] = mapped_column(Text, nullable=False, default="Impact not specified")
     recommended_action: Mapped[str] = mapped_column(Text, nullable=False)
     trigger_condition: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
     metric_value: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
@@ -53,3 +56,39 @@ class PredictiveAlertModel(Base):
         Index("idx_alert_status_sev", "status", "severity"),
         Index("idx_alert_loc_item", "location_id", "item_id"),
     )
+
+    def to_dict(self) -> dict:
+        """Serialize model to dictionary with dual schema field compatibility."""
+        is_ack = self.acknowledged_at is not None
+        is_res = self.resolved_at is not None
+        return {
+            "id": self.id,
+            "alert_id": self.alert_id,
+            "item_id": self.item_id,
+            "sku": self.item_id,
+            "item_name": self.item_name,
+            "location_id": self.location_id,
+            "location_name": self.location_name,
+            "warehouse": self.location_name,
+            "category": self.category,
+            "alert_type": self.alert_type,
+            "severity": self.severity,
+            "status": self.status,
+            "title": self.title,
+            "description": self.description,
+            "predicted_impact": self.predicted_impact,
+            "predictedImpact": self.predicted_impact,
+            "recommended_action": self.recommended_action,
+            "recommendedAction": self.recommended_action,
+            "trigger_condition": self.trigger_condition,
+            "dedup_hash": self.dedup_hash,
+            "is_synthetic": self.is_synthetic,
+            "is_acknowledged": is_ack,
+            "acknowledged_at": self.acknowledged_at.isoformat() if self.acknowledged_at else None,
+            "acknowledged_by": self.acknowledged_by,
+            "is_resolved": is_res,
+            "resolved_at": self.resolved_at.isoformat() if self.resolved_at else None,
+            "resolved_by": self.resolved_by,
+            "resolution_notes": self.resolution_notes,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }

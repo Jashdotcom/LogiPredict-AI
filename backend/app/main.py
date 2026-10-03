@@ -28,6 +28,9 @@ from app.utils.exceptions import AppException
 from app.database.seed import init_db, seed_database
 from app.database.session import SessionLocal
 
+import time
+from sqlalchemy import text
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -188,13 +191,29 @@ async def root():
 async def health_check():
     """
     Health Check Endpoint
-    Monitors operational availability and environment status.
+    Monitors operational availability and environment status, including database connectivity.
     """
+    db_status = "disconnected"
+    latency_ms = 0.0
+
+    try:
+        start_time = time.time()
+        with SessionLocal() as db:
+            db.execute(text("SELECT 1"))
+        latency_ms = round((time.time() - start_time) * 1000, 2)
+        db_status = "connected"
+    except Exception as e:
+        import logging
+        logging.getLogger("uvicorn.error").error(f"Health check DB error: {e}")
+        db_status = "error"
+
     return {
-        "status": "healthy",
+        "status": "healthy" if db_status == "connected" else "degraded",
         "service": APP_NAME,
         "version": VERSION,
         "environment": "development" if DEBUG else "production",
+        "database_status": db_status,
+        "latency_ms": latency_ms,
     }
 
 

@@ -59,3 +59,5 @@ class HealthCheckResponse(BaseModel):
     service: str = Field(..., description="Service identifier")
     version: str = Field(..., description="Application version")
     environment: str = Field(default="development", description="Runtime environment")
+    database_status: Optional[str] = Field(default=None, description="Database connection status")
+    latency_ms: Optional[float] = Field(default=None, description="Database latency in milliseconds")

@@ -12,6 +12,11 @@ from app.api.v1.alerts import router as alerts_router
 from app.api.v1.routes import router as routes_router
 from app.api.v1.simulation import router as simulation_router
 from app.api.v1.analytics import router as analytics_router
+from app.schemas.common import HealthCheckResponse
+from app.database.session import SessionLocal
+
+import time
+from sqlalchemy import text
 
 api_router = APIRouter()
 
@@ -45,4 +50,36 @@ async def get_system_info():
             "simulation_workspace",
             "analytics_reports",
         ],
+    }
+
+@api_router.get(
+    "/health",
+    tags=["Health"],
+    response_model=HealthCheckResponse,
+    summary="API v1 Health Check",
+)
+async def api_health_check():
+    """
+    Returns API v1 health and database connectivity.
+    """
+    db_status = "disconnected"
+    latency_ms = 0.0
+
+    try:
+        start_time = time.time()
+        with SessionLocal() as db:
+            db.execute(text("SELECT 1"))
+        latency_ms = round((time.time() - start_time) * 1000, 2)
+        db_status = "connected"
+    except Exception:
+        db_status = "error"
+
+    from app.config import APP_NAME, VERSION, DEBUG
+    return {
+        "status": "healthy" if db_status == "connected" else "degraded",
+        "service": f"{APP_NAME} API v1",
+        "version": VERSION,
+        "environment": "development" if DEBUG else "production",
+        "database_status": db_status,
+        "latency_ms": latency_ms,
     }
