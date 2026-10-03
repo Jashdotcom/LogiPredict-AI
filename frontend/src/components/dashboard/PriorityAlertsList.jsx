@@ -88,18 +88,20 @@ export function PriorityAlertsList({
               <div className="mt-2 text-xs space-y-1">
                 <div className="flex items-center gap-1.5 text-slate-400">
                   <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                  <span className="truncate">{alert.warehouse}</span>
+                  <span className="truncate">{alert.warehouse || alert.location_name || alert.locationName || 'Forward Depot'}</span>
                 </div>
-                <p className="text-rose-400 font-medium bg-rose-950/60 px-2 py-1 rounded border border-rose-800/60 text-[11px]">
-                  <strong>Impact: </strong> {alert.predictedImpact}
-                </p>
+                {(alert.predictedImpact || alert.predicted_impact) && (
+                  <p className="text-rose-400 font-medium bg-rose-950/60 px-2 py-1 rounded border border-rose-800/60 text-[11px]">
+                    <strong>Impact: </strong> {alert.predictedImpact || alert.predicted_impact}
+                  </p>
+                )}
               </div>
 
               {/* Recommended Action & Action Button */}
               <div className="mt-3 pt-2.5 border-t border-slate-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <p className="text-[11px] text-slate-400">
                   <strong className="text-indigo-400 font-medium">Mitigation: </strong>
-                  {alert.recommendedAction}
+                  {alert.recommendedAction || alert.recommended_action || 'Execute tactical rebalancing'}
                 </p>
                 <div
                   className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto"

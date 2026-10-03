@@ -89,7 +89,9 @@ export function InventoryHealthChart({
             </span>
             <div className="flex items-baseline gap-1 mt-0.5">
               <span className="text-sm font-bold text-slate-100">{item.value}%</span>
-              <span className="text-[10px] text-slate-500">({item.count.split(' ')[0]})</span>
+              <span className="text-[10px] text-slate-500">
+                ({typeof item.count === 'string' ? item.count.split(' ')[0] : item.count})
+              </span>
             </div>
           </div>
         ))}

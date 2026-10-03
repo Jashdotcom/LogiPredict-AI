@@ -50,9 +50,9 @@ export function RecentActivityTable({
 }) {
   const [filterCategory, setFilterCategory] = useState('all');
 
-  const filteredActivities = activities.filter((act) => {
+  const filteredActivities = (activities || []).filter((act) => {
     if (filterCategory === 'all') return true;
-    return act.category.toLowerCase().includes(filterCategory.toLowerCase());
+    return (act.category || '').toLowerCase().includes(filterCategory.toLowerCase());
   });
 
   const columns = [

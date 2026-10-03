@@ -27,9 +27,13 @@ export const dashboardService = {
    */
   async getDashboardSummary(params = {}) {
     try {
-      const response = await apiRequest('dashboard/summary', { method: 'GET', params });
+      const response = await apiRequest('dashboard/summary', {
+        method: 'GET',
+        params,
+        timeout: 3000 // Fast fail for dashboard aggregation
+      });
       return {
-        kpis: response.kpis || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS),
+        kpis: response.kpis || generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS, DEMAND_FORECAST_DATA),
         inventoryHealth: response.inventoryHealth || INVENTORY_HEALTH_DATA,
         inventoryDistribution: response.inventoryDistribution || INVENTORY_DISTRIBUTION_DATA,
         demandForecast: response.demandForecast || DEMAND_FORECAST_DATA,
@@ -44,7 +48,7 @@ export const dashboardService = {
         error?.message
       );
       // Fallback to centralized synthetic dataset with calculated KPIs
-      const calculatedKPIs = generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS);
+      const calculatedKPIs = generateDashboardKPIs(INVENTORY_ITEMS, PRIORITY_ALERTS, DEMAND_FORECAST_DATA);
       return {
         kpis: calculatedKPIs,
         inventoryHealth: INVENTORY_HEALTH_DATA,
