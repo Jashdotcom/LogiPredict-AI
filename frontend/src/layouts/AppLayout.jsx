@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
@@ -28,7 +28,7 @@ export function AppLayout() {
         <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
         {/* Dynamic Route Content */}
-        <main className="flex-1 p-3 max-w-none w-full mx-auto">
+        <main className="flex-1 p-3 max-w-none w-full mx-auto mt-[60px]">
           <Outlet />
         </main>
 

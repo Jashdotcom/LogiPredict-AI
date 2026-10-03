@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Menu,
-  Bell,
   Sparkles,
   Clock,
   RefreshCw,
-  Search,
-  Sliders,
+  Boxes,
 } from 'lucide-react';
 import { SearchInput } from '../filters/SearchInput';
 import { IconButton } from '../ui/Button';
@@ -17,33 +15,13 @@ import { Badge } from '../ui/Badge';
 import { CURRENT_USER } from '../../data/navigationConfig';
 import { cn } from '../../utils/cn';
 
-// Route title dictionary matching centralized routes
-const ROUTE_TITLES = {
-  '/': { title: 'Overview', category: 'Command Center' },
-  '/inventory': { title: 'Inventory Management', category: 'Stock & Storage' },
-  '/forecasting': { title: 'Demand Forecasting', category: 'Predictive Intelligence' },
-  '/routes': { title: 'Route Planning', category: 'Fleet & Transit' },
-  '/supplies': { title: 'Supply Management', category: 'Forward Logistics' },
-  '/alerts': { title: 'Predictive Alerts', category: 'Anomaly Detection' },
-  '/simulations': { title: 'Disruption Simulations', category: 'Stress Testing' },
-  '/reports': { title: 'Analytics & Reports', category: 'Intelligence & Audits' },
-  '/analytics': { title: 'Analytics & Strategic Intelligence', category: 'Intelligence & Audits' },
-  '/settings': { title: 'System Settings', category: 'System Configuration' },
-};
-
 /**
  * Enterprise Application Top Navigation Header (Topbar)
  */
 export function Header({ onMenuClick, className = '' }) {
-  const location = useLocation();
   const [searchValue, setSearchValue] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showNotificationMenu, setShowNotificationMenu] = useState(false);
-
-  const currentRouteInfo = ROUTE_TITLES[location.pathname] || {
-    title: 'Command Center',
-    category: 'LogiPredict AI',
-  };
 
   const todayDateString = '02 Oct 2026';
 
@@ -71,18 +49,10 @@ export function Header({ onMenuClick, className = '' }) {
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Current Module Breadcrumb / Title */}
-        <div className="flex flex-col min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-400 truncate">
-              {currentRouteInfo.category}
-            </span>
-            <span className="hidden sm:inline text-slate-600">•</span>
-            <h2 className="text-sm sm:text-base font-bold text-slate-100 tracking-tight truncate">
-              {currentRouteInfo.title}
-            </h2>
-          </div>
-        </div>
+        <Link to="/" className="flex items-center gap-2.5 min-w-0 app-brand" aria-label="CodeCatalyst dashboard">
+          <span className="app-brand-mark"><Boxes size={22} /></span>
+          <span className="app-brand-copy"><strong>CodeCatalyst</strong><small>Indian Army | Predictive Logistics</small></span>
+        </Link>
       </div>
 
       {/* Middle: Global Search Bar */}

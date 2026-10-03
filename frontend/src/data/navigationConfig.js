@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   Boxes,
   TrendingUp,
-  Package,
   Route,
   AlertTriangle,
   Sliders,
