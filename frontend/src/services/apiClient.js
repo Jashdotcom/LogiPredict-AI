@@ -234,7 +234,13 @@ export const simulationApi = {
  * 7. Analytics & Reports API Service
  */
 export const analyticsApi = {
-  getKpis: () => apiRequest('/analytics/kpis', { method: 'GET' }),
+  getOverview: (params) => apiRequest('/analytics/overview', { method: 'GET', params }),
+  getKpis: (params) => apiRequest('/analytics/kpis', { method: 'GET', params }),
+  getInventoryTrends: (params) => apiRequest('/analytics/inventory-trends', { method: 'GET', params }),
+  getForecastAccuracy: (params) => apiRequest('/analytics/forecast-accuracy', { method: 'GET', params }),
+  getStockoutRisks: (params) => apiRequest('/analytics/stockout-risks', { method: 'GET', params }),
+  getReplenishmentSummary: () => apiRequest('/analytics/replenishment-summary', { method: 'GET' }),
+  getDeliveryPerformance: () => apiRequest('/analytics/delivery-performance', { method: 'GET' }),
   getDashboardSummary: () => apiRequest('/analytics/dashboard', { method: 'GET' }),
   getAuditReport: (params) => apiRequest('/analytics/audit-report', { method: 'GET', params }),
 };
