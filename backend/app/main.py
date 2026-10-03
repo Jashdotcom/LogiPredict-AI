@@ -7,6 +7,7 @@ FastAPI application entry point registering middleware, routers, health checks,
 and centralized standard error-handling conventions.
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -24,6 +25,26 @@ from app.config import (
 from app.api.v1 import api_router
 from app.schemas.common import HealthCheckResponse, MessageResponse, ApiErrorResponse
 from app.utils.exceptions import AppException
+from app.database.seed import init_db, seed_database
+from app.database.session import SessionLocal
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application lifespan context manager.
+    Initializes database schema and ensures deterministic canonical seed data
+    is populated on startup.
+    """
+    try:
+        init_db()
+        with SessionLocal() as db:
+            seed_database(db, force_reset=False)
+    except Exception as e:
+        import logging
+        logging.getLogger("uvicorn.error").error(f"Database initialization error: {e}")
+    yield
+
 
 # Initialize FastAPI Application
 app = FastAPI(
@@ -33,6 +54,7 @@ app = FastAPI(
     debug=DEBUG,
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # Configure Cross-Origin Resource Sharing (CORS) Middleware
